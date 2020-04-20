@@ -1,0 +1,6 @@
+type: resource
+name: Missile
+description: Missile.
+color:"88001b"
+explosiveness: 1
+flammability: 0.19

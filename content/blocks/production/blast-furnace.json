@@ -1,0 +1,14 @@
+name: Blast Furnace
+description: "Refines minerals. \n\n[cyan]Crafting priority : copper, lead, iron, titanium, glass, slag"
+category: crafting
+requirements:[
+  stone/100
+]
+itemCapacity: 10
+liquidCapacity: 10
+size: 3
+health: 100
+craftEffect: none
+updateEffect: none
+alwaysUnlocked: true
+research: core-shard

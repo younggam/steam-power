@@ -1,0 +1,14 @@
+name: Bullet Mill
+description: Manufacture Bullets.
+category: crafting
+requirements:[
+  iron/40
+  circuit/10
+  graphite/20
+]
+itemCapacity: 10
+size: 3
+health: 100
+craftEffect: none
+updateEffect: none
+research: pyratite-mixer

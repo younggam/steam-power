@@ -1,0 +1,24 @@
+name:Steam Generator
+description: "Produces steam by heat.(over 100)\n\n[red]Heat Block. Explodes when heat goes over 300.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: crafting
+requirements:[
+  stone/60
+  glass/30
+  copper/30
+]
+consumes:{
+  liquid:{
+    liquid:water
+    amount: 0.2
+  }
+}
+outputLiquid:{
+  liquid:steam
+  amount:0.2
+}
+hasItems: false
+liquidCapacity: 24
+craftTime:1
+size:2
+health:60
+research:burner

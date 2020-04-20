@@ -1,0 +1,5 @@
+type: resource
+name: Bullet
+description: Bullet.
+color:"c88c50"
+explosiveness: 0.1

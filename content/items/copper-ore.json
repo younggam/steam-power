@@ -1,0 +1,5 @@
+type: resource
+name: Copper Ore
+description: Copper Ore.
+color:"b8705c"
+hardness:1

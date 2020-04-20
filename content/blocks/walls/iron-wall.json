@@ -1,0 +1,10 @@
+name: Iron Wall
+description: Iron Wall.
+type:Wall
+health:400
+size:1
+requirements:[
+  iron/6
+]
+category: defense
+research: copper-wall-large

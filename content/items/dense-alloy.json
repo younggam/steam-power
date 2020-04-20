@@ -1,0 +1,6 @@
+type: material
+name: Dense Alloy
+description: Dense Alloy.
+color:"8c8c78"
+radioactivity: 0.1
+cost: 2

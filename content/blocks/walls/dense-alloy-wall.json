@@ -1,0 +1,10 @@
+name:Dense Alloy Wall
+description: Dense Alloy Wall.
+type: Wall
+health:1200
+size:1
+requirements:[
+  dense-alloy/6
+]
+category:defense
+research:steel-wall

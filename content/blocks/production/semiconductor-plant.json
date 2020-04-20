@@ -1,0 +1,15 @@
+name: Semiconductor Plant
+description: Manufacture Semiconductors.
+category: crafting
+requirements:[
+  iron/60
+  silicon/90
+  graphite/90
+  lead/60
+]
+itemCapacity: 20
+size: 3
+health: 200
+craftEffect: none
+updateEffect: none
+research:silicon-smelter

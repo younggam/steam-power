@@ -1,0 +1,13 @@
+consumes:{
+  liquid:{
+    liquid:steam
+    amount:0.1
+    optional:false
+    booster:false
+  }
+}
+requirements:[
+  stone/36
+  copper/36
+  garphite/20
+]

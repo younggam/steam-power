@@ -1,0 +1,15 @@
+name: Electric Conveyor
+description: Conveyor that needs power.
+health: 80
+speed: 0.08
+displayedSpeed: 10
+consumes:{
+  power:0.01
+}
+category: distribution
+requirements: [
+  iron/1
+  copper/1
+  lead/1
+]
+research: conveyor

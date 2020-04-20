@@ -1,0 +1,6 @@
+name: Steam
+description: Steam
+temperature: 0.7
+heatCapacity:0.3
+effect: wet
+color: "c3c3c3"

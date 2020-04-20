@@ -1,0 +1,7 @@
+type: material
+name: Uranium
+description: Uranium.
+color:"cce745"
+explosiveness: 0.2
+radioactivity:1.3
+cost: 1.6

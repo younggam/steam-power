@@ -1,0 +1,10 @@
+name: Steel Wall Large
+description: Steel wall.
+type: Wall
+health: 3600
+size:2
+requirements:[
+  steel/24
+]
+category: defense
+research: steel-wall

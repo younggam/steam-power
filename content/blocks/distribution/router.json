@@ -1,0 +1,5 @@
+health:60
+requirements:[
+  iron/12
+  copper/12
+]

@@ -1,0 +1,7 @@
+type: material
+name: Semiconductor
+description: Semiconductor.
+color: "b4b428"
+explosiveness: 0.1
+flammability: 0.19
+cost: 4

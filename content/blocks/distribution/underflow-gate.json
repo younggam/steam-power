@@ -1,0 +1,6 @@
+health: 60
+requirements:[
+  iron/16
+  copper/16
+  lead/8
+]

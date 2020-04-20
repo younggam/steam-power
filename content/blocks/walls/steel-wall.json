@@ -1,0 +1,10 @@
+name: Steel Wall
+description: Steel Wall.
+type: Wall
+health: 900
+size: 1
+requirements:[
+  steel/6
+]
+category:defense
+research:iron-wall-large

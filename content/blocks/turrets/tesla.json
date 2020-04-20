@@ -1,0 +1,19 @@
+name: Tesla
+description: Tesla.
+size: 2
+targetAir: false
+requirements:[
+  circuit/5
+  iron/60
+  copper/20
+  lead/40
+]
+powerUse:2
+health:1000
+reload:16
+range:160
+shootEffect:lightningShoot
+recoil:0
+shootSound: spark
+category:turret
+research: arc

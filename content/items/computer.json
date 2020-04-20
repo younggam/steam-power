@@ -1,0 +1,7 @@
+type: material
+name: Computer
+description: Computer.
+color:"6e7080"
+explosiveness: 0.19
+flammability: 0.2
+cost: 5

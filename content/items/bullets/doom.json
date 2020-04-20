@@ -1,0 +1,7 @@
+type: resource
+name: Doom
+description:Doom.
+color:"96c80e"
+explosiveness: 1
+flammability: 0.19
+radioactivity: 0.6

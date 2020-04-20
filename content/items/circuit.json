@@ -1,0 +1,8 @@
+type: material
+name: Circuit
+description:Circuit.
+color:"4cb482"
+
+flammability: 0.19
+
+cost:3

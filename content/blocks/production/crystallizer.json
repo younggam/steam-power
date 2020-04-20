@@ -1,0 +1,23 @@
+name: Crystallizer
+description: Produces minerals by crystallizing them.
+type:Separator
+craftTime:80
+alwaysUnlocked:true
+category: crafting
+size:1
+consumes:{
+  liquid:{
+    liquid:slag
+    amount:0.025
+  }
+}
+health:60
+results:[
+  stone/2
+  copper/5
+  lead/3
+  iron/2
+]
+requirements:[
+  stone/40
+]

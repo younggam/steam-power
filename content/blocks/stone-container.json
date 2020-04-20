@@ -1,0 +1,11 @@
+name: Stone Container
+description: Allows you to take out items without a conveyor.
+type: Vault
+itemCapacity: 25
+hasItems:true
+health:60
+requirements:[
+  stone/40
+]
+category:effect
+alwaysUnlocked: true

@@ -1,0 +1,33 @@
+name:Thermal Centrifuge
+description: Separates radioactive minerals.
+size:2
+hasPower: true
+hasItems: true
+hasLiquids:false
+craftTime: 12
+itemCapacity: 24
+consumes:{
+  power:2
+  items:{
+    items:[
+      thorium-ore/1
+    ]
+  }
+}
+requirements:[
+  circuit/10
+  lead/40
+  copper/80
+  titanium/80
+  silicon/30
+  metaglass/30
+]
+category:crafting
+research: separator
+idleSoundVolume: 0.5
+results:[
+  thorium/5
+  uranium/1
+  stone/2
+]
+health: 120

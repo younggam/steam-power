@@ -1,0 +1,16 @@
+name: Advanced Furnace
+description: Advanced Furnace.
+category: crafting
+requirements:[
+  circuit/10
+  iron/100
+  stone/40
+  copper/60
+]
+itemCapacity: 20
+liquidCapacity: 20
+size: 4
+health: 200
+craftEffect: none
+updateEffect: none
+research:blast-furnace

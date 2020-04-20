@@ -1,0 +1,19 @@
+results:[
+  copper/4
+  lead/3
+  graphite/2
+  iron/2
+  titanium/1
+]
+craftTime: 20
+consumes:{
+  liquid:{
+    liquid:slag
+    amount:0.1
+  }
+}
+requirements:[
+  copper/30
+  titanium/25
+  circuit/5
+]

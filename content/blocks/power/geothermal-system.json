@@ -1,0 +1,14 @@
+name:Geothermal System
+description: "Uses geothermal heat.\n\n[red]Heat Block. Explodes when heat goes over 500.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: power
+requirements:[
+  circuit/5
+  stone/60
+  iron/20
+  copper/40
+  metaglass/30
+]
+
+size: 2
+health: 60
+research: burner

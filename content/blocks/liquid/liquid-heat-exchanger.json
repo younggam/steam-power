@@ -1,0 +1,26 @@
+
+name:Liquid Heat Exchanger
+description:"Get heat from the hot coolant and return some coolant.\n\n[red]Heat Block. Explodes when heat goes over 1000.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: liquid
+requirements:[
+  plastanium/60
+  copper/120
+  metaglass/80
+]
+consumes:{
+  power:1
+  liquid:{
+    liquid:hot-cryofluid
+    amount: 0.3
+  }
+}
+outputLiquid:{
+  liquid:cryofluid
+  amount:0.1
+}
+hasItems: false
+liquidCapacity: 30
+craftTime:1
+size:2
+health:60
+research:steam-generator

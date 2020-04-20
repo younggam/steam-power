@@ -1,0 +1,15 @@
+name:Electric Burner
+description:"Use electricity to heat up.\n\n[red]Heat Block. Explodes when heat goes over 500.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: crafting
+requirements:[
+  iron/30
+  copper/60
+  lead/30
+]
+consumes:{
+  power:5
+}
+size: 1
+hasItems:false
+health: 60
+research:burner

@@ -1,0 +1,14 @@
+name: Missile Factory
+description: Missile Factory.
+category: crafting
+requirements:[
+  steel/60
+  computer/5
+  plastanium/60
+
+]
+itemCapacity:16
+size:3
+health:150
+craftEffect: none
+updateEffect: none

@@ -1,0 +1,16 @@
+requirements:[
+  stone/80
+  copper/40
+  lead/40
+  graphite/40
+]
+consumes:{
+  items:{
+    items:[
+      lead/1
+      glass/2
+    ]
+  }
+}
+craftTime:60
+outputItem: metaglass/2

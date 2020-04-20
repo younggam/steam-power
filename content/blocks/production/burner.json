@@ -1,0 +1,11 @@
+name:Burner
+description: "Heat up with fuel. If you use pyratite as fuel, you can run two steam generators.\n\n[red]Heat Block. Explodes when heat goes over 500.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: crafting
+requirements:[
+  stone/40
+  copper/20
+]
+itemCapacity: 10
+size: 1
+health: 60
+research: blast-furnace

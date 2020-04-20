@@ -1,0 +1,32 @@
+name:Nuclear Reactor
+description:"Nuclear Reactor.\n\n[red]Heat Block. Explodes when heat goes over 1000.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: power
+requirements:[
+  computer/10
+  plastanium/100
+  dense-alloy/60
+  metaglass/60
+  copper/80
+]
+consumes:{
+  items:{
+    items:[
+      thorium/1
+    ]
+  }
+  liquid:{
+    liquid:cryofluid
+    amount: 0.3
+  }
+}
+outputLiquid:{
+  liquid:hot-cryofluid
+  amount:0.3
+}
+hasItems: true
+itemCapacity:30
+liquidCapacity: 30
+craftTime:120
+research:nuclear-reactor
+size:3
+health:60

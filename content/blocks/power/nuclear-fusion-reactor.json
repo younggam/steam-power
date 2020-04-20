@@ -1,0 +1,33 @@
+name:Nuclear Fusion Reactor
+description:"Nuclear Fusion Reactor.\n\n[red]Heat Block. This one doesn't explode.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
+category: power
+requirements:[
+  dense-alloy/120
+  computer/20
+  plastanium/60
+  titanium/60
+  copper/80
+  metaglass/100
+]
+consumes:{
+  items:{
+    items:[
+      blast-compound/1
+    ]
+  }
+  liquid:{
+    liquid:cryofluid
+    amount: 1.2
+  }
+}
+outputLiquid:{
+  liquid:hot-cryofluid
+  amount:1.2
+}
+hasItems: true
+itemCapacity:15
+liquidCapacity:60
+craftTime:120
+size:4
+health:60
+research: differential-generator

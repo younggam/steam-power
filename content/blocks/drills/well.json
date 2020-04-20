@@ -1,0 +1,13 @@
+type: SolidPump
+name: Well
+description: Find the water veins and pump up the water.
+size: 2
+hasPower:false
+pumpAmount: 0.07
+result: water
+attribute: water
+requirements:[
+  stone/60
+]
+category: production
+alwaysUnlocked: true

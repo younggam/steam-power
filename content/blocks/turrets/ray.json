@@ -1,0 +1,27 @@
+
+name: Ray
+description: Charge damage up to 2.5 times as attack continued over 4 seconds. Targets single closest enemy.
+health: 2600
+size: 3
+range: 240
+canOverdrive:false
+hasLiquids:false
+shootEffect: shootBigSmoke2
+recoil: 2
+shootShake:1
+reload: 10
+shootCone:40
+powerUse: 4
+shootSound:laserbig
+activeSound:beam
+
+
+category: turret
+research: lancer
+requirements: [
+    semiconductor/10
+    iron/60
+    graphite/100
+    copper/60
+    lead/60
+]

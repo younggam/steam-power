@@ -1,0 +1,16 @@
+name:Hyperloop Conveyor
+description:Very fast conveyor.
+health:140
+speed: 0.16
+displayedSpeed:20
+consumes:{
+  power:0.1
+}
+category:distribution
+requirements:[
+  iron/1
+  metaglass/2
+  plastanium/1
+]
+hasShadow:false
+research:hyperloop-conveyor

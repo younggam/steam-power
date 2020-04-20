@@ -1,0 +1,16 @@
+name: Turbine
+description: Steam turns turbine to generate power. 
+category:power
+hasItems: false
+hasLiquids: true
+liquidCapacity: 12
+requirements:[
+  iron/80
+  graphite/40
+  lead/40
+]
+powerProduction: 5
+maxLiquidGenerate:0.1
+health:80
+size:2
+research:combustion-generator

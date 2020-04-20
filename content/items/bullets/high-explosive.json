@@ -1,0 +1,6 @@
+type: resource
+name: HE
+description: High Explosive.
+color:"ec1c24"
+explosiveness: 0.8
+flammability: 0.19

@@ -1,0 +1,25 @@
+name: Penetrate
+description: Shots bullet that can penetrates the enemy up to seven times and can damage a unit more than once.
+requirements:[
+  semiconductor/10
+  iron/90
+  copper/60
+  graphite/90
+  titanium/60
+]
+size: 3
+range: 320
+reload: 120
+recoil: 6
+smokeEffect: lightningShoot
+shootEffect: lancerLaserShoot
+shootSound: shootSnap
+outlineIcon: false
+
+rotatespeed: 2
+inaccuracy:0
+shots: 1
+health: 2500
+maxAmmo: 20
+category: turret
+research: salvo

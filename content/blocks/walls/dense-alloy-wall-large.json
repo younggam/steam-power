@@ -1,0 +1,10 @@
+name:Dense Alloy Wall Large
+description:Dense Alloy Wall Large.
+type:Wall
+health:4800
+size:2
+requirements:[
+  dense-alloy/24
+]
+category:defense
+research:dense-alloy-wall

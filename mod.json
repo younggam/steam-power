@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name:steam-power
 displayName:Steam Power
 description:"[orange]Realistic technology \n\n[cyan]Developer : [green]younggam\n[yellow]Thanks to : sirius, 우파루파\n\n[red]Need younggam/multi-lib"
@@ -6,12 +5,3 @@ author: younggam
 version: 0.0
 minGameVersion: 104
 dependencies:["multi-lib"]
-=======
-name:steam-power
-displayName:Steam Power
-description:"[orange]Realistic technology \n\n[cyan]Developer : [green]younggam\n[yellow]Thanks to : sirius, 우파루파\n\n[red]Need younggam/multi-lib"
-author: younggam
-version: 0.0
-minGameVersion: 104
-dependencies:["multi-lib"]
->>>>>>> c20768b2c469eb921451d02338cf4d42e129d722

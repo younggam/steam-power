@@ -1,9 +1,7 @@
-const liquidHeatExchanger=extendContent(GenericCrafter,"liquid-heat-exchanger",{
+const heatL=require("heatWrapper");
+const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericCrafterEntity,"liquid-heat-exchanger",{
   heatCapacity:1000,
   heatProduction:1.2,
-  inputsHeat(){
-    return true;
-  },
   setStats(){
     this.super$setStats();
     this.stats.remove(BlockStat.output);
@@ -12,14 +10,6 @@ const liquidHeatExchanger=extendContent(GenericCrafter,"liquid-heat-exchanger",{
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
     this.stats.remove(BlockStat.productionTime);
-  },
-  onDestroyed(tile){
-    this.super$onDestroyed(tile);
-    Sounds.explosionbig.at(tile);
-    const entity=tile.ent();
-    if(entity.getHeat()<350) return;
-    Effects.effect(Fx.pulverize,tile.worldx(),tile.worldy());
-    Damage.damage(tile.worldx(),tile.worldy(),16*this.size,50);
   },
   setBars(){
     this.super$setBars();
@@ -37,8 +27,8 @@ const liquidHeatExchanger=extendContent(GenericCrafter,"liquid-heat-exchanger",{
     if(entity.getHeat()>25){
       this.giveHeat(tile);
     }
-    if(entity.liquids.get(c1.liquid)>=c1.amount&&entity.liquids.get(this.outputLiquid.liquid)<this.liquidCapacity-0.001){
-      var use=Math.min(c1.amount*entity.delta(),this.liquidCapacity-entity.liquids.get(this.outputLiquid.liquid));
+    if(entity.power.status>0&&entity.liquids.get(c1.liquid)>=c1.amount&&entity.liquids.get(this.outputLiquid.liquid)<this.liquidCapacity-0.001){
+      var use=entity.power.status*Math.min(c1.amount*entity.delta(),this.liquidCapacity-entity.liquids.get(this.outputLiquid.liquid));
       this.useContent(tile,this.outputLiquid.liquid);
       entity.liquids.add(this.outputLiquid.liquid,this.outputLiquid.amount*use/c1.amount);
       entity.addHeat(this.heatProduction*use/c1.amount);
@@ -52,53 +42,37 @@ const liquidHeatExchanger=extendContent(GenericCrafter,"liquid-heat-exchanger",{
       entity.kill();
     }
   },
-  giveHeat(tile){
-    var proximity=tile.entity.proximity();
-    var dump=tile.rotation();
-    var index=0;
-    var others=[];
-    var totalHeat=0;
-    for(var i=0;i<proximity.size;i++){
-      this.incrementDump(tile,proximity.size);
-      var other=proximity.get((i+dump)%proximity.size);
-      if(other.getTeam()==tile.getTeam()&&typeof(other.block()["inputsHeat"])==="function"){
-        if(other.entity.getHeat()<tile.entity.getHeat()){
-          totalHeat+=other.entity.getHeat();
-          others[index]=other;
-          index++;
-        }
-      }
-    }
-    if(others.length>0){
-      var avgHeat=(totalHeat+tile.entity.getHeat())/(others.length+1);
-      for(var j=0;j<others.length;j++){
-        others[j].entity.addHeat(avgHeat-others[j].entity.getHeat());
-      }
-      tile.entity.addHeat(-tile.entity.getHeat()+avgHeat);
-    }
-  },
   shouldConsume(tile){
     return false;
-  }
-});
-liquidHeatExchanger.entityType=prov(()=>extend(GenericCrafter.GenericCrafterEntity,{
-  getHeat(){
-    return this._heat;
   },
-  modifyHeat(a){
-    this._heat=a
-  },
-  addHeat(b){
-    this._heat+=b
-  },
-  coolDownHeat(){
-    if(this._heat>25){
-      this._heat-=Time.delta()*this._heat/1200;
-    }else if(this._heat<25){
-      this._heat=25;
+  draw(tile){
+    this.super$draw(tile);
+    var mod=tile.entity.liquids
+    var input=this.consumes.get(ConsumeType.liquid).liquid;
+    var output=this.outputLiquid.liquid;
+    if(mod.get(input)>0.001){
+      Draw.color(input.color);
+      Draw.alpha(mod.get(input)/this.liquidCapacity);
+      Draw.rect(Core.atlas.find(this.name+"-liquid-1"),tile.drawx(),tile.drawy(),0);
+      Draw.color();
     }
+    if(mod.get(output)>0.001){
+      Draw.color(output.color);
+      Draw.alpha(mod.get(output)/this.liquidCapacity);
+      Draw.rect(Core.atlas.find(this.name+"-liquid-2"),tile.drawx(),tile.drawy(),0);
+      Draw.color();
+    }
+    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy(),0);
   },
-  _heat:25,
-}));
+  drawLight(tile){
+    Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(10+tile.entity.getHeat()/20+Mathf.absin(10,0.5))*this.size,Color.scarlet,0.4);
+  },
+  generateIcons:function(){
+    return [
+      Core.atlas.find(this.name),
+      Core.atlas.find(this.name+"-top")
+    ];
+  }
+},{});
 liquidHeatExchanger.sync=true;
 liquidHeatExchanger.baseExplosive=5;

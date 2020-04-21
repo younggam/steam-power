@@ -7,7 +7,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     }
     //calls customCons and customProd
     for(var z=0;z<this.input.length;z++){
-      if(/*entity.getToggle()==z*/!this.checkoutput(tile,z)&&!this.checkinput(tile,z)&&!(this.hasPower==true&&entity.power.status<=0&&this.input[z][2]!=null)){
+      if(!this.checkoutput(tile,z)&&!this.checkinput(tile,z)&&!(this.hasPower==true&&entity.power.status<=0&&this.input[z][2]!=null)){
         entity.modifyToggle(z);
         this.customCons(tile,z);
         if(entity.getToggle()==z&&entity.progress>=1){
@@ -72,6 +72,29 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
       }
     }
   },
+  customCons(tile,i){
+    const entity=tile.ent();
+    entity.saveCond(this.checkCond(tile,i));
+    if(this.checkCond(tile,i)){
+      //do produce
+      if(entity.getProgress(i)!=0&&entity.getProgress(i)!=null){
+        entity.progress=entity.getProgress(i);
+        entity.saveProgress(i,0);
+      }
+      entity.progress+=entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]);
+      print(entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]));
+      entity.totalProgress+=entity.delta();
+      entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.002);
+
+      if(Mathf.chance(Time.delta()*this.updateEffectChance)){
+        Effects.effect(this.updateEffect,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
+      }
+
+    }else{
+
+      entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
+    }
+  },
   setBars(){
     this.super$setBars();
     //initialize
@@ -124,6 +147,9 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
         })(i,this.liquidList,this.liquidCapacity,this.bars)
       }
     }
+    this.bars.add("multiplier",func(entity=>
+      new Bar(prov(()=>Core.bundle.formatFloat("bar.efficiency",entity.warmup*100,1)),prov(()=>Pal.ammo),floatp(()=>entity.warmup))
+    ));
   }
 },
 {

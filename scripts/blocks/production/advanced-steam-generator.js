@@ -1,9 +1,7 @@
-const advancedSteamGenerator=extendContent(LiquidConverter,"advanced-steam-generator",{
+const heatL=require("heatWrapper");
+const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafterEntity,"advanced-steam-generator",{
   heatCapacity:500,
   heatCons:0.125,
-  inputsHeat(){
-    return true;
-  },
   setStats(){
     this.super$setStats();
     this.stats.remove(BlockStat.output);
@@ -15,14 +13,6 @@ const advancedSteamGenerator=extendContent(LiquidConverter,"advanced-steam-gener
     this.stats.add(BlockStat.input,String(this.heatCons*60.0)+" heat/sec","");
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.remove(BlockStat.productionTime);
-  },
-  onDestroyed(tile){
-    this.super$onDestroyed(tile);
-    Sounds.explosionbig.at(tile);
-    const entity=tile.ent();
-    if(entity.getHeat()<350) return;
-    Effects.effect(Fx.pulverize,tile.worldx(),tile.worldy());
-    Damage.damage(tile.worldx(),tile.worldy(),16*this.size,50);
   },
   setBars(){
     this.super$setBars();
@@ -64,25 +54,8 @@ const advancedSteamGenerator=extendContent(LiquidConverter,"advanced-steam-gener
     return false;
   }
 
-});
-advancedSteamGenerator.entityType=prov(()=>extend(GenericCrafter.GenericCrafterEntity,{
-  getHeat(){
-    return this._heat;
-  },
-  modifyHeat(a){
-    this._heat=a
-  },
-  addHeat(b){
-    this._heat+=b
-  },
-  coolDownHeat(){
-    if(this._heat>25){
-      this._heat-=Time.delta()*this._heat/1200;
-    }else if(this._heat<25){
-      this._heat=25;
-    }
-  },
-  _heat:25,
+},
+{
   setOutputCurrent(c){
     this._outputCurrent=c;
   },
@@ -91,5 +64,6 @@ advancedSteamGenerator.entityType=prov(()=>extend(GenericCrafter.GenericCrafterE
     return this._outputCurrent;
   },
   _outputCurrent:null,
-}));
+});
+
 advancedSteamGenerator.sync=true;

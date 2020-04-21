@@ -1,5 +1,5 @@
 name: Blast Furnace
-description: "Refines minerals. \n\n[cyan]Crafting priority : copper, lead, iron, titanium, glass, slag"
+description: "Refines minerals. It takes some time warm up. \n\n[cyan]Crafting priority : copper, lead, iron, titanium, glass, slag"
 category: crafting
 requirements:[
   stone/100

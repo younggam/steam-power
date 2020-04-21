@@ -1,4 +1,5 @@
-const nuclearReactor=extendContent(LiquidConverter,"nuclear-reactor",{
+const heatL=require("heatWrapper");
+const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCrafterEntity,"nuclear-reactor",{
   heatProduction:1.2,
   heatCapacity:1000,
   heatCons:1.15,
@@ -75,24 +76,5 @@ const nuclearReactor=extendContent(LiquidConverter,"nuclear-reactor",{
   shouldConsume(tile){
     return false;
   }
-});
-nuclearReactor.entityType=prov(()=>extend(GenericCrafter.GenericCrafterEntity,{
-  getHeat(){
-    return this._heat;
-  },
-  modifyHeat(a){
-    this._heat=a
-  },
-  addHeat(b){
-    this._heat+=b
-  },
-  coolDownHeat(){
-    if(this._heat>25){
-      this._heat-=Time.delta()*this._heat/1200;
-    }else if(this._heat<25){
-      this._heat=25;
-    }
-  },
-  _heat:25,
-}));
+},{});
 nuclearReactor.sync=true;

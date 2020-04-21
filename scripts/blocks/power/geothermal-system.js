@@ -1,4 +1,5 @@
-const geothermalSystem=extendContent(Block,"geothermal-system",{
+const heatL=require("heatWrapper");
+const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
   attribute:Attribute.heat,
   heatProduction:7/30,
   heatCapacity:500,
@@ -41,65 +42,11 @@ const geothermalSystem=extendContent(Block,"geothermal-system",{
       entity.kill();
     }
   },
-  giveHeat(tile){
-    var proximity=tile.entity.proximity();
-    var dump=tile.rotation();
-    var index=0;
-    var others=[];
-    var totalHeat=0;
-    for(var i=0;i<proximity.size;i++){
-      this.incrementDump(tile,proximity.size);
-      var other=proximity.get((i+dump)%proximity.size);
-      if(other.getTeam()==tile.getTeam()&&typeof(other.block()["inputsHeat"])==="function"){
-        if(other.entity.getHeat()<tile.entity.getHeat()){
-          totalHeat+=other.entity.getHeat();
-          others[index]=other;
-          index++;
-        }
-      }
-    }
-    if(others.length>0){
-      var avgHeat=(totalHeat+tile.entity.getHeat())/(others.length+1);
-      for(var j=0;j<others.length;j++){
-        others[j].entity.addHeat((tile.entity.getHeat()-avgHeat)/others.length);
-      }
-      tile.entity.addHeat(-tile.entity.getHeat()+avgHeat);
-    }
-  },
-  onDestroyed(tile){
-    this.super$onDestroyed(tile);
-    Sounds.explosionbig.at(tile);
-    const entity=tile.ent();
-    if(entity.getHeat()<350) return;
-    Effects.effect(Fx.pulverize,tile.worldx(),tile.worldy());
-    Damage.damage(tile.worldx(),tile.worldy(),16*this.size,50);
-  },
-  draw(tile){
-    this.super$draw(tile);
-  },
   drawLight(tile){
+    Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(40+Mathf.absin(10,5))*this.sumAttribute(this.attribute,tile.x,tile.y)*this.size,Color.scarlet,0.4);
+  },
+},{});
 
-  },
-});
-geothermalSystem.entityType=prov(()=>extend(TileEntity,{
-  getHeat(){
-    return this._heat;
-  },
-  modifyHeat(a){
-    this._heat=a
-  },
-  addHeat(b){
-    this._heat+=b
-  },
-  coolDownHeat(){
-    if(this._heat>25){
-      this._heat-=Time.delta()*this._heat/1200;
-    }else if(this._heat<25){
-      this._heat=25;
-    }
-  },
-  _heat:25,
-}));
 geothermalSystem.update=true;
 geothermalSystem.sync=true;
 geothermalSystem.baseExplosive=5;

@@ -1,0 +1,5 @@
+type: resource
+name: Iron Ore
+description: Iron Ore.
+color:"966e5a"
+hardness: 3

@@ -1,0 +1,5 @@
+type: resource
+name: Lead Ore
+description: Lead Ore.
+color: "6f687e"
+hardness: 1

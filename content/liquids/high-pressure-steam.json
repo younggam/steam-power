@@ -1,0 +1,6 @@
+name: High Pressure Steam
+description: High Pressure Steam.
+temperature: 1
+heatCapacity: 0.2
+effect:wet
+color: "d7d7d7"

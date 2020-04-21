@@ -1,0 +1,7 @@
+name: Hot Cryofluid
+description: Hot Cryofluid.
+heatCapacity: 0
+temperature: 1.2
+effect:melting
+flammability:1.2
+color:"f05a5a"

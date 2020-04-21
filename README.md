@@ -5,3 +5,4 @@ Mindustry mod that has realistic power generation
 this mod has dependency on younggam/multi-lib. So you need to install it.
 
 # Currently deveoping
+Now playable but not completed

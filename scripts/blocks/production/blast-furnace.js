@@ -16,58 +16,41 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
         break;
       }
     }
+    if(z==this.input.length) entity.warmup=Mathf.lerpDelta(entity.warmup,0,0.002);
     //dump
     var exitI=false;
     var exitL=false;
-    //when normal button checked
-    if(entity.getToggle()!=this.input.length){
-      if(entity.timer.get(this.timerDump,this.dumpTime)){
-        //dump items in order
-        for(var ii=0;ii<this.output.length;ii++){
-          if(this.output[ii][0][0]!=null){
-            for(var ij=0;ij<this.output[ii][0].length;ij++){
-              if(entity.items.get(this.output[ii][0][ij].item)>0&&((!this.dumpToggle)||entity.getToggle()==ii)){
-                this.tryDump(tile,this.output[ii][0][ij].item);
-                exitI=true;
-                break;
-              }
-            }
-            if(exitI){
-              exitI=false;
+    if(entity.timer.get(this.timerDump,this.dumpTime)){
+      //dump items in order
+      for(var ii=0;ii<this.output.length;ii++){
+        if(this.output[ii][0][0]!=null){
+          for(var ij=0;ij<this.output[ii][0].length;ij++){
+            if(entity.items.get(this.output[ii][0][ij].item)>0&&((!this.dumpToggle)||entity.getToggle()==ii)){
+              this.tryDump(tile,this.output[ii][0][ij].item);
+              exitI=true;
               break;
             }
           }
-        }
-      }
-      //dump liquids in order
-      for(var jj=0;jj<this.output.length;jj++){
-        if(this.output[jj][1][0]!=null){
-          for(var i=0;i<this.output[jj][1].length;i++){
-            if(entity.liquids.get(this.output[jj][1][i].liquid)>0.001&&((!this.dumpToggle)||entity.getToggle()==jj)){
-              this.tryDumpLiquid(tile,this.output[jj][1][i].liquid);
-              exitL=true;
-              break;
-            }
-          }
-          if(exitL){
-            exitL=false;
+          if(exitI){
+            exitI=false;
             break;
           }
         }
       }
     }
-    //when trash button is checked. dump everything if possible/
-    else if(entity.getToggle()==this.input.length){
-      //dump items and liquids even input
-      if(entity.timer.get(this.timerDump,this.dumpTime)&&entity.items.total()>0){
-        this.tryDump(tile);
-      }
-      if(entity.liquids.total()>0){
-        for(var i=0;i<this.liquidList.length;i++){
-          if(entity.liquids.get(this.liquidList[i])>0.01){
-            this.tryDumpLiquid(tile,this.liquidList[i]);
+    //dump liquids in order
+    for(var jj=0;jj<this.output.length;jj++){
+      if(this.output[jj][1][0]!=null){
+        for(var i=0;i<this.output[jj][1].length;i++){
+          if(entity.liquids.get(this.output[jj][1][i].liquid)>0.001&&((!this.dumpToggle)||entity.getToggle()==jj)){
+            this.tryDumpLiquid(tile,this.output[jj][1][i].liquid);
+            exitL=true;
             break;
           }
+        }
+        if(exitL){
+          exitL=false;
+          break;
         }
       }
     }
@@ -82,17 +65,12 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
         entity.saveProgress(i,0);
       }
       entity.progress+=entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]);
-      print(entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]));
       entity.totalProgress+=entity.delta();
       entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.002);
 
       if(Mathf.chance(Time.delta()*this.updateEffectChance)){
         Effects.effect(this.updateEffect,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
-
-    }else{
-
-      entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
     }
   },
   setBars(){
@@ -150,6 +128,27 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     this.bars.add("multiplier",func(entity=>
       new Bar(prov(()=>Core.bundle.formatFloat("bar.efficiency",entity.warmup*100,1)),prov(()=>Pal.ammo),floatp(()=>entity.warmup))
     ));
+  },
+  random:new Rand(0),
+  draw(tile){
+    const entity=tile.ent();
+    Draw.rect(this.region,tile.drawx(),tile.drawy());
+    Draw.color(Color.salmon);
+    Draw.alpha(entity.warmup);
+    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy());
+    var seeds=Math.round(entity.warmup*18);
+    Draw.color(Color.valueOf("474747"),Color.gold,entity.warmup);
+    this.random.setSeed(tile.pos());
+    for(var i=0;i<seeds;i++){
+      var offset=this.random.nextFloat()*999999;
+      var x=this.random.range(6),y=this.random.range(6);
+      var life=1-(((Time.time()+offset)/50)%6);
+      if(life>0){
+        Lines.stroke(entity.warmup*(life*1+0.2));
+        Lines.poly(tile.drawx()+x,tile.drawy()+y,8,(1-life)*3);
+      }
+    }
+    Draw.color();
   }
 },
 {

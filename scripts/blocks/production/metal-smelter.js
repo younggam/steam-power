@@ -1,5 +1,5 @@
 const multiLib=require("multi-lib/wrapper");
-const metalSmelter=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterEntity,"metal-smelter",{
+const metalSmelter=multiLib.extend(GenericSmelter,GenericCrafter.GenericCrafterEntity,"metal-smelter",{
 
 },
 {

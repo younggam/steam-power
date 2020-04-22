@@ -38,6 +38,24 @@ const steamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafte
   },
   shouldConsume(tile){
     return false;
+  },
+  draw(tile){
+    this.super$draw(tile);
+    var mod=tile.entity.liquids
+    var output=this.outputLiquid.liquid;
+    if(mod.get(output)>0.001){
+      Draw.color(output.color);
+      Draw.alpha(mod.get(output)/this.liquidCapacity);
+      Draw.rect(Core.atlas.find(this.name+"-liquid"),tile.drawx(),tile.drawy(),0);
+      Draw.color();
+    }
+    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy(),0);
+  },
+  generateIcons:function(){
+    return [
+      Core.atlas.find(this.name),
+      Core.atlas.find(this.name+"-top")
+    ];
   }
 },{});
 steamGenerator.sync=true;

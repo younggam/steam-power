@@ -6,7 +6,10 @@ const common={
     if(entity.getHeat()<this.heatCapacity/2) return;
     Effects.effect(Fx.pulverize,tile.worldx(),tile.worldy());
     Damage.damage(tile.worldx(),tile.worldy(),16*this.size,50);
-  }
+  },
+  drawLight(tile){
+    Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(10+tile.entity.getHeat()/20+Mathf.absin(10,0.5))*this.size,Color.scarlet,0.4);
+  },
 };
 const _user=Object.assign({
   inputsHeat(){

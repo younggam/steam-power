@@ -33,7 +33,7 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
       entity.liquids.add(this.outputLiquid.liquid,this.outputLiquid.amount*use/c1.amount);
       entity.addHeat(this.heatProduction*use/c1.amount);
       entity.liquids.remove(c1.liquid,use);
-      if(Mathf.chance(Time.delta()*0.3)){
+      if(Mathf.chance(Time.delta()/30)){
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
     }
@@ -63,9 +63,6 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
       Draw.color();
     }
     Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy(),0);
-  },
-  drawLight(tile){
-    Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(10+tile.entity.getHeat()/20+Mathf.absin(10,0.5))*this.size,Color.scarlet,0.4);
   },
   generateIcons:function(){
     return [

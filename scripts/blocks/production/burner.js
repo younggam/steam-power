@@ -36,7 +36,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
     }else if(entity.getProgress()>0){
       entity.subProgress(this.getProgressIncrease(entity,60));
       entity.addHeat(this.heatProduction*this.getItemEfficiency(entity.getCurrentItem())*entity.delta());
-      if(Mathf.chance(Time.delta()*0.3)){
+      if(Mathf.chance(Time.delta()/30)){
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
     }
@@ -46,9 +46,10 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
   },
   draw(tile){
     this.super$draw(tile);
-  },
-  drawLight(tile){
-
+    Draw.color(Color.red,Color.orange,Math.max(0,Math.min((tile.entity.getHeat()-374)/100,1)));
+    Draw.alpha(tile.entity.getHeat()/this.heatCapacity);
+    Draw.rect(Core.atlas.find(this.name+"-heat"),tile.drawx(),tile.drawy());
+    Draw.color();
   },
   getItemEfficiency(item){
     return item!==null?item.flammability:true;

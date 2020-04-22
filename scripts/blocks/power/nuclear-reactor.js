@@ -46,6 +46,7 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
     }
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
     if(entity.getHeat()>=this.heatCapacity){
+      Events.fire(Trigger.thoriumReactorOverheat);
       entity.kill();
     }
   },
@@ -75,6 +76,20 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
   },
   shouldConsume(tile){
     return false;
+  },
+  /*
+  coolColor: new Color(1,1,1,0),
+  hotColor: Color.valueOf("ff9575a3"),
+  flashThreshold:0.69,
+  draw(tile){
+    this.super$draw(tile);
+    const entity=tile.ent();
+    Draw.color(this.coolColor,this.hotColor,entity.getHeat()/this.heatCapacity);
+    Fill.rect(tile.drawx(),tile.drawy(),this.size*Vars.tilesize,this.size*Vars.tilesize);
+
+    Draw.color(entity.liquids.current().color);
+    Draw.alpha(entity.liquids.currentAmount()/this.liquidCapacity);
   }
+  */
 },{});
 nuclearReactor.sync=true;

@@ -24,7 +24,7 @@ const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
     if(entity.cons.valid()){
       entity.cons.trigger();
       entity.addHeat(this.heatProduction*entity.efficiency()*entity.delta());
-      if(Mathf.chance(Time.delta()*0.3)){
+      if(Mathf.chance(Time.delta()/30)){
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
     }
@@ -34,11 +34,11 @@ const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
   },
   draw(tile){
     this.super$draw(tile);
+    Draw.color(Color.red,Color.orange,Math.max(0,Math.min((tile.entity.getHeat()-374)/100,1)));
+    Draw.alpha(tile.entity.getHeat()/this.heatCapacity);
+    Draw.rect(Core.atlas.find(this.name+"-heat"),tile.drawx(),tile.drawy());
+    Draw.color();
   },
-  drawLight(tile){
-
-  },
-
 },{});
 electricBurner.update=true;
 electricBurner.sync=true;

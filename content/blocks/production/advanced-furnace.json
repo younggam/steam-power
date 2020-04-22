@@ -9,7 +9,7 @@ requirements:[
 ]
 itemCapacity: 20
 liquidCapacity: 20
-size: 4
+size: 3
 health: 200
 craftEffect: none
 updateEffect: none

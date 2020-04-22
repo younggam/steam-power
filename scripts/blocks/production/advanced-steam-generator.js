@@ -52,8 +52,27 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
   },
   shouldConsume(tile){
     return false;
+  },
+  draw(tile){
+    this.super$draw(tile);
+    var mod=tile.entity.liquids
+    var output=this.outputLiquid.liquid;
+    const liquid=Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam");
+    if(mod.get(output)>0.001||mod.get(liquid)>0.001){
+      var actualLiquid=mod.get(output)>mod.get(liquid)?output:liquid;
+      Draw.color(actualLiquid.color);
+      Draw.alpha(mod.get(actualLiquid)/this.liquidCapacity);
+      Draw.rect(Core.atlas.find(this.name+"-liquid"),tile.drawx(),tile.drawy(),0);
+      Draw.color();
+    }
+    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy(),0);
+  },
+  generateIcons:function(){
+    return [
+      Core.atlas.find(this.name),
+      Core.atlas.find(this.name+"-top")
+    ];
   }
-
 },
 {
   setOutputCurrent(c){

@@ -18,10 +18,9 @@ bullet1.knockback=2.4;
 bullet1.hitEffect=Fx.hitBulletBig;
 const penetrate=extendContent(ItemTurret,"penetrate",{
   powerUse:3,
-  _ammo:Vars.content.getByName(ContentType.item,"steam-power-armor-piercing-shell"),
   init(){
     this.hasPower=true;
-    this.consumes.powerCond(this.powerUse,boolf(entity=>entity.tile.entity!=null?entity.tile.entity.target:false));
+    this.consumes.powerCond(this.powerUse,boolf(entity=>entity.tile.entity!=null?entity.tile.entity.target!=null:false));
     this.ammo(Vars.content.getByName(ContentType.item,"steam-power-armor-piercing-shell"),bullet1);
     this.super$init();
   },

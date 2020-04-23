@@ -1,5 +1,3 @@
-name: Breakthrough
-description: Break through the front. The enemy in the center of the laser takes twice the damaged. Reloads partially even there is no target.
 requirements:[
   computer/10
   dense-alloy/225

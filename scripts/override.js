@@ -19,10 +19,10 @@ var hideArray=[/*"copperWall","copperWallLarge","titaniumWall","titaniumWallLarg
 "blastDrill","waterExtractor","cultivator","oilExtractor","vault","container",
 "unloader","launchPad","launchPadLarge","duo","scatter","scorch","hail","wave",
 "lancer","arc","swarmer","salvo","fuse","ripple","cyclone","spectre","meltdown",
-"draugFactory","spiritFactory","phantomFactory","commandCenter",*/"wraithFactory",
+"draugFactory","spiritFactory","phantomFactory","commandCenter","wraithFactory",
 "ghoulFactory","revenantFactory","daggerFactory","crawlerFactory","titanFactory",
-"fortressFactory",/*"repairPoint",*/"dartPad","deltaPad","tauPad","omegaPad","javelinPad",
-"tridentPad","glaivePad"/*,"message"*/];
+"fortressFactory","repairPoint","dartPad","deltaPad","tauPad","omegaPad","javelinPad",
+"tridentPad","glaivePad","message"*/];
 for(var i=0;i<hideArray.length;i++){
   hide(hideArray[i]);
 };

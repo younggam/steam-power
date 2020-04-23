@@ -1,6 +1,3 @@
-
-name: Reservoir
-description: Store fresh water.
 size:2
 pumpAmount: 0.2
 liquidCapacity: 24

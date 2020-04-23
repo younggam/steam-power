@@ -1,0 +1,31 @@
+ammo:{
+  copper:standardCopper
+  graphite:standardDense
+  pyratite:standardIncendiary
+  silicon:standardHoming
+  thorium:standardThorium
+  bullet:{
+    type: BasicBulletType
+    speed:4
+    damage:48
+    bulletSprite:bullet
+    bulletWidth:10
+    bulletHeight:13
+    shootEffect:shootBig
+    smokeEffect:shootBigSmoke
+    ammoMultiplier:5
+    lifetime:60
+  }
+  armor-piercing-shell:{
+    type:BasicBulletType
+    speed:6
+    damage:64
+    bulletSprite:bullet
+    bulletWidth:8
+    bulletHeight:16
+    shootEffect:shootBig
+    smokeEffect:shootBigSmoke
+    ammoMultiplier:5
+    lifetime:45
+  }
+}

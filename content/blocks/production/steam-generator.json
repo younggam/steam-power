@@ -1,5 +1,3 @@
-name:Steam Generator
-description: "Produces steam by heat.(over 100)\n\n[red]Heat Block. Explodes when heat goes over 300.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
 category: crafting
 requirements:[
   stone/60

@@ -1,5 +1,3 @@
-name:Geothermal System
-description: "Uses geothermal heat.\n\n[red]Heat Block. Explodes when heat goes over 500.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
 category: power
 requirements:[
   circuit/5

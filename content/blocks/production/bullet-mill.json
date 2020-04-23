@@ -1,5 +1,3 @@
-name: Bullet Mill
-description: Manufacture Bullets.
 category: crafting
 requirements:[
   iron/40

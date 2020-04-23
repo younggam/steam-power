@@ -1,5 +1,3 @@
-name:Nuclear Fusion Reactor
-description:"Nuclear Fusion Reactor.\n\n[red]Heat Block. This one doesn't explode.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
 category: power
 requirements:[
   dense-alloy/120

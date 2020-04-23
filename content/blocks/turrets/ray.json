@@ -1,6 +1,3 @@
-
-name: Ray
-description: Charge damage up to 2.5 times as attack continued over 4 seconds. Targets single closest enemy.
 health: 2600
 size: 3
 range: 240

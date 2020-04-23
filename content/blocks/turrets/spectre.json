@@ -1,0 +1,33 @@
+requirements:[
+  semiconductor/10
+  copper/300
+  graphite/260
+  surge-alloy/250
+  plastanium/150
+  thorium/225
+]
+ammo:{
+  graphite:standardDenseBig
+  pyratite:standardIncendiaryBig
+  thorium:standardThoriumBig
+  bullet:{
+    speed:7
+    damage:75
+    bulletSprite:bullet
+    bulletWidth:15
+    bulletHeight:21
+    shootEffect:shootBig
+    ammoMultiplier:5
+  }
+  armor-piercing-shell:{
+    type:BasicBulletType
+    speed:10
+    damage:116
+    bulletSprite:bullet
+    bulletWidth:12
+    bulletHeight:27
+    shootEffect:shootBig
+    ammoMultiplier:5
+    inaccuracy:-1
+  }
+}

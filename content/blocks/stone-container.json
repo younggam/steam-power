@@ -1,5 +1,5 @@
 name: Stone Container
-description: Allows you to take out items without a conveyor.
+description: Exists.
 type: Vault
 itemCapacity: 25
 hasItems:true

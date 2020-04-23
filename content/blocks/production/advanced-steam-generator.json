@@ -1,5 +1,3 @@
-name:Advanced Steam Generator
-description:"Advanced Steam Generator. Produces high pressure steam that can generate power 4 times more then normal steam when heat is above 374.\n\n[red]Heat Block. Explodes when heat goes over 500.\nHeat decreases by 5% per sec of current heat.\nThe lower limit is 25."
 category: crafting
 requirements:[
   circuit/5

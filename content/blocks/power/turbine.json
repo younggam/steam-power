@@ -1,5 +1,3 @@
-name: Turbine
-description: Steam turns turbine to generate power.
 category:power
 hasItems: false
 hasLiquids: true

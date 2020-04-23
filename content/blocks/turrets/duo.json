@@ -1,0 +1,17 @@
+ammo:{
+  copper:standardCopper
+  graphite:standardDense
+  pyratite:standardIncendiary
+  silicon:standardHoming
+  bullet:{
+    type:BasicBulletType
+    speed:4
+    damage:24
+    bulletSprite: bullet
+    bulletWidth:7
+    bulletHeight:9
+    lifetime:50
+    ammoMultiplier:5
+    inaccuracy:-1
+  }
+}

@@ -67,7 +67,9 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
       entity.progress+=entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]);
       entity.totalProgress+=entity.delta();
       entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.002);
-
+      if(Mathf.equal(entity.warmup,1,0.002)){
+        entity.warmup=1;
+      }
       if(Mathf.chance(Time.delta()*this.updateEffectChance)){
         Effects.effect(this.updateEffect,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }

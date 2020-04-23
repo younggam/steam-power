@@ -41,10 +41,7 @@ const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
     if(entity.getHeat()>=this.heatCapacity){
       entity.kill();
     }
-  },
-  drawLight(tile){
-    Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(40+Mathf.absin(10,5))*this.sumAttribute(this.attribute,tile.x,tile.y)*this.size,Color.scarlet,0.4);
-  },
+  }
 },{});
 
 geothermalSystem.update=true;

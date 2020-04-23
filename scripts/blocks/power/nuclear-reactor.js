@@ -46,7 +46,7 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
     }
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
     if(entity.getHeat()>=this.heatCapacity){
-      Events.fire(Trigger.thoriumReactorOverheat);
+      Events.fire(EventType.Trigger.thoriumReactorOverheat);
       entity.kill();
     }
   },
@@ -77,19 +77,36 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
   shouldConsume(tile){
     return false;
   },
-  /*
   coolColor: new Color(1,1,1,0),
   hotColor: Color.valueOf("ff9575a3"),
   flashThreshold:0.69,
   draw(tile){
     this.super$draw(tile);
     const entity=tile.ent();
-    Draw.color(this.coolColor,this.hotColor,entity.getHeat()/this.heatCapacity);
+    const liquid=this.consumes.get(ConsumeType.liquid).liquid;
+    var heat=entity.getHeat()/this.heatCapacity;
+    Draw.color(this.coolColor,this.hotColor,heat);
     Fill.rect(tile.drawx(),tile.drawy(),this.size*Vars.tilesize,this.size*Vars.tilesize);
-
-    Draw.color(entity.liquids.current().color);
-    Draw.alpha(entity.liquids.currentAmount()/this.liquidCapacity);
+    Draw.color(liquid.color);
+    Draw.alpha(entity.liquids.get(liquid)/this.liquidCapacity);
+    Draw.rect(Core.atlas.find(this.name+"-center"),tile.drawx(),tile.drawy());
+    if(heat>this.flashThreshold){
+      var flash=1+((heat-this.flashThreshold)/(1-this.flashThreshold))*5.4;
+      entity.addFlash(flash*Time.delta());
+      Draw.color(Color.red,Color.yellow,Mathf.absin(entity.getFlash(),9,1));
+      Draw.alpha(0.6);
+      Draw.rect(Core.atlas.find(this.name+"-lights"),tile.drawx(),tile.drawy());
+    }
+    Draw.reset();
   }
-  */
-},{});
+},
+{
+  getFlash(){
+    return this._flash;
+  },
+  addFlash(a){
+    this._flash+=a;
+  },
+  _flash:0,
+});
 nuclearReactor.sync=true;

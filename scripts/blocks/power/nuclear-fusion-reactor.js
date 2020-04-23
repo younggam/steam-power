@@ -31,6 +31,7 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
     c2=this.consumes.get(ConsumeType.item);
     entity.coolDownHeat();
     if(entity.getHeat()>=this.heatCapacity){
+      entity.warmup=Mathf.lerpDelta(entity.warmup,0,0.01);
       return;
     }else{
       if(entity.getHeat()>60&&entity.liquids.get(c1.liquid)>=c1.amount&&entity.liquids.get(this.outputLiquid.liquid)<this.liquidCapacity-0.001){
@@ -43,10 +44,16 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
       if(entity.items.total()>0&&entity.power.status>=0.99){
         entity.progress+=this.getProgressIncrease(entity,this.craftTime);
         entity.addHeat(entity.delta()*entity.items.total()*this.heatProduction/this.itemCapacity);
+        entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.001)
+        if(Mathf.equal(entity.warmup,1,0.001)){
+          entity.warmup=1;
+        }
         if(entity.progress>=1){
           entity.items.remove(c2.items[0]);
           entity.progress=0;
         }
+      }else{
+        entity.warmup=Mathf.lerpDelta(entity.warmup,0,0.01);
       }
     }
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
@@ -78,6 +85,30 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
   },
   shouldConsume(tile){
     return false;
+  },
+  plasma1:Color.valueOf("ffd06b"),
+  plasma2:Color.valueOf("ff361b"),
+  plasmas:4,
+  draw(tile){
+    const entity=tile.ent();
+    Draw.rect(Core.atlas.find(this.name+"-bottom"),tile.drawx(),tile.drawy());
+    for(var i=0;i<this.plasmas;i++){
+      var r=this.size*Vars.tilesize-3+Mathf.absin(Time.time(),2+i*1,5-i*0.5);
+      Draw.color(this.plasma1,this.plasma2,i/this.plasmas);
+      Draw.alpha((0.3+Mathf.absin(Time.time(),2+i*2,0.3+i*0.05))*entity.warmup);
+      Draw.blend(Blending.additive);
+      Draw.rect(Core.atlas.find(this.name+"-plasma-"+i),tile.drawx(),tile.drawy(),r,r,Time.time()*(12+1*6)*entity.warmup);
+      Draw.blend();
+    }
+    Draw.color();
+    Draw.rect(this.region,tile.drawx(),tile.drawy());
+    Draw.color();
+  },
+  generateIcons:function(){
+    return[
+      Core.atlas.find(this.name+"-bottom"),
+      Core.atlas.find(this.name)
+    ];
   }
 },{});
 nuclearFusionReactor.sync=true;

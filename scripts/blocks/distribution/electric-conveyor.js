@@ -5,9 +5,7 @@ const electricConveyor=extendContent(Conveyor,"electric-conveyor",{
       this.super$update(tile);
       e.cons.trigger();
     }
-    else{
-      return;
-    }
+
   },
   shouldIdleSound(tile){
     if(tile.entity.cons.valid()&&tile.entity.efficiency()>=0.9&&tile.entity.clogHeat<=0.5){
@@ -17,7 +15,7 @@ const electricConveyor=extendContent(Conveyor,"electric-conveyor",{
     }
   },
   draw(tile){
-    if(tile.entity.cons.valid()&&tile.entity.efficiency()>=0.9){
+    if(tile.entity.cons.valid()&&tile.entity.efficiency()>=0.9&&!tile.entity.isSleeping()){
       this.super$draw(tile);
     }else{
       Draw.rect(

@@ -2,7 +2,7 @@ const heatL=require("heatWrapper");
 const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCrafterEntity,"nuclear-fusion-reactor",{
   heatProduction:4.8,
   heatCapacity:6000,
-  heatCons:4.75,
+  heatCons:4.8,
   explosionDamage:6000,
   explosionRadius:50,
   powerCons:25,
@@ -39,7 +39,7 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
         this.useContent(tile,this.outputLiquid.liquid);
         entity.liquids.add(this.outputLiquid.liquid,use);
         entity.liquids.remove(c1.liquid,use);
-        entity.addHeat(-this.heatCons*(use/c1.amount));
+        entity.addHeat(-this.heatCons*(use/c1.amount)+Time.delta()/20);
       }
       if(entity.items.total()>0&&entity.power.status>=0.99){
         entity.progress+=this.getProgressIncrease(entity,this.craftTime);

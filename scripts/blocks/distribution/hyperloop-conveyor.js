@@ -17,7 +17,7 @@ const hyperloopConveyor=extendContent(ArmoredConveyor,"hyperloop-conveyor",{
     }
   },
   draw(tile){
-    if(tile.entity.cons.valid()&&tile.entity.efficiency()>=0.9){
+    if(tile.entity.cons.valid()&&tile.entity.efficiency()>=0.9&&!tile.entity.isSleeping()){
       this.super$draw(tile);
     }else{
       Draw.rect(

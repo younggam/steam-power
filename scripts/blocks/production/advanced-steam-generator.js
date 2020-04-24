@@ -1,7 +1,7 @@
 const heatL=require("heatWrapper");
 const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafterEntity,"advanced-steam-generator",{
   heatCapacity:500,
-  heatCons:0.125,
+  heatCons:7/60,
   setStats(){
     this.super$setStats();
     this.stats.remove(BlockStat.output);
@@ -28,7 +28,7 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
   update(tile){
     const entity=tile.ent();
     const liquid=Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam");
-    entity.setOutputCurrent(entity.liquids.get(liquid)<=0.001?this.outputLiquid.liquid:liquid);
+    entity.setOutputCurrent(entity.getHeat()<100?null:entity.getHeat()<374?this.outputLiquid.liquid:liquid);
     c1=this.consumes.get(ConsumeType.liquid);
     entity.coolDownHeat();
     if(entity.liquids.get(c1.liquid)>=c1.amount&&374>tile.entity.getHeat()&&entity.getHeat()>=100&&entity.liquids.get(this.outputLiquid.liquid)<this.liquidCapacity-0.001){

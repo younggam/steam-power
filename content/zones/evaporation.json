@@ -1,0 +1,26 @@
+name: Evaporation
+description: Abundant resources.
+loadout:basicFoundation
+startingItems:[
+  stone/200
+  copper/100
+  lead/100
+]
+launchPeriod:16
+conditionWave:16
+requirements:[
+  {
+    type:ZoneWave
+    zone:groundZero
+    wave:0
+  }
+]
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  titanium
+  iron
+]

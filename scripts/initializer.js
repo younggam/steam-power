@@ -34,6 +34,5 @@ const initializer=extendContent(Block,"initializer",{
     this.super$init();
     Blocks.fuse.ammo.put(Items.phasefabric,phaseRay);
     Blocks.salvo.shots=1;
-    Blocks.salvo.ammo.put(Vars.content.getByName(ContentType.item,"steam-power-armor-piercing-shell"),ap1);
   }
 });

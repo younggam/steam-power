@@ -51,12 +51,9 @@ const ray=extendContent(PowerTurret,"ray",{
     }
   },
   bullet(tile,type,angle){
-
     tile.entity.modifyBullet(Bullet.create(type,tile.entity,tile.getTeam(),tile.drawx()+this.tr.x,tile.drawy()+this.tr.y,angle));
-
   },
   shouldActiveSound(tile){
-
     return tile.entity.getLife()>0&&tile.entity.getBullet()!=null;
   },
   updateShooting(tile){
@@ -79,9 +76,9 @@ const ray=extendContent(PowerTurret,"ray",{
   //무조건 가장 가까운 적 공격
   findTarget(tile){
     if(this.targetAir&&!this.targetGround){
-      tile.entity.target=Units.closestEnemy(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>e.isFlying()));
+      tile.entity.target=Units.closestEnemy(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>e.isFlying()&&!e.isDead()));
     }else{
-      tile.entity.target=Units.closestTarget(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>(!e.isFlying()||this.targetAir)&&(e.isFlying()||this.targetGround)));
+      tile.entity.target=Units.closestTarget(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>!e.isDead()&&(!e.isFlying()||this.targetAir)&&(e.isFlying()||this.targetGround)));
     }
 
   }
@@ -110,17 +107,17 @@ ray.entityType=prov(()=>extend(Turret.TurretEntity,{
     return this._dist;
   },
   increaseDamage(){
-    if(this._damageMultiplier<3){
-      this._damageMultiplier+=this.delta()/60;
-    }else if(this._damageMultiplier>3){
-      this._damageMultiplier=3;
+    if(this._damageMultiplier<2.5){
+      this._damageMultiplier+=this.delta()/160;
+    }else if(this._damageMultiplier>2.5){
+      this._damageMultiplier=2.5;
     }
   },
   decreaseDamage(){
-    if(this._damageMultiplier>0){
-      this._damageMultiplier-=this.delta()/60;
-    }else if(this._damageMultiplier<0){
-      this._damageMultiplier=0;
+    if(this._damageMultiplier>1){
+      this._damageMultiplier-=this.delta()/80;
+    }else if(this._damageMultiplier<1){
+      this._damageMultiplier=1;
     }
   },
   getDamage(){
@@ -129,8 +126,9 @@ ray.entityType=prov(()=>extend(Turret.TurretEntity,{
   _bullet:null,
   bulletLife: 0,
   _dist:0,
-  _damageMultiplier:0,
+  _damageMultiplier:1,
 }));
+ray.heatColor=Color.red;
 //커스텀 레이저
 var colors=[Color.forest.cpy().mul(1,1,1,0.4),Color.lime.cpy().mul(1,1,1,0.7),Color.green,Color.acid];
 var tscales=[1,0.7,0.5,0.2];
@@ -157,10 +155,14 @@ ray.shootType = extend(BasicBulletType,{
   //관통데미지
   update(b){
     if(b==null) return;
-    if(b.timer.get(1,Math.ceil(5-b.getOwner().getDamage()))){
-      Damage.collideLine(b,b.getTeam(),hitLaser1,b.x,b.y,b.rot(),b.getOwner().getDist()-12>0?b.getOwner().getDist()-12:1);
+    if(b.timer.get(1,5)){
+      const target=b.getOwner().target;
+      if(target!=null){
+        target.damage(this.damage*b.getOwner().getDamage());
+        this.hit(b,target.x,target.y);
+      }
     }
-    Effects.shake(1,1,b.x,b.y)
+    Effects.shake(1,1,b.x,b.y);
   },
   //화염 적용
   hit(b,hitx,hity){
@@ -169,21 +171,15 @@ ray.shootType = extend(BasicBulletType,{
       Fire.create(Vars.world.tileWorld(hitx + Mathf.range(5), hity + Mathf.range(5)));
     }
   },
-
   draw(b){
     var baseLen=length*b.fout();
-
-
     for(var s=0;s<colors.length;s++){
-
       Draw.color(colors[s]);
       for(var i=0;i<colors.length;i++){
         Lines.stroke((7+Mathf.absin(Time.time(),0.8,1.5))*b.fout()*(s==0 ? 1.5:s==1 ? 1.1:s==2?0.7:0.3)*tscales[i]);
         Lines.lineAngle(b.x,b.y,b.rot(),b.getOwner().getDist()+lenscales[i]>0?b.getOwner().getDist()+lenscales[i]:1);
       }
-
     }
-
     Draw.reset();
   }
 });

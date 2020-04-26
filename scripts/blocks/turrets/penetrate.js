@@ -44,3 +44,4 @@ penetrate.entityType=prov(()=>extendContent(ItemTurret.ItemTurretEntity,penetrat
   },
   _pierce:7,
 }));
+penetrate.heatColor=Color.red;

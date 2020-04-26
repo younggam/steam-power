@@ -3,6 +3,7 @@ requirements:[
   copper/200
   lead/300
   graphite/250
-  surge-alloy/300
+  surge-alloy/150
+  steel/150
   silicon/275
 ]

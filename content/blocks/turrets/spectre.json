@@ -2,7 +2,8 @@ requirements:[
   semiconductor/10
   copper/300
   graphite/260
-  surge-alloy/250
+  surge-alloy/150
+  steel/150
   plastanium/150
   thorium/225
 ]

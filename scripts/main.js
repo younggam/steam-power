@@ -1,4 +1,5 @@
 require("override");
+require("initializer");
 require("blocks/distribution/electric-conveyor");
 require("blocks/distribution/hyperloop-conveyor");
 //
@@ -25,5 +26,6 @@ require("blocks/liquid/liquid-heat-exchanger");
 require("blocks/turrets/tesla");
 require("blocks/turrets/ray");
 require("blocks/turrets/penetrate");
+require("blocks/turrets/launchpad");
 require("blocks/turrets/breakthrough");
 //

@@ -8,7 +8,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     //calls customCons and customProd
     for(var z=0;z<this.input.length;z++){
       if(!this.checkoutput(tile,z)&&!this.checkinput(tile,z)&&!(this.hasPower==true&&entity.power.status<=0&&this.input[z][2]!=null)){
-        entity.modifyToggle(z);
+        tile.configure(z);
         this.customCons(tile,z);
         if(entity.getToggle()==z&&entity.progress>=1){
           this.customProd(tile,z);

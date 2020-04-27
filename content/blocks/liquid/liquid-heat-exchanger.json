@@ -19,5 +19,5 @@ hasItems: false
 liquidCapacity: 30
 craftTime:1
 size:2
-health:60
+health:120
 research:steam-generator

@@ -1,4 +1,4 @@
-const common={
+const _common={
   onDestroyed(tile){
     this.super$onDestroyed(tile);
     Sounds.explosionbig.at(tile);
@@ -15,7 +15,7 @@ const _user=Object.assign({
   inputsHeat(){
     return true;
   },
-},common);
+},_common);
 const _giver=Object.assign({
   giveHeat(tile){
     var proximity=tile.entity.proximity();
@@ -42,7 +42,7 @@ const _giver=Object.assign({
       tile.entity.addHeat(-tile.entity.getHeat()+avgHeat);
     }
   }
-},common);
+},_common);
 const _heatProps={
   getHeat(){
     return this._heat;
@@ -65,5 +65,6 @@ const _heatProps={
 module.exports={
   user:_user,
   giver:_giver,
+  common:_common,
   heatProps:_heatProps
 }

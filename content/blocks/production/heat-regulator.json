@@ -1,0 +1,14 @@
+category: crafting
+requirements:[
+  circuit/10
+  iron/80
+  metaglass/60
+  copper/60
+]
+hasItems:false
+hasLiquids:false
+hasPower:true
+consumesPower:true
+size: 2
+health: 100
+research: electric-burner

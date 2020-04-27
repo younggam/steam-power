@@ -1,0 +1,22 @@
+type: SolidPump
+name: Blast Water Extractor
+description: Use all possible methods to extracting water.
+category:production
+requirements:[
+  semiconductor/5
+  steel/100
+  copper/50
+  silicon/25
+  graphite/25
+  plastanium/25
+]
+result:water
+pumpAmount:0.4
+size:3
+liquidCapacity:48
+rotateSpeed:1.5
+attribute:water
+research:water-extractor
+consumes:{
+  power:4
+}

@@ -1,0 +1,14 @@
+name:test
+type:GenericCrafter
+
+hasLiquids:true
+outputLiquid:{
+  liquid:cryofluid
+  amount:1.2
+}
+craftTime:1
+category:power
+requirements:[
+  stone/1
+]
+buildVisibility: sandboxOnly

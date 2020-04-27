@@ -9,6 +9,7 @@ require("steam-power/blocks/production/burner");
 require("blocks/production/electric-burner");
 require("blocks/production/steam-generator");
 require("blocks/production/advanced-steam-generator");
+require("blocks/production/heat-regulator");
 require("blocks/production/semiconductor-plant");
 require("steam-power/blocks/production/bullet-mill");
 require("steam-power/blocks/production/missile-factory");

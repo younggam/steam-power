@@ -61,6 +61,14 @@ const _heatProps={
     }
   },
   _heat:25,
+  write(stream){
+    this.super$write(stream);
+    stream.writeFloat(this._heat);
+  },
+  read(stream,revision){
+    this.super$read(stream,revision);
+    this._heat=stream.readFloat();
+  }
 }
 module.exports={
   user:_user,

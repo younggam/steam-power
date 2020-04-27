@@ -12,10 +12,12 @@ consumes:{
     items:[
       blast-compound/1
     ]
+    optional:true
   }
   liquid:{
     liquid:cryofluid
     amount: 1.2
+    optional:true
   }
 }
 outputLiquid:{
@@ -26,6 +28,7 @@ hasItems: true
 itemCapacity:15
 liquidCapacity:60
 craftTime:120
+hasPower:true
 size:4
 health:900
 research: differential-generator

@@ -6,6 +6,10 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
   explosionDamage:6000,
   explosionRadius:50,
   powerCons:25,
+  init(){
+    this.super$init();
+    this.consumes.get(ConsumeType.liquid).update(false);
+  },
   setStats(){
     this.super$setStats();
     this.stats.remove(BlockStat.output);
@@ -84,7 +88,7 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
     }
   },
   shouldConsume(tile){
-    return false;
+    return true;
   },
   plasma1:Color.valueOf("ffd06b"),
   plasma2:Color.valueOf("ff361b"),
@@ -114,11 +118,11 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
 nuclearFusionReactor.sync=true;
 nuclearFusionReactor.consumes.add(extend(ConsumePower,{
   requestedPower(entity){
-    if(entity.tile.entity==null){
+    if(entity==null){
       return 0;
     }
     if(entity.items.total()>0){
-      return 10;
-    }
+      return 25;
+    }else return 0;
   }
 }));

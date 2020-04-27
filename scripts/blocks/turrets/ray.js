@@ -115,7 +115,7 @@ ray.entityType=prov(()=>extend(Turret.TurretEntity,{
   },
   decreaseDamage(){
     if(this._damageMultiplier>1){
-      this._damageMultiplier-=this.delta()/80;
+      this._damageMultiplier-=this.delta()/24;
     }else if(this._damageMultiplier<1){
       this._damageMultiplier=1;
     }

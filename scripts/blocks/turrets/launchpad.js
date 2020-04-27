@@ -196,6 +196,15 @@ launchpad.entityType=prov(()=>extendContent(ItemTurret.ItemTurretEntity,launchpa
     else this._launchInterval=0;
   },
   _launchInterval:0,
+  write(stream){
+    this.super$write(stream);
+    stream.writeShort(this._targetSpot.x);
+    stream.writeShort(this._targetSpot.y);
+  },
+  read(stream,revision){
+    this.super$read(stream,revision);
+    this._targetSpot=Vars.world.tile(stream.readShort(),stream.readShort());
+  },
 }));
 launchpad.configurable=true;
 launchpad.heatCons=Color.red;

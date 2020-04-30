@@ -1,7 +1,7 @@
 name: Crystallizer
 description: Produces minerals by crystallizing them.
 type:Separator
-craftTime:80
+craftTime:40
 alwaysUnlocked:true
 category: crafting
 size:1
@@ -19,5 +19,5 @@ results:[
   iron/2
 ]
 requirements:[
-  stone/40
+  stone/30
 ]

@@ -219,7 +219,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
     [[["sand",1]],null,0.5],
     [[["scrap",1]],null,1]
   ],
-  craftTimes:[50,50,50,60,25],
+  craftTimes:[50,50,50,50,60,25],
   output:[],
   input:[],
   itemList:[],

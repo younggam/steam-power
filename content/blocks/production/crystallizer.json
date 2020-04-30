@@ -8,7 +8,7 @@ size:1
 consumes:{
   liquid:{
     liquid:slag
-    amount:0.025
+    amount:0.05
   }
 }
 health:60

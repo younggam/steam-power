@@ -7,6 +7,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
   setStats(){
     this.super$setStats();
     this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.productionTime,2,StatUnit.seconds);
   },
   setBars(){
     this.super$setBars();
@@ -34,7 +35,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
       entity.setCurrentItem(entity.items.take());
       entity.modifyProgress(1);
     }else if(entity.getProgress()>0){
-      entity.subProgress(this.getProgressIncrease(entity,60));
+      entity.subProgress(this.getProgressIncrease(entity,120));
       entity.addHeat(this.heatProduction*this.getItemEfficiency(entity.getCurrentItem())*entity.delta());
       if(Mathf.chance(Time.delta()/30)){
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));

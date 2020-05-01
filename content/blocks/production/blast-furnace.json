@@ -1,9 +1,9 @@
 category: crafting
 requirements:[
-  stone/100
+  stone/75
 ]
-itemCapacity: 10
-liquidCapacity: 10
+itemCapacity: 30
+liquidCapacity: 30
 size: 3
 health: 100
 craftEffect: none

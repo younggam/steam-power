@@ -1,5 +1,5 @@
 ammo:{
-  copper:standardCopper
+  copper-ore:standardCopper
   graphite:standardDense
   pyratite:standardIncendiary
   silicon:standardHoming

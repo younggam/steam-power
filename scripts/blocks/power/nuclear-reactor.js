@@ -109,4 +109,5 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
   },
   _flash:0,
 });
+nuclearReactor.outputsLiquid=true;
 nuclearReactor.sync=true;

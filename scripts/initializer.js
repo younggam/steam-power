@@ -32,7 +32,7 @@ phaseRay.damage=245;
 const initializer=extendContent(Block,"initializer",{
   init(){
     this.super$init();
+    print(Object.keys(ForceProjector.ShieldEntity));
     Blocks.fuse.ammo.put(Items.phasefabric,phaseRay);
-    Blocks.salvo.shots=1;
   }
 });

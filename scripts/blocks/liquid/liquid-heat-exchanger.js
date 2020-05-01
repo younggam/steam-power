@@ -71,5 +71,6 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
     ];
   }
 },{});
+liquidHeatExchanger.outputsLiquid=true;
 liquidHeatExchanger.sync=true;
 liquidHeatExchanger.baseExplosive=5;

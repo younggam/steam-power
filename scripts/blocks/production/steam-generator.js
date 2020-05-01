@@ -59,3 +59,4 @@ const steamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafte
   }
 },{});
 steamGenerator.sync=true;
+steamGenerator.outputsLiquid=true;

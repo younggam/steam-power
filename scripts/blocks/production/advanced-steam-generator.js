@@ -84,5 +84,5 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
   },
   _outputCurrent:null,
 });
-
+advancedSteamGenerator.outputsLiquid=true;
 advancedSteamGenerator.sync=true;

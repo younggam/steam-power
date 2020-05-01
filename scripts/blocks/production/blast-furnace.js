@@ -64,8 +64,16 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
         entity.progress=entity.getProgress(i);
         entity.saveProgress(i,0);
       }
-      entity.progress+=entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]);
-      entity.totalProgress+=entity.delta();
+      entity.progress+=(entity.items.get(Items.coal)>0?2.5:1)*entity.warmup*this.getProgressIncrease(entity,this.craftTimes[i]);
+      if(entity.items.get(Items.coal)>0){
+        var oldProgress=entity.totalProgress;
+        var prog=entity.warmup*Time.delta()
+        entity.totalProgress+=prog;
+        if(entity.totalProgress>=120) {
+          entity.items.remove(Items.coal,1);
+          entity.totalProgress=0;
+        }
+      }
       entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.002);
       if(Mathf.equal(entity.warmup,1,0.002)){
         entity.warmup=1;
@@ -113,7 +121,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
         bars.add("items",func(entity=>
           new Bar(prov(()=>Core.bundle.format("bar.items",entity.tile.entity.getItemStat().join('/')))
           ,prov(()=>Pal.items)
-          ,floatp(()=>entity.items.total()/(itemCapacity*itemList.length)))
+          ,floatp(()=>(entity.items.total()-entity.items.get(Items.coal))/(itemCapacity*itemList.length)))
         ));
       })(this.itemCapacity,this.itemList,this.bars)
     }
@@ -128,8 +136,104 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
       }
     }
     this.bars.add("multiplier",func(entity=>
-      new Bar(prov(()=>Core.bundle.formatFloat("bar.efficiency",entity.warmup*100,1)),prov(()=>Pal.ammo),floatp(()=>entity.warmup))
+      new Bar(prov(()=>Core.bundle.formatFloat("bar.efficiency",entity.warmup*100*(entity.items.get(Items.coal)>0?2.5:1),1)),prov(()=>Pal.ammo),floatp(()=>entity.warmup*(entity.items.get(Items.coal)>0?2.5:1)))
     ));
+  },
+  //for dislpying info
+  setStats(){
+    this.super$setStats();
+    this.stats.remove(BlockStat.powerUse);
+    this.stats.remove(BlockStat.productionTime);
+    this.stats.add(BlockStat.booster,new ItemListValue(ItemStack(Items.coal,1)))
+    this.stats.add(BlockStat.boostEffect,2.5,StatUnit.timesSpeed);
+    //crafTimes
+    for(var i=0;i<this.craftTimes.length;i++){
+      this.stats.add(BlockStat.productionTime,i+1,StatUnit.none);
+      this.stats.add(BlockStat.productionTime,this.craftTimes[i]/60,StatUnit.seconds);
+    }
+    //output
+    for(var j=0;j<this.output.length;j++){
+      this.stats.add(BlockStat.output,j+1,StatUnit.none);
+      //items
+      if(this.output[j][0][0]!=null){
+        for(var jj=0;jj<this.output[j][0].length;jj++){
+          this.stats.add(BlockStat.output,this.output[j][0][jj]);
+        }
+      }
+      //liquids
+      if(this.output[j][1][0]!=null){
+        for(var jj=0;jj<this.output[j][1].length;jj++){
+          this.stats.add(BlockStat.output,this.output[j][1][jj].liquid,this.output[j][1][jj].amount,false);
+        }
+      }
+    }
+    //input
+    for(var k=0;k<this.input.length;k++){
+      this.stats.add(BlockStat.input,k+1,StatUnit.none);
+      //items
+      if(this.input[k][0][0]!=null){
+        for(var l=0;l<this.input[k][0].length;l++){
+          this.stats.add(BlockStat.input,this.input[k][0][l]);
+        }
+      }
+      //liquids
+      if(this.input[k][1][0]!=null){
+        for(var l=0;l<this.input[k][1].length;l++){
+          this.stats.add(BlockStat.input,this.input[k][1][l].liquid,this.input[k][1][l].amount,false);
+        }
+      }
+    }
+    var powerBarI=false;
+    var powerBarO=false;
+    //decdes whether show poweroutput bar
+    for(var i=0;i<this.output.length;i++){
+      if(this.output[i][2]!=null){
+        powerBarO|=true;
+      }
+    }
+    //decides whether show powerUse bar
+    for(var i=0;i<this.input.length;i++){
+      if(this.input[i][2]!=null){
+        powerBarI|=true;
+      }
+    }
+    //poweroutput
+    if(powerBarO){
+      for(var ii=0;ii<this.output.length;ii++){
+        if(this.output[ii][2]!=null){
+          this.stats.add(BlockStat.basePowerGeneration,ii+1,StatUnit.none);
+          this.stats.add(BlockStat.basePowerGeneration,this.output[ii][2]*60,StatUnit.powerSecond);
+        }else{
+          this.stats.add(BlockStat.basePowerGeneration,ii+1,StatUnit.none);
+          this.stats.add(BlockStat.basePowerGeneration,0,StatUnit.powerSecond);
+        }
+      }
+    }
+    if(powerBarI){
+      //powerconsume
+      for(var l=0;l<this.input.length;l++){
+        if(this.input[l][2]!=null){
+          this.stats.add(BlockStat.powerUse,l+1,StatUnit.none);
+          this.stats.add(BlockStat.powerUse,this.input[l][2]*60,StatUnit.powerSecond);
+        }else{
+          this.stats.add(BlockStat.powerUse,l+1,StatUnit.none);
+          this.stats.add(BlockStat.powerUse,0,StatUnit.powerSecond);
+        }
+      }
+    }
+  },
+  //decides which item to accept
+  acceptItem(item,tile,source){
+    const entity=tile.ent();
+    var _bs=false;
+    for(var i=0;i<this.input.length;i++){
+      if(this.input[i][0][0]!=null){
+        for(var j=0;j<this.input[i][0].length;j++){
+          _bs|=item==this.input[i][0][j].item?true:false;
+        }
+      }
+    }
+    return (item==Items.coal||_bs)&&entity.items.get(item)<this.itemCapacity;
   },
   random:new Rand(0),
   draw(tile){
@@ -160,17 +264,17 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     [[["steam-power-iron",1]] ,[["slag",1] ]  ,null],
     [[["titanium",1]]     ,[["slag",1]]   ,null],
     [[["steam-power-glass",1]],null,null],
-    [null,[["slag",4]],null]
+    [null,[["slag",2]],null]
   ],
   _input:[
-    [[["steam-power-copper-ore",2]   ,["coal",1]]   ,null    ,null],
-    [[["steam-power-lead-ore",2]     ,["coal",1]]    ,null    ,null],
-    [[["steam-power-iron-ore",2] ,["coal",1]]    ,null    ,null],
-    [[["steam-power-titanium-ore",2]     ,["coal",1] ]   ,null    ,null],
-    [[["sand",2],["coal",1]],null,null],
-    [[["scrap",2],["coal",1]],null,null]
+    [[["steam-power-copper-ore",1]]   ,null    ,null],
+    [[["steam-power-lead-ore",1]]    ,null    ,null],
+    [[["steam-power-iron-ore",1]]    ,null    ,null],
+    [[["steam-power-titanium-ore",1]]   ,null    ,null],
+    [[["sand",1]],null,null],
+    [[["scrap",1]],null,null]
   ],
-  craftTimes:[80,80,80,80,80,80],
+  craftTimes:[100,100,100,100,100,50],
   output:[],
   input:[],
   itemList:[],

@@ -13,7 +13,7 @@ var hideArray=[/*"copperWall","copperWallLarge","titaniumWall","titaniumWallLarg
 "overflowGate","underflowGate","massDriver",*/"mechanicalPump",/*"rotaryPump",
 "thermalPump","conduit","pulseConduit","platedConduit","liquidRouter","liquidJunction",
 "liquidTank","bridgeConduit","phaseConduit","powerNode","powerNodeLarge",
-"surgeTower","diode","battery","batteryLarge",*/"combustionGenerator","thermalGenerator",
+"surgeTower","diode","battery","batteryLarge","combustionGenerator",*/"thermalGenerator",
 "turbineGenerator","differentialGenerator",/*"rtgGenerator","solarPanel","largeSolarPanel",
 */"thoriumReactor","impactReactor",/*"mechanicalDrill","pneumaticDrill","laserDrill",
 "blastDrill","waterExtractor","cultivator","oilExtractor","vault","container",

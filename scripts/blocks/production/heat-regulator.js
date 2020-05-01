@@ -4,6 +4,7 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
   update(tile){
     const entity=tile.ent();
     entity.coolDownHeat();
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   drawSelect(tile){
     this.drawPlaceText(tile.entity.getUpperLimit(),tile.x,tile.y,true);

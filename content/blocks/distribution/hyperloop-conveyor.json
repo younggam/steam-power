@@ -1,6 +1,6 @@
 health:140
-speed: 0.16
-displayedSpeed:20
+speed: 0.256
+displayedSpeed:32
 consumes:{
   power:0.1
 }

@@ -114,11 +114,7 @@ ray.entityType=prov(()=>extend(Turret.TurretEntity,{
     }
   },
   decreaseDamage(){
-    if(this._damageMultiplier>1){
-      this._damageMultiplier-=this.delta()/24;
-    }else if(this._damageMultiplier<1){
-      this._damageMultiplier=1;
-    }
+    this._damageMultiplier=1;
   },
   getDamage(){
     return this._damageMultiplier;
@@ -129,6 +125,7 @@ ray.entityType=prov(()=>extend(Turret.TurretEntity,{
   _damageMultiplier:1,
 }));
 ray.heatColor=Color.red;
+ray.rotatespeed=2;
 //커스텀 레이저
 var colors=[Color.forest.cpy().mul(1,1,1,0.4),Color.lime.cpy().mul(1,1,1,0.7),Color.green,Color.acid];
 var tscales=[1,0.7,0.5,0.2];
@@ -158,8 +155,13 @@ ray.shootType = extend(BasicBulletType,{
     if(b.timer.get(1,5)){
       const target=b.getOwner().target;
       if(target!=null){
-        target.damage(this.damage*b.getOwner().getDamage());
-        this.hit(b,target.x,target.y);
+        var result=Predict.intercept(b.getOwner(),target,this.speed);
+        if(result.isZero()) result.set(target.getX(),target.getY());
+        var targetRot=result.sub(b.getOwner().tile.drawx(),b.getOwner().tile.drawy()).angle();
+        if(Angles.angleDist(b.getOwner().rotation,targetRot)<10){
+          target.damage(this.damage*b.getOwner().getDamage());
+          this.hit(b,target.x,target.y);
+        }
       }
     }
     Effects.shake(1,1,b.x,b.y);
@@ -186,7 +188,7 @@ ray.shootType = extend(BasicBulletType,{
 ray.shootType.hitSize=3;
 ray.shootType.despawnEffect=Fx.none;
 ray.shootType.hitEffect=hitLaser1;
-ray.shootType.damage=30;
+ray.shootType.damage=25;
 ray.shootType.pierce=true;
 ray.shootType.speed=0.001;
 ray.shootType.lifetime=16;

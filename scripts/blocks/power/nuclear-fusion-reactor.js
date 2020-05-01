@@ -115,6 +115,7 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
     ];
   }
 },{});
+nuclearFusionReactor.outputsLiquid=true;
 nuclearFusionReactor.sync=true;
 nuclearFusionReactor.consumes.add(extend(ConsumePower,{
   requestedPower(entity){

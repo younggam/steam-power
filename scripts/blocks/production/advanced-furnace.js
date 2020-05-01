@@ -154,14 +154,11 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
         var oldProgress=entity.totalProgress;
         var prog=Time.delta()
         entity.totalProgress+=prog;
-<<<<<<< HEAD
         if(entity.totalProgress>=120) {
           entity.items.remove(Items.coal,1);
           entity.totalProgress=0;
         }
-=======
         if(entity.totalProgress%120<=prog&&entity.totalProgress!=0&&!(oldProgress<=prog)) entity.items.remove(Items.coal,1);
->>>>>>> 15f4a8986c176b3c1740bd266f98fafa630c8035
       }
       entity.warmup=Mathf.lerpDelta(entity.warmup,1,0.02);
       if(Mathf.equal(entity.warmup,1,0.02)){

@@ -38,7 +38,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
         bars.add("items",func(entity=>
           new Bar(prov(()=>Core.bundle.format("bar.items",entity.tile.entity.getItemStat().join('/')))
           ,prov(()=>Pal.items)
-          ,floatp(()=>(entity.items.total()-entity.items.get(Items.coal))/(itemCapacity*itemList.length)))
+          ,floatp(()=>entity.items.total()/(itemCapacity*itemList.length)))
         ));
       })(this.itemCapacity,this.itemList,this.bars)
     }
@@ -58,6 +58,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
   },
   //for dislpying info
   setStats(){
+    this.itemList[this.itemList.length]=Items.coal;
     this.super$setStats();
     this.stats.remove(BlockStat.powerUse);
     this.stats.remove(BlockStat.productionTime);
@@ -187,6 +188,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();
+    if(entity!=null&&(entity.getToggle()==-1||entity.getToggle()==this.input.length))entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
     Draw.rect(this.region,tile.drawx(),tile.drawy());
     Draw.color(Color.salmon);
     Draw.alpha(entity.warmup);

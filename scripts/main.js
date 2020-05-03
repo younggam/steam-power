@@ -27,7 +27,8 @@ require("blocks/liquid/liquid-heat-exchanger");
 require("blocks/turrets/tesla");
 require("blocks/turrets/ray");
 require("blocks/turrets/penetrate");
-//require("blocks/turrets/ravage");
+require("blocks/turrets/ravage");
 require("blocks/turrets/launchpad");
 require("blocks/turrets/breakthrough");
 //
+require("units/draug-a");

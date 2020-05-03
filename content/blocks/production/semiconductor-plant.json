@@ -1,9 +1,9 @@
 category: crafting
 requirements:[
-  iron/60
-  silicon/90
-  graphite/90
-  lead/60
+  iron/40
+  silicon/60
+  graphite/60
+  lead/40
 ]
 itemCapacity: 20
 size: 3

@@ -1,0 +1,14 @@
+flying:true
+drag:0.01
+speed:0.3
+maxVelocity:1.2
+range:50
+health:80
+minePower:0.9
+engineSize:1.8
+engineOffset:5.7
+weapon:{
+  name:"you have incurred my wrath. prepare to die."
+  bullet:lancerLaser
+}
+toMine:[coal,lead-ore,copper-ore]

@@ -1,0 +1,6 @@
+unitType:draug-a
+requirements:[
+  circuit/5
+  copper/20
+  lead/45
+]

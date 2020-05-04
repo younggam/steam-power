@@ -110,16 +110,13 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
   },
   getClosestCore(){
     var targetT=null;
-    var i=0;
     while(targetT==null){
-      if (i>=10) break;
       targetT=Vars.tileGroup.find(boolf(tile=>{
-        var searchScale=10;
+        var searchScale=100;
         return this.dst(this)<=searchScale*i&&this.getTeam()==tile.getTeam()
         &&(tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-copper-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-lead-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Items.coal,tile.tile,tile.tile))
         &&(tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-blast-furnace")||tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace"))
       }))
-      i++;
     }
     return targetT
   },
@@ -157,7 +154,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     this.updateTargeting();
     this.customStateMachine.update();
     this.updateVelocityStatus();
-    if(this.target!=null) this.behavior();
+    if(this.target==null) this.behavior();
     if(!this.isFlying()){
       this.clampPosition();
     }

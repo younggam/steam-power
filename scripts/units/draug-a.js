@@ -29,7 +29,9 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     this.customMine.update=function(){
       var entity=this.super.getClosestCore();
       if(entity==null) return;
-      this.super.findItem();
+      if(this.super==null) return;
+      try{this.super.findItem();}
+      catch(e){return;}
       if(this.super.targetItem!=null&&entity.block.acceptStack(this.super.targetItem,1,entity.tile,this.super)==0){
         this.super.clearItem();
         return;
@@ -65,6 +67,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       this.super.target=null;
     }
     this.customDrop.update=function(){
+      if(this.super==null) return;
       if(this.super.item().amount==0){
         this.super.clearItem();
         this.super.stateSet(this.super.customMine);
@@ -72,6 +75,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       }
       this.super.target=this.super.getClosestCore();
       var tile=this.super.target;
+      if(this.super.target==null) return;
       if(this.super.dst(this.super.target)<this.super.type.range){
         if(tile.tile.block().acceptStack(this.super.item().item,this.super.item().amount,tile.tile,this.super)>0){
           Call.transferItemTo(this.super.item().item,Mathf.clamp(this.super.item().amount,0,tile.tile.block().itemCapacity-tile.items.get(this.super.item().item)),this.super.x,this.super.y,tile.tile);
@@ -89,6 +93,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       this.super.target=null;
     }
     this.customRetreat.update=function(){
+      if(this.super==null) return;
       if(this.super.health>=this.super.maxHealth()){
         this.super.stateSet(this.super.customMine);
       }else if(!this.super.targetHasFlag(BlockFlag.repair)){

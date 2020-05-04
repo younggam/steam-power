@@ -115,7 +115,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       return this.dst(this)<=searchScale&&this.getTeam()==tile.getTeam()
       &&(tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-copper-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-lead-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Items.coal,tile.tile,tile.tile))
       &&(tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-blast-furnace")||tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace"))
-    }
+    }))
     return targetT
   },
   stateSet(state){

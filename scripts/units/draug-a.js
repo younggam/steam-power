@@ -27,7 +27,6 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       this.super.target=null;
     }
     this.customMine.update=function(){
-      print("a");
       var entity=this.super.getClosestCore();
       if(entity==null) return;
       this.super.findItem();
@@ -63,7 +62,6 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     //
     this.customDrop=new CustomState(this)
     this.customDrop.entered=function(){
-      print("b");
       this.super.target=null;
     }
     this.customDrop.update=function(){
@@ -173,6 +171,6 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
   },
   write(data){
     this.super$write(data);
-    data.writeInt(this.mineTile!=null||!this.customStateMachine.is(this.customMine)?Pos.invalid:this.mineTile.pos());
+    data.writeInt(this.mineTile==null||!this.customStateMachine.is(this.customMine)?Pos.invalid:this.mineTile.pos());
   },
 })));

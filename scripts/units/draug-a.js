@@ -173,4 +173,8 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     this.super$write(data);
     data.writeInt(this.mineTile==null||!this.customStateMachine.is(this.customMine)?Pos.invalid:this.mineTile.pos());
   },
+  read(data){
+    this.super$read(data);
+    this.mineTile=Vars.world.tile(data.readInt());
+  }
 })));

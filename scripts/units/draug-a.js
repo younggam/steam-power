@@ -113,7 +113,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     while(targetT==null){
       targetT=Vars.tileGroup.find(boolf(tile=>{
         var searchScale=100;
-        return this.dst(this)<=searchScale*i&&this.getTeam()==tile.getTeam()
+        return this.dst(this)<=searchScale&&this.getTeam()==tile.getTeam()
         &&(tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-copper-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-lead-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Items.coal,tile.tile,tile.tile))
         &&(tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-blast-furnace")||tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace"))
       }))

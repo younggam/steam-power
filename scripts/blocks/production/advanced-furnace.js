@@ -198,13 +198,17 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
     this.register(tile.entity,1);
     this.register(tile.entity,0);
   },
+  customUpdate(tile){
+    const entity=tile.ent();
+    if(entity==null) return;
+    if(entity.getToggle()==-1||entity.getToggle()==this.input.length)entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
+    if(Time.time()%60<Time.delta()) {
+      this.register(entity,1);
+    }
+  },
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();
-    if(entity!=null&&(entity.getToggle()==-1||entity.getToggle()==this.input.length))entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
-    if(entity!=null&&Time.time()%60<Time.delta()) {
-      this.register(entity,1);
-    }
     Draw.rect(this.region,tile.drawx(),tile.drawy());
     Draw.color(Color.salmon);
     Draw.alpha(entity.warmup);

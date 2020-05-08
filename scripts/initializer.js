@@ -28,11 +28,14 @@ phaseRay.despawnEffect=Fx.none;
 phaseRay.pierce=true;
 phaseRay.speed=0.01;
 phaseRay.damage=245;
-
+furnaces=this.global.furnaces
 const initializer=extendContent(Block,"initializer",{
   init(){
     this.super$init();
-    print(Object.keys(ForceProjector.ShieldEntity));
     Blocks.fuse.ammo.put(Items.phasefabric,phaseRay);
-  }
+  },
 });
+/*initializer.requirements(Category.turret,ItemStack.with(Items.copper,1));
+initializer.update=true;
+initializer.sync=true;
+initializer.solid=true;*/

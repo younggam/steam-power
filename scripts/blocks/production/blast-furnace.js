@@ -1,4 +1,5 @@
 const multiLib=require("multi-lib/wrapper");
+const furnaces=this.global.furnaces;
 const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterEntity,"blast-furnace",{
   _configure(entity,value){
     for(var i=0;i<this.input.length;i++){
@@ -10,8 +11,22 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     entity.progress=0;
     entity.modifyToggle(value);
   },
+  placed(tile){
+    this.super$placed(tile);
+    this.register(tile.entity,1);
+  },
+  register(entity,value){
+    if(entity!=null)furnaces.update(entity,value);
+  },
+  removed(tile){
+    this.register(tile.entity,1);
+    this.register(tile.entity,0);
+  },
   update(tile){
     const entity=tile.ent();
+    if(entity!=null&&Time.time()%60<Time.delta()) {
+      this.register(entity,1);
+    }
     for(var i=0;i<this.itemList.length;i++){
       entity.getItemStat()[i]=entity.items.get(this.itemList[i]);
     }
@@ -235,6 +250,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
+    if(entity==null) return false;
     var _bs=false;
     for(var i=0;i<this.input.length;i++){
       if(this.input[i][0][0]!=null){

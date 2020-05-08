@@ -1,4 +1,5 @@
 const multiLib=require("multi-lib/wrapper");
+const furnaces=this.global.furnaces;
 const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterEntity,"advanced-furnace",{
   setBars(){
     this.super$setBars();
@@ -175,6 +176,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
+    if(entity==null) return false;
     var _bs=false;
     for(var i=0;i<this.input.length;i++){
       if(this.input[i][0][0]!=null){
@@ -185,10 +187,24 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
     }
     return (item==Items.coal||_bs)&&entity.items.get(item)<this.itemCapacity;
   },
+  placed(tile){
+    this.super$placed(tile);
+    this.register(tile.entity,1);
+  },
+  register(entity,value){
+    if(entity!=null)furnaces.update(entity,value);
+  },
+  removed(tile){
+    this.register(tile.entity,1);
+    this.register(tile.entity,0);
+  },
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();
     if(entity!=null&&(entity.getToggle()==-1||entity.getToggle()==this.input.length))entity.warmup=Mathf.lerp(entity.warmup,0,0.02);
+    if(entity!=null&&Time.time()%60<Time.delta()) {
+      this.register(entity,1);
+    }
     Draw.rect(this.region,tile.drawx(),tile.drawy());
     Draw.color(Color.salmon);
     Draw.alpha(entity.warmup);
@@ -206,7 +222,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
       }
     }
     Draw.color();
-  }
+  },
 },
 {
   _output:[
@@ -234,3 +250,4 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
 });
 advancedFurnace.enableInv=true;
 advancedFurnace.dumpToggle=false;
+//advancedFurnace.entityType=prov(()=>extend();

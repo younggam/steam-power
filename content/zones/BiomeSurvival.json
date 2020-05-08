@@ -1,0 +1,36 @@
+name: Biome Survival
+description: Made by Lily.
+loadout:basicNucleus
+startingItems:[
+  stone/2000
+  copper/1000
+  lead/1000
+  glass/2000
+]
+launchPeriod:8
+conditionWave:16
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  titanium
+  iron
+  thorium
+]
+requirements:[
+  {
+    type:ZoneWave
+    zone:DesertOutpost
+    wave: 30
+  }
+  {
+    type:Unlock
+    block:ray
+  }
+  {
+    type:Unlock
+    block:cyclone
+  }
+]

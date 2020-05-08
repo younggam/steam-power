@@ -1,0 +1,31 @@
+name: Desert Outpost
+description: You can get thorium. Made by Lily.
+loadout:basicNucleus
+startingItems:[
+  copper/300
+  lead/300
+  glass/300
+]
+launchPeriod:10
+conditionWave:20
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  titanium
+  iron
+  thorium
+]
+requirements:[
+  {
+    type:ZoneWave
+    zone:FieldTrainingExercise
+    wave:15
+  }
+  {
+    type:Unlock
+    block:laser-drill
+  }
+]

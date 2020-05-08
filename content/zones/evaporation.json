@@ -6,13 +6,17 @@ startingItems:[
   copper/100
   lead/100
 ]
-launchPeriod:16
+launchPeriod:8
 conditionWave:16
 requirements:[
   {
     type:ZoneWave
-    zone:groundZero
-    wave:0
+    zone:FieldTrainingExercise
+    wave:15
+  }
+  {
+    type:Unlock
+    block:steam-generator
   }
 ]
 resources:[

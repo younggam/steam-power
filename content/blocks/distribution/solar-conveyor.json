@@ -1,0 +1,13 @@
+type:Conveyor
+name:Solar Conveyor
+description:Conveyor with build in solar panels wich doesn't need power. The downside of it is the speed
+health: 60
+speed: 0.03
+displayedSpeed: 4.2
+category: distribution
+requirements: [
+  iron/1
+  copper/1
+  silicon/1
+]
+research: conveyor

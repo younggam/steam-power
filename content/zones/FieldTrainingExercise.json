@@ -1,0 +1,23 @@
+name: Field Training Exercise
+description: Tutorial. Made by Lily.
+loadout:basicFoundation
+startingItems:[
+
+]
+requirements:[
+  {
+    type:ZoneWave
+    zone:groundZero
+    wave:0
+  }
+]
+conditionWave:5
+launchPeriod:5
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  iron
+]

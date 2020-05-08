@@ -1,4 +1,11 @@
 const draugA=extendContent(UnitType,"draug-a",{});
+draugA.isCounted={};
+draugA.seconds={};
+for(var i in Team.base()) {
+  draugA.isCounted[Team.get(i)]=true;
+  draugA.seconds[Team.get(i)]=true;
+}
+const furnaces=this.global.furnaces;
 function CustomState(that){
   this.super=that;
 }
@@ -27,7 +34,8 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       this.super.target=null;
     }
     this.customMine.update=function(){
-      var entity=this.super.getClosestCore();
+      if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
+      var entity=this.super._closestFurnace[0];
       if(entity==null) return;
       if(this.super==null) return;
       try{this.super.findItem();}
@@ -73,7 +81,8 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
         this.super.stateSet(this.super.customMine);
         return;
       }
-      this.super.target=this.super.getClosestCore();
+      if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
+      this.super.target=this.super._closestFurnace[0];
       var tile=this.super.target;
       if(this.super.target==null) return;
       if(this.super.dst(this.super.target)<this.super.type.range){
@@ -113,15 +122,32 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
 
     }
   },
+  _closestFurnace:[null,null],
+  getClosestFurnace(){
+    if(furnaces.sizes[this.team]==0) return;
+    var escape=false;
+    var candi=Object.keys(furnaces.entities[this.team]).find(x=>{
+      if(escape) return false;
+      if(!furnaces.isFurnace(Vars.world.tile(furnaces.entities[this.team][x][0].tile.x,furnaces.entities[this.team][x][0].tile.y).block())) {
+        escape=true;
+        furnaces.reset();
+        return false;
+      }
+      if(this.dst(furnaces.entities[this.team][x][0].tile)>240) return false;
+      if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) {
+        furnaces.updateCounts(furnaces.entities[this.team][x],this);
+        return true;
+      }
+      return false;
+    },this);
+    if (candi!=null )this._closestFurnace=furnaces.entities[this.team][candi];
+    else this._closestFurnace=[null,null]
+    print(this._closestFurnace[1]);
+    print(furnaces.draugs[this.team]);
+    print(furnaces.sizes[this.team]);
+  },
   getClosestCore(){
-    var targetT=null;
-    targetT=Vars.tileGroup.find(boolf(tile=>{
-      var searchScale=100;
-      return this.dst(this)<=searchScale&&this.getTeam()==tile.getTeam()
-      &&(tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-copper-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Vars.content.getByName(ContentType.item,"steam-power-lead-ore"),tile.tile,tile.tile)||tile.tile.block().acceptItem(Items.coal,tile.tile,tile.tile))
-      &&(tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-blast-furnace")||tile.tile.block()==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace"))
-    }))
-    return targetT
+    return this._closestFurnace[0];
   },
   stateSet(state){
     this.customStateMachine.set(state);
@@ -136,17 +162,25 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
   getStartState(){
     return null;
   },
+  removed(){
+    furnaces.updateCounts([null,null],this);
+  },
   update(){
     if(this.isDead()){
       this.remove();
       return;
     }
-    this.hitTime-=Time.delta();
     if(Vars.net.client()){
       this.interpolate();
       this.status.update(this);
       return;
     }else this.updateRotation();
+    if(Time.time()%60<Time.delta()&&!this.type.seconds==Time.time()/60) {
+      this.type.seconds[this.team]=Time.time()/60;
+      this.type.isCounted[this.team]=false;
+    }
+    if(!this.type.isCounted) furnaces.updateDraugs(this.team);
+    this.hitTime-=Time.delta();
     if(!this.isFlying()&&(Vars.world.tileWorld(this.x,this.y)!=null&&!(Vars.world.tileWorld(this.x,this.y).block() instanceof BuildBlock)&&Vars.world.tileWorld(this.x,this.y).solid())){
       this.kill();
     }

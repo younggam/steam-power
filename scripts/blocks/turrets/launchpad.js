@@ -46,10 +46,6 @@ const launch=newEffect(120,e=>{
   if(actualFin<=0.2) Sounds.respawn.at(e.data);
 });
 const launchpad=extendContent(ItemTurret,"launchpad",{
-  placed(tile){
-    this.super$placed(tile);
-    tile.entity.setTargetSpot(tile);
-  },
   setStats(){
     this.super$setStats();
     this.stats.remove(BlockStat.booster);
@@ -86,6 +82,7 @@ const launchpad=extendContent(ItemTurret,"launchpad",{
   },
   update(tile){
     const entity=tile.ent();
+    if(entity.getTargetSpot()==null) entity.setTargetSpot(tile);
     entity.timerLaunchInterval();
     entity.heat=Mathf.lerpDelta(entity.heat,0,1/120);
     entries=entity.getLaunchTimer().length;

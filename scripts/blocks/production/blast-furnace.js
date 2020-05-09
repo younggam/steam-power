@@ -43,26 +43,61 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     }
     if(z==this.input.length) entity.warmup=Mathf.lerpDelta(entity.warmup,0,0.002);
     //dump
-    if(entity.timer.get(this.timerDump,this.dumpTime)){
-      //dump items in order
-      for(var ii in entity.getOutputItemList()){
-        if(entity.items.get(Vars.content.item(entity.getOutputItemList()[ii][0]))<=0){
-          delete entity.getOutputItemList()[ii];
-        }else if((!this.dumpToggle)||entity.getToggle()==entity.getOutputItemList()[ii][1]){
-          this.tryDump(tile,Vars.content.item(entity.getOutputItemList()[ii][0]));
-          break;
+    //dump
+    var exitI=false;
+    var exitL=false;
+    //when normal button checked
+    if(entity.getToggle()!=this.input.length){
+      if(entity.timer.get(this.timerDump,this.dumpTime)){
+        //dump items in order
+        for(var ii=0;ii<this.output.length;ii++){
+          if(this.output[ii][0][0]!=null){
+            for(var ij=0;ij<this.output[ii][0].length;ij++){
+              if(entity.items.get(this.output[ii][0][ij].item)>0&&((!this.dumpToggle)||entity.getToggle()==ii)){
+                this.tryDump(tile,this.output[ii][0][ij].item);
+                exitI=true;
+                break;
+              }
+            }
+            if(exitI){
+              exitI=false;
+              break;
+            }
+          }
+        }
+      }
+      //dump liquids in order
+      for(var jj=0;jj<this.output.length;jj++){
+        if(this.output[jj][1][0]!=null){
+          for(var i=0;i<this.output[jj][1].length;i++){
+            if(entity.liquids.get(this.output[jj][1][i].liquid)>0.001&&((!this.dumpToggle)||entity.getToggle()==jj)){
+              this.tryDumpLiquid(tile,this.output[jj][1][i].liquid);
+              exitL=true;
+              break;
+            }
+          }
+          if(exitL){
+            exitL=false;
+            break;
+          }
         }
       }
     }
-    //dump liquids in order
-    for(var jj in entity.getOutputLiquidList()){
-      if(entity.liquids.get(Vars.content.liquid(entity.getOutputLiquidList()[jj][0]))<=0.001){
-        delete entity.getOutputLiquidList()[ii];
-      }else if((!this.dumpToggle)||entity.getToggle()==entity.getOutputItemList()[ii][1]){
-        this.tryDumpLiquid(tile,Vars.content.liquid(entity.getOutputLiquidList()[jj][0]));
-        break;
+    //when trash button is checked. dump everything if possible/
+    else if(entity.getToggle()==this.input.length){
+      //dump items and liquids even input
+      if(entity.timer.get(this.timerDump,this.dumpTime)&&entity.items.total()>0){
+        this.tryDump(tile);
       }
-    }  
+      if(entity.liquids.total()>0.01){
+        for(var i=0;i<this.liquidList.length;i++){
+          if(entity.liquids.get(this.liquidList[i])>0.01){
+            this.tryDumpLiquid(tile,this.liquidList[i]);
+            break;
+          }
+        }
+      }
+    }
   },
   customCons(tile,i){
     const entity=tile.ent();

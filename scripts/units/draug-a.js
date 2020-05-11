@@ -133,7 +133,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
         furnaces.reset();
         return false;
       }
-      if(this.dst(furnaces.entities[this.team][x][0].tile)>400) return false;
+      if(this.dst(furnaces.entities[this.team][x][0].tile)>400&&this._closestFurnace!=furnaces.entities[this.team][x]) return false;
       if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) {
         furnaces.updateCounts(furnaces.entities[this.team][x],this);
         return true;

@@ -25,6 +25,6 @@ hasItems: true
 itemCapacity:30
 liquidCapacity: 30
 craftTime:120
-research:nuclear-reactor
+research:  differential-generator
 size:3
 health:700

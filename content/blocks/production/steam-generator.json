@@ -1,8 +1,8 @@
 category: crafting
 requirements:[
-  stone/60
-  glass/30
-  copper/30
+  stone/48
+  glass/24
+  copper/24
 ]
 consumes:{
   liquid:{

@@ -7,6 +7,6 @@ consumes:{
   }
 }
 requirements:[
-  stone/24
-  copper/12
+  stone/20
+  copper/10
 ]

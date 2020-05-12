@@ -7,7 +7,7 @@ consumes:{
   }
 }
 requirements:[
-  stone/24
-  copper/24
+  stone/20
+  copper/20
   garphite/10
 ]

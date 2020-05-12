@@ -152,7 +152,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     if(powerBarO){
       this.outputsPower=true;
       this.bars.add("poweroutput",func(entity=>
-        new Bar(prov(()=>Core.bundle.format("bar.poweroutput",entity.block.getPowerProduction(entity.tile)*60*entity.timeScale)),prov(()=>Pal.powerBar),floatp(()=>entity.tile.entity!=null?entity.tile.entity.getPowerStat():0))
+        new Bar(prov(()=>Core.bundle.format("bar.poweroutput",entity.block.getPowerProduction(entity.tile)*60*entity.timeScale)),prov(()=>Pal.powerBar),floatp(()=>entity!=null?entity.getPowerStat():0))
       ));
     }else if(!powerBarI){
       this.outputsPower=true;
@@ -163,7 +163,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     if(this.itemList[0]!=null){
       (function(itemCapacity,itemList,bars){
         bars.add("items",func(entity=>
-          new Bar(prov(()=>Core.bundle.format("bar.items",entity.tile.entity.getItemStat().join('/')))
+          new Bar(prov(()=>Core.bundle.format("bar.items",entity.getItemStat().join('/')))
           ,prov(()=>Pal.items)
           ,floatp(()=>(entity.items.total()-entity.items.get(Items.coal))/(itemCapacity*itemList.length)))
         ));
@@ -269,25 +269,25 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
-    if(entity==null) return false;
-    var _bs=false;
-    for(var i=0;i<this.input.length;i++){
-      if(this.input[i][0][0]!=null){
-        for(var j=0;j<this.input[i][0].length;j++){
-          _bs|=item==this.input[i][0][j].item?true:false;
-        }
+    if(entity.items.get(item)>=this.itemCapacity) return false;
+    if(item==Items.coal) return true;
+    for(var i in this.inputItemList){
+      if(item==this.inputItemList[i]){
+        return true;
       }
     }
-    return (item==Items.coal||_bs)&&entity.items.get(item)<this.itemCapacity;
+    return false;
   },
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();
     Draw.rect(this.region,tile.drawx(),tile.drawy());
+    if(entity.warmup<=0.01) return;
     Draw.color(Color.salmon);
     Draw.alpha(entity.warmup);
     Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy());
-    var seeds=Math.round(entity.warmup*18);
+    if(entity.warmup<=0.4) return;
+    var seeds=Math.round(entity.warmup*12);
     Draw.color(Color.valueOf("474747"),Color.gold,entity.warmup);
     this.random.setSeed(tile.pos());
     for(var i=0;i<seeds;i++){

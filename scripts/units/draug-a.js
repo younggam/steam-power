@@ -133,15 +133,19 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
         furnaces.reset();
         return false;
       }
+      if(furnaces.entities[this.team][x][0].block==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace")&&(furnaces.entities[this.team][x][0].getToggle()!=0&&furnaces.entities[this.team][x][0].getToggle()!=1)) return false;
       if(this.dst(furnaces.entities[this.team][x][0].tile)>400&&this._closestFurnace!=furnaces.entities[this.team][x]) return false;
-      if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) {
-        furnaces.updateCounts(furnaces.entities[this.team][x],this);
-        return true;
-      }
+      if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) return true;
       return false;
     },this);
-    if (candi!=null )this._closestFurnace=furnaces.entities[this.team][candi];
-    else this._closestFurnace=[null,null];
+
+    if (candi!=null ){
+      furnaces.updateCounts(furnaces.entities[this.team][candi],this);
+      this._closestFurnace=furnaces.entities[this.team][candi];
+    }else {
+      furnaces.updateCounts([null,null],this);
+      this._closestFurnace=[null,null];
+    }
   },
   getClosestCore(){
     return this._closestFurnace[0];

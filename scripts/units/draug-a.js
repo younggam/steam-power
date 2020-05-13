@@ -3,7 +3,7 @@ draugA.isCounted={};
 draugA.seconds={};
 for(var i in Team.base()) {
   draugA.isCounted[Team.get(i)]=true;
-  draugA.seconds[Team.get(i)]=true;
+  draugA.seconds[Team.get(i)]=0;
 }
 const furnaces=this.global.furnaces;
 function CustomState(that){

@@ -17,12 +17,12 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
   setBars(){
     this.super$setBars();
     this.bars.add("heat",func(entity=>
-      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+entity.tile.entity.getHeat().toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity.tile.entity==null?0:entity.tile.entity.getHeat()/this.heatCapacity))
+      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(entity==null||entity instanceof BuildBlock.BuildEntity?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity==null||entity instanceof BuildBlock.BuildEntity?0:entity.getHeat()/this.heatCapacity))
     ));
     this.bars.add("liquid2",func(entity=>
       new Bar(prov(()=>entity.liquids.get(Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam"))<=0.001?entity.liquids.get(this.outputLiquid.liquid)<=0.001?Core.bundle.get("bar.liquid"):this.outputLiquid.liquid.localizedName:Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam").localizedName)
-      ,prov(()=>entity.tile.entity!=null?entity.tile.entity.getOutputCurrent().barColor():Color.black)
-      ,floatp(()=>entity.tile.entity!=null?entity.liquids.get(entity.tile.entity.getOutputCurrent())/this.liquidCapacity:0))
+      ,prov(()=>entity!=null?entity.getOutputCurrent().barColor():Color.black)
+      ,floatp(()=>entity!=null?entity.liquids.get(entity.getOutputCurrent())/this.liquidCapacity:0))
     ));
   },
   update(tile){

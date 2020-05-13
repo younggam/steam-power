@@ -282,25 +282,27 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
   draw(tile){
     const entity=tile.ent();
     Draw.rect(this.region,tile.drawx(),tile.drawy());
-    if(entity.warmup<=0.01) return;
-    Draw.color(Color.salmon);
-    Draw.alpha(entity.warmup);
-    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy());
-    if(entity.warmup<=0.4) return;
-    var seeds=Math.round(entity.warmup*12);
-    Draw.color(Color.valueOf("474747"),Color.gold,entity.warmup);
-    this.random.setSeed(tile.pos());
-    for(var i=0;i<seeds;i++){
-      var offset=this.random.nextFloat()*999999;
-      var x=this.random.range(6),y=this.random.range(6);
-      var life=1-(((Time.time()+offset)/50)%6);
-      if(life>0){
-        Lines.stroke(entity.warmup*(life*1+0.2));
-        Lines.poly(tile.drawx()+x,tile.drawy()+y,8,(1-life)*3);
+    if(entity.warmup>0.01) {
+      Draw.color(Color.salmon);
+      Draw.alpha(entity.warmup);
+      Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy());
+      if(entity.warmup>0.4) {
+        var seeds=Math.round(entity.warmup*12);
+        Draw.color(Color.valueOf("474747"),Color.gold,entity.warmup);
+        this.random.setSeed(tile.pos());
+        for(var i=0;i<seeds;i++){
+          var offset=this.random.nextFloat()*999999;
+          var x=this.random.range(6),y=this.random.range(6);
+          var life=1-(((Time.time()+offset)/50)%6);
+          if(life>0){
+            Lines.stroke(entity.warmup*(life*1+0.2));
+            Lines.poly(tile.drawx()+x,tile.drawy()+y,8,(1-life)*3);
+          }
+        }
       }
+      Draw.color();
     }
-    Draw.color();
-  }
+  },
 },
 {
   _output:[

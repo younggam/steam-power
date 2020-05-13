@@ -9,7 +9,7 @@ const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
   setBars(){
     this.super$setBars();
     this.bars.add("heat",func(entity=>
-      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+entity.tile.entity.getHeat().toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity.tile.entity==null?0:entity.tile.entity.getHeat()/this.heatCapacity))
+      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(entity==null||entity instanceof BuildBlock.BuildEntity?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity==null||entity instanceof BuildBlock.BuildEntity?0:entity.getHeat()/this.heatCapacity))
     ));
   },
   outputsItems(){

@@ -278,6 +278,17 @@ const blastFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterE
     }
     return false;
   },
+  //custom function that checks space for item and liquid
+  checkoutput(tile,i){
+    const entity=tile.ent();
+    //items
+    if(this.output[i][0][0]!=null){
+      for(var j=0;j<this.output[i][0].length;j++){
+        if(entity.items.get(this.output[i][0][j].item)+this.output[i][0][j].amount>this.itemCapacity) return true;
+      }
+    }
+    return false;
+  },
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();

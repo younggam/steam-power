@@ -13,10 +13,9 @@ consumes:{
 }
 health:60
 results:[
-  stone/2
-  copper/5
+  copper/4
   lead/3
-  iron/2
+  iron/5
 ]
 requirements:[
   stone/30

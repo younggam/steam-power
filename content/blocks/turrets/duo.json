@@ -6,7 +6,7 @@ ammo:{
   bullet:{
     type:BasicBulletType
     speed:4
-    damage:24
+    damage:28
     bulletSprite: bullet
     bulletWidth:7
     bulletHeight:9

@@ -5,14 +5,14 @@ ammo:{
   missile:{
     type:MissileBulletType
     speed:5
-    damage:20
+    damage:24
     bulletSprite:bullet
     bulletWidth:8
     bulletHeight:8
     bulletShrink:0
     drag:-0.01
     splashDamageRadius:40
-    splashDamage:44
+    splashDamage:52
     lifetime:140
     hitEffect:blastExplosion
     despawnEffect:blastExplosion

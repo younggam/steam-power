@@ -176,6 +176,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
+    if(entity==null) return;
     if(entity.items.get(item)>=this.itemCapacity) return false;
     if(item==Items.coal) return true;
     for(var i in this.inputItemList){

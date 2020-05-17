@@ -5,7 +5,7 @@ requirements:[
   silicon/4
   iron/4
   copper/4
-  graphite/4
+  plastanium/8
 ]
 category:distribution
 consumes:{

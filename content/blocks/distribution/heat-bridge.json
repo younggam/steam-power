@@ -1,7 +1,7 @@
 range:4
 requirements:[
   copper/8
-  glass/8
+  metaglass/4
   iron/8
 ]
 category:distribution

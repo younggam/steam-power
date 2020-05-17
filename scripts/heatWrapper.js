@@ -31,5 +31,12 @@ module.exports={
     const heatBlock=extendContent(Type,name,block);
     heatBlock.entityType=prov(()=>extend(Entity,Object.assign(cloneObject(heatLib.heatProps),customEnt)));
     return heatBlock;
-  }
+  },
+  heatBridge(Type,Entity,name,def,customEnt){
+    const block=Object.create(heatLib.giver);
+    Object.assign(block,def);
+    const heatBlock=extendContent(Type,name,block);
+    heatBlock.entityType=prov(()=>extend(Entity,Object.assign(cloneObject(heatLib.heatProps),customEnt)));
+    return heatBlock;
+  },
 }

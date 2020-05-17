@@ -1,0 +1,13 @@
+range:12
+requirements:[
+  semiconductor/1
+  phase-fabric/4
+  silicon/4
+  iron/4
+  copper/4
+  graphite/4
+]
+category:distribution
+consumes:{
+  power:0.3
+}

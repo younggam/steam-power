@@ -21,7 +21,7 @@ const hyperloopConveyor=extendContent(ArmoredConveyor,"hyperloop-conveyor",{
       this.super$draw(tile);
     }else{
       Draw.rect(
-        Core.atlas.find(this.name+"-"+Mathf.clamp(tile.entity.getBlend(0), 0, 3)+"-"+0)
+        this.stopRegions[Mathf.clamp(tile.entity.getBlend(0),0,3)]
         , tile.drawx(), tile.drawy()
         , Vars.tilesize * tile.entity.getBlend(1)
         , Vars.tilesize * tile.entity.getBlend(2), tile.rotation() * 90);
@@ -32,6 +32,11 @@ const hyperloopConveyor=extendContent(ArmoredConveyor,"hyperloop-conveyor",{
     const entity=tile.ent();
     entity.setBlend(this.buildBlending(tile,tile.rotation(),null,true));
   },
+  load(){
+    this.super$load();
+    this.stopRegions=[];
+    for(var i=0;i<4;i++) this.stopRegions[i]=Core.atlas.find(this.name+"-"+i+"-"+0);
+  }
 });
 hyperloopConveyor.entityType=prov(()=>extend(Conveyor.ConveyorEntity,{
   setBlend(a){

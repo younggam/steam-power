@@ -12,7 +12,7 @@ const _common={
   },
 };
 const _user=Object.assign({
-  inputsHeat(){
+  inputsHeat(tile){
     return true;
   },
 },_common);
@@ -27,7 +27,7 @@ const _giver=Object.assign({
       this.incrementDump(tile,proximity.size);
       var other=proximity.get((i+dump)%proximity.size);
       if(other.getTeam()==tile.getTeam()&&typeof(other.block()["inputsHeat"])==="function"){
-        if(other.entity.getHeat()<tile.entity.getHeat()){
+        if(other.entity.getHeat()<tile.entity.getHeat()&&other.block().inputsHeat(other)){
           totalHeat+=other.entity.getHeat();
           others[index]=other;
           index++;
@@ -37,9 +37,9 @@ const _giver=Object.assign({
     if(others.length>0){
       var avgHeat=(totalHeat+tile.entity.getHeat())/(others.length+1);
       for(var j=0;j<others.length;j++){
-        others[j].entity.addHeat(avgHeat-others[j].entity.getHeat());
+        others[j].entity.setHeat(avgHeat);
       }
-      tile.entity.addHeat(-tile.entity.getHeat()+avgHeat);
+      tile.entity.setHeat(avgHeat);
     }
   }
 },_common);
@@ -47,7 +47,7 @@ const _heatProps={
   getHeat(){
     return this._heat;
   },
-  modifyHeat(a){
+  setHeat(a){
     this._heat=a
   },
   addHeat(b){

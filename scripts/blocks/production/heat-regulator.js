@@ -65,9 +65,14 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
     Draw.rect(this.region,tile.drawx(),tile.drawy());
     Draw.color(Pal.lancerLaser);
     Draw.alpha(entity.getRegulate()*2);
-    Draw.rect(Core.atlas.find(this.name+"-light"),tile.drawx(),tile.drawy());
+    Draw.rect(this.lightRegion,tile.drawx(),tile.drawy());
     Draw.color();
-    Draw.rect(this.name+"-top",tile.drawx(),tile.drawy());
+    Draw.rect(this.topRegion,tile.drawx(),tile.drawy());
+  },
+  load(){
+    this.super$load();
+    this.topRegion=Core.atlas.find(this.name+"-top");
+    this.lightRegion=Core.atlas.find(this.name+"-light");
   },
   generateIcons(){
     return [

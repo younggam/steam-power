@@ -95,18 +95,24 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
   plasmas:4,
   draw(tile){
     const entity=tile.ent();
-    Draw.rect(Core.atlas.find(this.name+"-bottom"),tile.drawx(),tile.drawy());
+    Draw.rect(this.bottomRegion,tile.drawx(),tile.drawy());
     for(var i=0;i<this.plasmas;i++){
       var r=this.size*Vars.tilesize-3+Mathf.absin(Time.time(),2+i*1,5-i*0.5);
       Draw.color(this.plasma1,this.plasma2,i/this.plasmas);
       Draw.alpha((0.3+Mathf.absin(Time.time(),2+i*2,0.3+i*0.05))*entity.warmup);
       Draw.blend(Blending.additive);
-      Draw.rect(Core.atlas.find(this.name+"-plasma-"+i),tile.drawx(),tile.drawy(),r,r,Time.time()*(12+1*6)*entity.warmup);
+      Draw.rect(this.plasmaRegion[i],tile.drawx(),tile.drawy(),r,r,Time.time()*(12+1*6)*entity.warmup);
       Draw.blend();
     }
     Draw.color();
     Draw.rect(this.region,tile.drawx(),tile.drawy());
     Draw.color();
+  },
+  load(){
+    this.super$load();
+    this.bottomRegion=Core.atlas.find(this.name+"-bottom");
+    this.plasmaRegion=[];
+    for(var i=0;i<this.plasmas;i++) this.plasmaRegion[i]=Core.atlas.find(this.name+"-plasma-"+i)
   },
   generateIcons:function(){
     return[

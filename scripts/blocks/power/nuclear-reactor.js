@@ -89,15 +89,20 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
     Fill.rect(tile.drawx(),tile.drawy(),this.size*Vars.tilesize,this.size*Vars.tilesize);
     Draw.color(liquid.color);
     Draw.alpha(entity.liquids.get(liquid)/this.liquidCapacity);
-    Draw.rect(Core.atlas.find(this.name+"-center"),tile.drawx(),tile.drawy());
+    Draw.rect(this.centerRegion,tile.drawx(),tile.drawy());
     if(heat>this.flashThreshold){
       var flash=1+((heat-this.flashThreshold)/(1-this.flashThreshold))*5.4;
       entity.addFlash(flash*Time.delta());
       Draw.color(Color.red,Color.yellow,Mathf.absin(entity.getFlash(),9,1));
       Draw.alpha(0.6);
-      Draw.rect(Core.atlas.find(this.name+"-lights"),tile.drawx(),tile.drawy());
+      Draw.rect(this.lightsRegion,tile.drawx(),tile.drawy());
     }
     Draw.reset();
+  },
+  load(){
+    this.super$load();
+    this.lightsRegion=Core.atlas.find(this.name+"-lights");
+    this.centerRegion=Core.atlas.find(this.name+"-center");
   }
 },
 {

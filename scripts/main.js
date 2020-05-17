@@ -66,6 +66,8 @@ require("override");
 require("initializer");
 require("blocks/distribution/electric-conveyor");
 require("blocks/distribution/hyperloop-conveyor");
+require("blocks/distribution/heat-bridge");
+require("blocks/distribution/heat-phase-bridge");
 //
 require("blocks/production/blast-furnace");
 require("steam-power/blocks/production/advanced-furnace");

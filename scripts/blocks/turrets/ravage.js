@@ -145,7 +145,7 @@ const ravage=extendContent(ItemTurret,"ravage",{
     this.vec.trns(entity.rotation,Vars.tilesize*this.size/2);
     this.drawer.get(tile,entity);
     this.heatDrawer.get(tile,entity);
-    Draw.rect(Core.atlas.find(this.name+"-barrel"),tile.drawx()+2*this.tr2.x,tile.drawy()+2*this.tr2.y,entity.rotation-90);
+    Draw.rect(this.barrelRegion,tile.drawx()+2*this.tr2.x,tile.drawy()+2*this.tr2.y,entity.rotation-90);
     if(this.hasAmmo(tile)&&entity.target!=null&&entity.cons.valid()){
       var fin=entity.reload/this.reload;
       var afin=10*fin-Math.floor(10*fin);
@@ -162,6 +162,10 @@ const ravage=extendContent(ItemTurret,"ravage",{
       }))
     }
   },
+  load(){
+    this.super$load();
+    this.barrelRegion=Core.atlas.find(this.name+"-barrel")
+  }
 });
 ravage.heatColor=Color.red;
 ravage.shootSound=Sounds.release;

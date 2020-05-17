@@ -46,10 +46,15 @@ const steamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafte
     if(mod.get(output)>0.001){
       Draw.color(output.color);
       Draw.alpha(mod.get(output)/this.liquidCapacity);
-      Draw.rect(Core.atlas.find(this.name+"-liquid"),tile.drawx(),tile.drawy(),0);
+      Draw.rect(this.liquidRegion,tile.drawx(),tile.drawy(),0);
       Draw.color();
     }
-    Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy(),0);
+    Draw.rect(this.topRegion,tile.drawx(),tile.drawy(),0);
+  },
+  load(){
+    this.super$load();
+    this.topRegion=Core.atlas.find(this.name+"-top");
+    this.liquidRegion=Core.atlas.find(this.name+"-liquid");
   },
   generateIcons:function(){
     return [

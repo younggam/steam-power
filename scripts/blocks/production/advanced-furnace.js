@@ -223,7 +223,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
     if(entity.warmup>0.01) {
       Draw.color(Color.salmon);
       Draw.alpha(entity.warmup);
-      Draw.rect(Core.atlas.find(this.name+"-top"),tile.drawx(),tile.drawy());
+      Draw.rect(this.topRegion,tile.drawx(),tile.drawy());
       if(entity.warmup>0.4) {
         var seeds=Math.round(entity.warmup*12);
         Draw.color(Color.valueOf("474747"),Color.gold,entity.warmup);
@@ -241,6 +241,10 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
       Draw.color();
     }
   },
+  load(){
+    this.super$load();
+    this.topRegion=Core.atlas.find(this.name+"-top")
+  }
 },
 {
   _output:[

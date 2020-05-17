@@ -1,0 +1,7 @@
+range:4
+requirements:[
+  copper/8
+  glass/8
+  iron/8
+]
+category:distribution

@@ -17,10 +17,12 @@ const heatPhaseBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"h
     entity.coolDownHeat();
     var other=Vars.world.tile(entity.link);
     if(!this.linkValid(tile,other)){
+      entity.uptime=0;
       this.giveHeat(tile);
     }else if(entity.cons.valid()&&Mathf.zero(1-entity.efficiency())){
+      entity.uptime=Mathf.lerpDelta(entity.uptime,1,0.04);
       this.updateTransport(tile,other);
-    }
+    }else entity.uptime=Mathf.lerpDelta(entity.uptime,0,0.02);
     if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   updateTransport(tile,other){
@@ -82,7 +84,7 @@ const heatPhaseBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"h
     if(Mathf.zero(opacity)) return;
     var rot=Mathf.angle(other.x-tile.x,other.y-tile.y);
     Draw.color(Color.white,Color.salmon,entity.getHeat()/this.heatCapacity);
-    Draw.alpha(Math.max(opacity,entity.efficiency()*0.7));
+    Draw.alpha(Math.max(0.25,entity.uptime)*opacity);
     Draw.rect(this.endRegion,tile.drawx(),tile.drawy(),rot+90);
     Draw.rect(this.endRegion,other.drawx(),other.drawy(),rot+270);
     Lines.stroke(8);

@@ -33,6 +33,8 @@ const heatPhaseBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"h
   },
   linkValid(tile,other,checkDouble){
     if(other==null||tile==null||tile==other) return false;
+    if(other.ent()==null) return false;
+    if(other.ent().link==tile.pos()) return false;
     if(!Mathf.within(tile.x,tile.y,other.x,other.y,this.range+0.5)) return false;
     return other.block()==this&&(!checkDouble||other.ent().link!=tile.pos());
   },
@@ -80,7 +82,7 @@ const heatPhaseBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"h
     if(Mathf.zero(opacity)) return;
     var rot=Mathf.angle(other.x-tile.x,other.y-tile.y);
     Draw.color(Color.white,Color.salmon,entity.getHeat()/this.heatCapacity);
-    Draw.alpha(opacity);
+    Draw.alpha(Math.max(opacity,entity.efficiency()*0.7));
     Draw.rect(this.endRegion,tile.drawx(),tile.drawy(),rot+90);
     Draw.rect(this.endRegion,other.drawx(),other.drawy(),rot+270);
     Lines.stroke(8);

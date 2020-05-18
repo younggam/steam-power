@@ -10,6 +10,18 @@ const heatBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"heat-b
   inputsHeat(tile){
     return this.linkValid(tile,Vars.world.tile(tile.entity.link));
   },
+  /*onConfigureTileTapped(tile,other){
+    const entity=tile.ent();
+    if(this.linkValid(tile,other)){
+      if(entity.link==ohter.pos()){
+        tile.configure(Pos.invalid);
+      }else{
+        tile.configure(other.pos());
+      }
+      return false;
+    }
+    return true;
+  },*/
   acceptItem(item,tile,source){return false;},
   acceptLiquid(tile,source,liquid,amount){return false;},
   update(tile){
@@ -33,6 +45,8 @@ const heatBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"heat-b
   },
   linkValid(tile,other,checkDouble){
     if(other==null||tile==null||tile==other) return false;
+    if(other.ent()==null) return false;
+    if(other.ent().link==tile.pos()) return false;
     if(!Mathf.within(tile.x,tile.y,other.x,other.y,this.range+0.5)) return false;
     return other.block()==this&&(!checkDouble||other.ent().link!=tile.pos());
   },
@@ -102,7 +116,7 @@ const heatBridge=heatL.heatBridge(ItemBridge,ItemBridge.ItemBridgeEntity,"heat-b
 {
   coolDownHeat(){
     if(this._heat>25){
-      this._heat-=Time.delta()*this._heat/3000;
+      this._heat-=Time.delta()*this._heat/6000;
     }else if(this._heat<25){
       this._heat=25;
     }

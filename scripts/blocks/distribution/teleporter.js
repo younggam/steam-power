@@ -48,7 +48,7 @@ const teleporter=extendContent(Block,"teleporter",{
   },
   configured(tile,player,value){
     const entity=tile.ent();
-    if(entity.getToggle()!=-1) if(teleporters[entity.getToggle()][tile.x+","+tile.y]!=null) delete teleporters[entity.getToggle()][tile.x+","+tile.y];
+    if(entity.getToggle()!=-1) delete teleporters[entity.getToggle()][tile.x+","+tile.y];
     if(value!=-1) teleporters[value][tile.x+","+tile.y]=tile;
     tile.entity.setToggle(value);
   },
@@ -58,13 +58,19 @@ const teleporter=extendContent(Block,"teleporter",{
     if(entity.getEntry()>=entries.length) {
       entity.resetEntry();
     }
+    if(entity.getEntry()==entries.length-1){
+      var other_=teleporters[value][entries[entity.getEntry()]]
+      if(other_==tile) {
+        entity.resetEntry();}
+    }
     for(var i=entity.getEntry();i<entries.length;i++){
       var other=teleporters[value][entries[i]]
       if(other==null){
         delete teleporters[value][entries[i]];
         continue;
-      }else if(other==tile) continue;
-      else if(other.block()!=Vars.content.getByName(ContentType.block,this.name)){
+      }else if(other==tile) {
+        continue;
+      }else if(other.block()!=Vars.content.getByName(ContentType.block,this.name)){
         delete teleporters[value][entries[i]];
         continue;
       }else if(other.getTeam()!=tile.getTeam()) continue;
@@ -113,7 +119,7 @@ teleporter.entityType=prov(()=>extend(TileEntity,{
   resetEntry(){
     this._entry=0;
   },
-  _entry:null,
+  _entry:0,
   getTarget(){
     return this._target;
   },
@@ -142,6 +148,6 @@ teleporter.entityType=prov(()=>extend(TileEntity,{
   read(stream,revision){
     this.super$read(stream,revision);
     this._toggle=stream.readShort();
-    teleporters[this._toggle][this.tile.x+","+this.tile.y]=this.tile;
+    if(this._toggle!=-1)  teleporters[this._toggle][this.tile.x+","+this.tile.y]=this.tile;
   }
 }));

@@ -62,12 +62,17 @@ if(this.global.furnaces===undefined) {
   };
 }
 this.global.furnaces.reset();
+if(this.global.teleporters===undefined){
+  this.global.teleporters=[];
+  for(var i=0;i<8;i++) this.global.teleporters[i]={};
+}
 require("override");
 require("initializer");
 require("blocks/distribution/electric-conveyor");
 require("blocks/distribution/hyperloop-conveyor");
 require("blocks/distribution/heat-bridge");
 require("blocks/distribution/heat-phase-bridge");
+require("blocks/distribution/teleporter");
 //
 require("blocks/production/blast-furnace");
 require("steam-power/blocks/production/advanced-furnace");

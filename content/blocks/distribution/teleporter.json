@@ -1,0 +1,9 @@
+requirements:[
+  computer/1
+  phase-fabric/10
+  uranium/4
+  thorium/4
+]
+category:distribution
+itemCapacity:10
+hasItems:true

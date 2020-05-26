@@ -6,6 +6,8 @@ consumes:{
     booster:false
   }
 }
+drillTime:156
+liquidBoostIntensity:1
 requirements:[
   stone/20
   copper/20

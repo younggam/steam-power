@@ -19,7 +19,7 @@ ammo:{
   armor-piercing-shell:{
     type:BasicBulletType
     speed:6
-    damage:76
+    damage:116
     bulletSprite:bullet
     bulletWidth:8
     bulletHeight:16

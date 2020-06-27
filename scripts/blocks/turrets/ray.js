@@ -75,12 +75,14 @@ const ray=extendContent(PowerTurret,"ray",{
   },
   //무조건 가장 가까운 적 공격
   findTarget(tile){
+    const entity=tile.entity;
+    const old=entity.target;
     if(this.targetAir&&!this.targetGround){
-      tile.entity.target=Units.closestEnemy(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>e.isFlying()&&!e.isDead()));
+      entity.target=Units.closestEnemy(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>e.isFlying()&&!e.isDead()));
     }else{
-      tile.entity.target=Units.closestTarget(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>!e.isDead()&&(!e.isFlying()||this.targetAir)&&(e.isFlying()||this.targetGround)));
+      entity.target=Units.closestTarget(tile.getTeam(),tile.drawx(),tile.drawy(),this.range,boolf(e=>!e.isDead()&&(!e.isFlying()||this.targetAir)&&(e.isFlying()||this.targetGround)));
     }
-
+    if(old!=entity.target) entity.decreaseDamage()
   }
 });
 //지속딜용 엔티티속성 추가
@@ -154,6 +156,7 @@ ray.shootType = extend(BasicBulletType,{
     if(b==null) return;
     if(b.timer.get(1,5)){
       const target=b.getOwner().target;
+      print(b.getOwner().getDamage())
       if(target!=null){
         var result=Predict.intercept(b.getOwner(),target,this.speed);
         if(result.isZero()) result.set(target.getX(),target.getY());
@@ -188,7 +191,7 @@ ray.shootType = extend(BasicBulletType,{
 ray.shootType.hitSize=3;
 ray.shootType.despawnEffect=Fx.none;
 ray.shootType.hitEffect=hitLaser1;
-ray.shootType.damage=25;
+ray.shootType.damage=20;
 ray.shootType.pierce=true;
 ray.shootType.speed=0.001;
 ray.shootType.lifetime=16;

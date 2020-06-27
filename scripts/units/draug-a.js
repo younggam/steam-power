@@ -84,7 +84,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
       if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
       this.super.target=this.super._closestFurnace[0];
       var tile=this.super.target;
-      if(this.super.target==null) return;
+      if(tile==null||tile instanceof BuildBlock.BuildEntity) return;
       if(this.super.dst(this.super.target)<this.super.type.range){
         if(tile.tile.block().acceptStack(this.super.item().item,this.super.item().amount,tile.tile,this.super)>0){
           Call.transferItemTo(this.super.item().item,Mathf.clamp(this.super.item().amount,0,tile.tile.block().itemCapacity-tile.items.get(this.super.item().item)),this.super.x,this.super.y,tile.tile);

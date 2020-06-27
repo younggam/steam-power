@@ -10,7 +10,7 @@ const bulletMill=multiLib.extend(GenericCrafter,GenericCrafter.GenericCrafterEnt
     [[["steam-power-high-explosive",1] ]    ,null   ,null],
   ],
   _input:[
-    [[["lead",2]   ,["pyratite",1]]   ,null    ,0.5],
+    [[["lead",2]   ,["coal",1]]   ,null    ,0.5],
     [[["steam-power-steel",1]     ,["pyratite",1],["titanium",1]]    ,null    ,1],
     [[["lead",2],["steam-power-iron",1] ,["pyratite",2] ]   ,null    ,1],
     [[["lead",1],["steam-power-iron",1]     ,["blast-compound",1] ]   ,null    ,1],

@@ -16,7 +16,7 @@ ammo:{
   }
   doom:{
     type:BombBulletType
-    splashDamage:5400
+    splashDamage:4050
     splashDamageRadius:320
     ammoMultiplier:1
   }
@@ -28,3 +28,4 @@ health:2400
 size:5
 maxAmmo:5
 outlineIcon:false
+research: ripple

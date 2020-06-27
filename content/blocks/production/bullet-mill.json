@@ -1,10 +1,10 @@
 category: crafting
 requirements:[
   iron/40
-  circuit/10
-  graphite/20
+  circuit/5
+  graphite/30
 ]
-itemCapacity: 10
+itemCapacity: 15
 size: 3
 health: 100
 craftEffect: none

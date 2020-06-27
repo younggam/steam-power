@@ -21,3 +21,4 @@ shots: 1
 health: 3300
 maxAmmo: 10
 category: turret
+research: lancer

@@ -4,7 +4,7 @@ speed:0.3
 maxVelocity:1.2
 range:50
 health:80
-minePower:0.9
+minePower:1.2
 engineSize:1.8
 engineOffset:5.7
 weapon:{

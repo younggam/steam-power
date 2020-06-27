@@ -39,7 +39,7 @@ const penetrate=extendContent(ItemTurret,"penetrate",{
   init(){
     this.hasPower=true;
     this.consumes.powerCond(this.powerUse,boolf(entity=>entity.tile.entity!=null?entity.tile.entity.target!=null:false));
-    this.ammo(Vars.content.getByName(ContentType.item,"steam-power-armor-piercing-shell"),bullet1);
+    this.ammo(Vars.content.getByName(ContentType.item,"steam-power-bullet"),bullet2,Vars.content.getByName(ContentType.item,"steam-power-armor-piercing-shell"),bullet1);
     this.super$init();
   },
   baseReloadSpeed(tile){

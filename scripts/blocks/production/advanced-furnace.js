@@ -216,6 +216,19 @@ const advancedFurnace=multiLib.extend(GenericCrafter,GenericCrafter.GenericCraft
     }
     return false;
   },
+  configured(tile,player,value){
+    const entity=tile.ent();
+    const old=entity.getToggle();
+    if((old==1||old==0)&&value!=1&&value!=0) furnaces.sizes[tile.getTeam()]--;
+    if((value==1||value==0)&&old!=1&&old!=0) furnaces.sizes[tile.getTeam()]++;
+    print(furnaces.sizes[tile.getTeam()]);
+    if(old>=0&&old<this.input.length){
+      entity.saveProgress(old,entity.progress);
+    }
+    if(value==-1||value==this.input.length) entity.saveCond(false);
+    entity.progress=0;
+    entity.modifyToggle(value);
+  },
   random:new Rand(0),
   draw(tile){
     const entity=tile.ent();

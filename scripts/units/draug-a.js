@@ -36,7 +36,7 @@ draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
     this.customMine.update=function(){
       if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
       var entity=this.super._closestFurnace[0];
-      if(entity==null) return;
+      if(entity==null||entity instanceof BuildBlock.BuildEntity) return;
       if(this.super==null) return;
       try{this.super.findItem();}
       catch(e){return;}

@@ -25,7 +25,7 @@ bullet2=extend(BasicBulletType,{
     }
   },
 });
-bullet2.damage=80;
+bullet2.damage=130;
 bullet2.pierce=true;
 bullet2.speed=12.5;
 bullet2.bulletWidth=6;

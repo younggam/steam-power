@@ -11,7 +11,7 @@ const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
   setBars(){
     this.super$setBars();
     this.bars.add("heat",func(entity=>
-      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(entity==null||entity instanceof BuildBlock.BuildEntity?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity==null||entity instanceof BuildBlock.BuildEntity?0:entity.getHeat()/this.heatCapacity))
+      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(typeof(entity["getHeat"])!=="function"?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>typeof(entity["getHeat"])!=="function"?0:entity.getHeat()/this.heatCapacity))
     ));
     this.bars.add("multiplier",func(entity=>
       new Bar(prov(()=>Core.bundle.format("bar.efficiency",100*this.sumAttribute(this.attribute,entity.tile.x,entity.tile.y))),prov(()=>Pal.ammo),floatp(()=>this.sumAttribute(this.attribute,entity.tile.x,entity.tile.y)))

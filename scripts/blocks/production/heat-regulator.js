@@ -12,7 +12,7 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
   setBars(){
     this.super$setBars();
     this.bars.add("heat",func(entity=>
-      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+entity.tile.entity.getHeat().toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity.tile.entity==null?0:entity.tile.entity.getHeat()/this.heatCapacity))
+      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(typeof(entity["getHeat"])!=="function"?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>typeof(entity["getHeat"])!=="function"?0:entity.getHeat()/this.heatCapacity))
     ));
     this.bars.add("heat/sec",func(entity=>
       new Bar(prov(()=>"-"+(entity.getRegulate()*60).toFixed(1)+Core.bundle.get("steam-power-heat-per-sec")),prov(()=>Pal.lancerLaser),floatp(()=>entity.getRegulate()*2))

@@ -42,7 +42,6 @@ initializer.solid=true;*/
 Bullets.standardDense.damage=22;
 Bullets.standardIncendiary.damage=13;
 Bullets.standardHoming.damage=11;
-Bullets.flakGlass.splashDamage=36;
 Bullets.basicFlame.damage=7;
 Bullets.pyraFlame.damage=11;
 Bullets.artilleryDense.splashDamage=39;

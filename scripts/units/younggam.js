@@ -138,8 +138,11 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
     return this._tmpTarget;
   },
   collision(other,x,y){
-    if(typeof other["getBulletType"]=="function"?other.getBulletType().speed<0.1:false) return true;
-    this.super$collision(other,x,y);
+    if(typeof other["getBulletType"]==="function"){
+      var wasDead=this.isDead();
+      this.damage(other.damage()*(other.getBulletType().speed<0.1?0.25:1));
+      if(!wasDead&&this.isDead()) other.killed(this);
+    }
   },
   targetClosest(){
     if(this.target==null?true:this.dst(this.target)>=yamatocannon.range()&&!this._beginReload) this.super$targetClosest();

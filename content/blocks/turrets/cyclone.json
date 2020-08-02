@@ -56,6 +56,6 @@ ammo:{
     shootEffect:shootBig
     ammoMultiplier:5
     splashDamageRadius:64
-    splashDamage:76
+    splashDamage:72
   }
 }

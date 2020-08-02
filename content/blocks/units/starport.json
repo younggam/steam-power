@@ -1,8 +1,8 @@
 type:UnitFactory
 name: Starport
-description:Build cruiser
+description:Produces Younggam cruiser.
 unitType:younggam
-size:5
+size:8
 produceTime:3600
 maxSpawn:2
 consumes:{

@@ -124,8 +124,9 @@ const launchpad=extendContent(ItemTurret,"launchpad",{
   },
   drawSelect(tile){
     const entity=tile.ent();
-    Drawf.dashCircle(entity.getTargetSpot().worldx(),entity.getTargetSpot().worldy(),10,tile.getTeam().color);
-    if(this.hasAmmo(tile)) Drawf.dashCircle(entity.getTargetSpot().worldx(),entity.getTargetSpot().worldy(),this.peekAmmo(tile).splashDamageRadius,tile.getTeam().color);
+    if(entity.getTargetSpot()==null) var spot=entity.setTargetSpot(tile);
+    Drawf.dashCircle(spot.worldx(),spot.worldy(),10,tile.getTeam().color);
+    if(this.hasAmmo(tile)) Drawf.dashCircle(spot.worldx(),spot.worldy(),this.peekAmmo(tile).splashDamageRadius,tile.getTeam().color);
     if(entity.getLaunchTimer()[0]!=null){
       const entries=entity.getLaunchTimer().length;
       for(var i=0;i<entries;i++){

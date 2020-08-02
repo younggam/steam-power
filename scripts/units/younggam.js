@@ -173,6 +173,26 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
       var to=Predict.intercept(this,this._target,laser.speed);
       this.getWeapon().updateLaser(this,to.x,to.y,current[1]);
     }
+  },
+  draw/*Under*/(){
+    this.super$draw()
+    var rot=this.rotation
+    var c=Tmp.v1.trns(rot,-33);
+    var l=Tmp.v2.trns(rot,-32,5);
+    var r=Tmp.v3.trns(rot,-32,-5);
+    var x=this.x,y=this.y,size=this.type.engineSize;
+    Draw.color(Pal.engine);
+    Fill.circle(x+c.x,y+c.y,size+Mathf.absin(Time.time(),2,size*0.25));
+    Fill.circle(x+l.x,y+l.y,size+Mathf.absin(Time.time(),2,size*0.25));
+    Fill.circle(x+r.x,y+r.y,size+Mathf.absin(Time.time(),2,size*0.25));
+    Draw.color(Color.white);
+    c.scl(0.98);
+    l.scl(0.98);
+    r.scl(0.98);
+    Fill.circle(x+c.x,y+c.y,(size+Mathf.absin(Time.time(),2,size*0.25))*0.5);
+    Fill.circle(x+l.x,y+l.y,(size+Mathf.absin(Time.time(),2,size*0.25))*0.5);
+    Fill.circle(x+r.x,y+r.y,(size+Mathf.absin(Time.time(),2,size*0.25))*0.5);
+    Draw.color();
   }
 })));
 younggam.weapon=weapons;

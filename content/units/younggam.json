@@ -1,9 +1,6 @@
-name: younggam
-description: Younggam cruiser.
 speed: 0.04
 flying: true
 health: 6000
-engineOffset: 10
 hitsize:38
 range: 80
 mass:30

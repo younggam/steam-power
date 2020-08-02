@@ -1,6 +1,6 @@
 const heatL=require("heatWrapper");
 const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
-  heatCapacity:500,
+  heatCapacity:300,
   heatProduction:1/3,
   setStats(){
     this.super$setStats();

@@ -66,6 +66,7 @@ if(this.global.teleporters===undefined){
   this.global.teleporters=[];
   for(var i=0;i<8;i++) this.global.teleporters[i]={};
 }
+if(this.global.sounds===undefined) this.global.sounds={};
 require("override");
 require("initializer");
 require("blocks/distribution/electric-conveyor");
@@ -103,3 +104,4 @@ require("blocks/turrets/launchpad");
 require("blocks/turrets/breakthrough");
 //
 require("units/draug-a");
+require("units/younggam");

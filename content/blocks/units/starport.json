@@ -1,0 +1,27 @@
+type:UnitFactory
+name: Starport
+description:Build cruiser
+unitType:younggam
+size:5
+produceTime:3600
+maxSpawn:2
+consumes:{
+  power:2
+  items:{
+    items:[
+      computer/1
+      dense-alloy/10
+      plastanium/30
+      silicon/30
+    ]
+  }
+}
+category:units
+requirements:[
+  computer/10
+  titanium/40
+  lead/40
+  silicon/120
+  steel/40
+  dense-alloy/80
+]

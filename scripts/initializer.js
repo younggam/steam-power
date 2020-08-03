@@ -28,7 +28,6 @@ phaseRay.despawnEffect=Fx.none;
 phaseRay.pierce=true;
 phaseRay.speed=0.01;
 phaseRay.damage=245;
-furnaces=this.global.furnaces
 const initializer=extendContent(Block,"initializer",{
   init(){
     this.super$init();

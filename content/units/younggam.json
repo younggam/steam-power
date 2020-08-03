@@ -1,9 +1,10 @@
 speed: 0.04
 flying: true
-health: 6000
+health: 8000
 hitsize:38
 range: 80
 mass:30
 rotatespeed:0.015
 baseRotateSpeed:0.04
 shootCone:10
+maxVelocity:0.75

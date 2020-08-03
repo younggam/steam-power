@@ -17,7 +17,7 @@ tesla.shootType=extend(BasicBulletType,{
   draw(b){},
   init(b){
     if(b==null) return;
-    Lightning.create(b.getTeam(),Pal.lancerLaser,this.damage,b.x,b.y,b.rot(),30+Mathf.round(Mathf.random()*20));
+    Lightning.create(b.getTeam(),Pal.lancerLaser,this.damage,b.x,b.y,b.rot(),24+Mathf.round(Mathf.random()*16));
   }
 });
 tesla.shootType.lifetime=1

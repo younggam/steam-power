@@ -10,6 +10,7 @@ consumes:{
   items:{
     items:[
       thorium/1
+      uranium/1
     ]
   }
   liquid:{

@@ -1,3 +1,6 @@
+importPackage(Packages.arc.graphics.gl);
+importPackage(Packages.arc.audio);
+importPackage(Packages.arc.mock);
 if(this.global.furnaces===undefined) {
   this.global.furnaces={
     reset(){
@@ -67,6 +70,8 @@ if(this.global.teleporters===undefined){
   for(var i=0;i<8;i++) this.global.teleporters[i]={};
 }
 if(this.global.sounds===undefined) this.global.sounds={};
+if(this.global.funcs===undefined) this.global.funcs={};
+this.global.funcs.floatc2=method => new Floatc2(){get : method};
 require("override");
 require("initializer");
 require("blocks/distribution/electric-conveyor");
@@ -87,8 +92,9 @@ require("steam-power/blocks/production/bullet-mill");
 require("steam-power/blocks/production/missile-factory");
 require("steam-power/blocks/production/thermal-centrifuge");
 require("blocks/production/metal-smelter");
+//require("steam-power/blocks/production/matter-disintegrator");
 //
-require("steam-power/blocks/power/geothermal-system");
+require("blocks/power/geothermal-system");
 require("blocks/power/turbine");
 require("blocks/power/nuclear-reactor");
 require("blocks/power/nuclear-fusion-reactor");
@@ -102,6 +108,8 @@ require("blocks/turrets/penetrate");
 require("blocks/turrets/ravage");
 require("blocks/turrets/launchpad");
 require("blocks/turrets/breakthrough");
+//
+require("blocks/walls");
 //
 require("units/draug-a");
 require("units/younggam");

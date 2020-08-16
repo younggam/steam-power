@@ -7,7 +7,7 @@ requirements:[
 ]
 itemCapacity:16
 size:3
-health:150
+health:-1
 craftEffect: none
 updateEffect: none
 research:bullet-mill

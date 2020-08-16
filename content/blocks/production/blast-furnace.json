@@ -5,7 +5,7 @@ requirements:[
 itemCapacity: 30
 liquidCapacity: 30
 size: 3
-health: 100
+health: 240
 craftEffect: none
 updateEffect: none
 alwaysUnlocked: true

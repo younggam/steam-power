@@ -26,6 +26,6 @@ idleSoundVolume: 0.5
 results:[
   thorium/5
   uranium/1
-  stone/2
+  depleted-uranium/2
 ]
 health: 120

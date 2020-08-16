@@ -1,0 +1,8 @@
+health: 3040
+size:2
+requirements:[
+  depleted-uranium/16
+  uranium/8
+]
+category:defense
+research:uranium-wall

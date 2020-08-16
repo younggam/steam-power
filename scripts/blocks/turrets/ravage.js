@@ -1,6 +1,4 @@
-if (typeof(floatc2)== "undefined"){
-	const floatc2 = method => new Floatc2(){get : method};
-}
+const floatc2=this.global.funcs.floatc2;
 const plasmaBoom1=newEffect(48,e=>{
   Draw.color(Color.white);
   Lines.stroke(e.fout()*2)
@@ -131,7 +129,7 @@ const ravage=extendContent(ItemTurret,"ravage",{
   soundTimer:0,
   init(){
     this.hasPower=true;
-    this.consumes.powerCond(this.powerUse,boolf(entity=>entity.tile.entity!=null?entity.tile.entity.target!=null:false));
+    this.consumes.powerCond(this.powerUse,boolf(entity=>entity!=null?entity.target!=null:false));
     this.ammo(Items.graphite,plasma1,Items.phasefabric,plasma2);
     this.super$init();
     this.soundTimer=this.timers++;

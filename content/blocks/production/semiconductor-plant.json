@@ -7,7 +7,7 @@ requirements:[
 ]
 itemCapacity: 20
 size: 3
-health: 200
+health:-1
 craftEffect: none
 updateEffect: none
 research:silicon-smelter

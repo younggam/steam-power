@@ -1,6 +1,0 @@
-type: resource
-name: Thorium Ore
-description: Thorium Ore.
-color: "cb8ebf"
-radioactivity: 0.3
-hardness: 4

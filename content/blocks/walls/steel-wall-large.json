@@ -1,7 +1,4 @@
-name: Steel Wall Large
-description: Steel wall.
-type: Wall
-health: 3600
+health: 3000
 size:2
 requirements:[
   steel/24

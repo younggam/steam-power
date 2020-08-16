@@ -6,7 +6,7 @@ requirements:[
 ]
 itemCapacity: 15
 size: 3
-health: 100
+health:-1
 craftEffect: none
 updateEffect: none
 research: pyratite-mixer

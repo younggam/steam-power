@@ -1,7 +1,4 @@
-name:Dense Alloy Wall Large
-description:Dense Alloy Wall.
-type:Wall
-health:4800
+health:4400
 size:2
 requirements:[
   dense-alloy/24

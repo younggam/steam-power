@@ -1,6 +1,3 @@
-name: Crystallizer
-description: Produces minerals by crystallizing them.
-type:Separator
 craftTime:40
 alwaysUnlocked:true
 category: crafting

@@ -1,7 +1,8 @@
-health: 750
-size: 1
+health: 760
+size:1
 requirements:[
-  steel/6
+  depleted-uranium/4
+  uranium/2
 ]
 category:defense
 research:iron-wall-large

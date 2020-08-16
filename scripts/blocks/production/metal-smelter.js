@@ -11,7 +11,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,GenericCrafter.GenericCrafterE
   _input:[
     [[["copper",3],["lead",4],["titanium",2],["steam-power-iron",3]]   ,null    ,5],
     [[["steam-power-iron",2]     ,["graphite",1] ]   ,null    ,8],
-    [[["steam-power-steel",2] ,["surge-alloy",1],["plastanium",1]]    ,null    ,11],
+    [[["steam-power-steel",2] ,["steam-power-depleted-uranium",1],["plastanium",1]]    ,null    ,11],
   ],
   craftTimes:[75,90,90,90],
   output:[],

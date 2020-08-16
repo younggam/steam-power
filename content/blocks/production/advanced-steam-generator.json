@@ -20,4 +20,4 @@ hasItems: false
 liquidCapacity: 24
 craftTime:1
 size:2
-health:120
+health:-1

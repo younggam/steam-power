@@ -1,5 +1,0 @@
-type: resource
-name: AP
-description: Armor Piercing Shell
-color:"ffff00"
-explosiveness: 0.1

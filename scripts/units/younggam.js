@@ -1,12 +1,10 @@
-importPackage(Packages.arc.audio);
-importPackage(Packages.arc.mock);
 var sounds=this.global.sounds;
 function loadsound(name){
-  var path="sounds/"+name+".ogg";
   if(Vars.headless) {
     sounds[name]=new MockSound();
     return;
   }
+  var path="sounds/"+name+".ogg";
   if(Core.assets.contains(path,Sound)) sounds[name]=Core.assets.get(path,Sound);
   else Core.assets.load(path,Sound).loaded=cons(a=>sounds[name]=a);
 }
@@ -16,7 +14,7 @@ loadsound("laser-0");
 loadsound("laser-1");
 loadsound("laser-2");
 if (typeof(floatc)==="undefined")  const floatc = method => new Floatc(){get : method};
-if (typeof(floatc2)==="undefined")  const floatc2 = method => new Floatc2(){get : method};
+const floatc2 = this.global.funcs.floatc2;
 var yamatoHit=newEffect(14,e=>{
   Draw.color(Color.white,Pal.lightOrange,e.fin());
   e.scaled(7,cons(s=>{

@@ -1,215 +1,152 @@
 const draugA=extendContent(UnitType,"draug-a",{});
-draugA.isCounted={};
-draugA.seconds={};
-for(var i in Team.base()) {
-  draugA.isCounted[Team.get(i)]=true;
-  draugA.seconds[Team.get(i)]=0;
-}
 const furnaces=this.global.furnaces;
-function CustomState(that){
-  this.super=that;
-}
-draugA.create(prov(()=> new JavaAdapter(MinerDrone,{
-  customStateMachine:{
-    _state:null,
-    update(){
-      if(this._state!=null) this._state.update();
-    },
-    set(next){
-      if(next==this._state) return;
-      if(this._state!=null) this._state.exited();
-      this._state=next;
-      if(next!=null) next.entered();
-    },
-    current(){
-      return this._state;
-    },
-    is(state){
-      return this._state==state;
-    }
-  },
-  initializer(){
-    this.customMine=new CustomState(this)
-    this.customMine.entered=function(){
-      this.super.target=null;
-    }
-    this.customMine.update=function(){
-      if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
-      var entity=this.super._closestFurnace[0];
-      if(entity==null||entity instanceof BuildBlock.BuildEntity) return;
-      if(this.super==null) return;
-      try{this.super.findItem();}
-      catch(e){return;}
-      if(this.super.targetItem!=null&&entity.block.acceptStack(this.super.targetItem,1,entity.tile,this.super)==0){
-        this.super.clearItem();
-        return;
-      }
-      if(this.super.item().amount>=this.super.getItemCapacity()||(this.super.targetItem!=null&&!this.super.acceptsItem(this.super.targetItem))||this.super.item().amount>=entity.block.acceptStack(this.super.targetItem,entity.block.itemCapacity-entity.items.get(this.super.targetItem),entity.tile,this.super)){
-        this.super.stateSet(this.super.customDrop);
-      }else{
-        if(this.super.retarget()&&this.super.targetItem!=null){
-          this.super.target=Vars.indexer.findClosestOre(this.super.x,this.super.y,this.super.targetItem);
+var sex=0;
+draugA.create(prov(()=>{
+  const e=new JavaAdapter(MinerDrone,{
+    added(){
+      this.state=extend(StateMachine,{
+        state:null,
+        update(){
+          if(this.state!=null) this.state.update();
+        },
+        set(next){
+          if(next==this.state) return;
+          if(this.state!=null)  this.state.exited();
+          this.state=next;
+          if(next!=null) next.entered();
+        },
+        current(){
+          return this.state;
+        },
+        is(state){
+          return this.state==state;
         }
-        if(this.super.target instanceof Tile){
-          this.super.moveTo(this.super.type.range/1.5);
-          if(this.super.dst(this.super.target)<this.super.type.range&&this.super.mineTile!=this.super.target){
-            this.super.setMineTile(this.super.target);
-          }
-          if(this.super.target.block()!=Blocks.air){
-            this.super.stateSet(this.super.customDrop);
-          }
+      }),
+      this.super$added();
+    },
+    customMine:extend(UnitState,{
+      entered(){
+        e.target=null;
+      },
+      update(){
+        if(Time.time()%60<Time.delta()) e.getClosestFurnace();
+        var entity=e._closestFurnace[0];
+        if(entity==null||entity instanceof BuildBlock.BuildEntity) return;
+        if(e==null) return;
+        try{e.findItem();}
+        catch(e){
+          print(e)
+          return;}
+        if(e.targetItem!=null&&entity.block.acceptStack(e.targetItem,1,entity.tile,e)==0){
+          e.clearItem();
+          return;
+        }
+        if(e.item().amount>=e.getItemCapacity()||(e.targetItem!=null&&!e.acceptsItem(e.targetItem))||e.item().amount>=entity.block.acceptStack(e.targetItem,entity.block.itemCapacity-entity.items.get(e.targetItem),entity.tile,e)){
+          e.setState(e.customDrop);
         }else{
-          if(this.super.getSpawner()!=null){
-            this.super.target=this.super.getSpawner();
-            this.super.circle(40);
+          if(e.retarget()&&e.targetItem!=null){
+            e.target=Vars.indexer.findClosestOre(e.x,e.y,e.targetItem);
           }
-        }
-      }
-    }
-    this.customMine.exited=function(){
-      this.super.setMineTile(null);
-    }
-    //
-    this.customDrop=new CustomState(this)
-    this.customDrop.entered=function(){
-      this.super.target=null;
-    }
-    this.customDrop.update=function(){
-      if(this.super==null) return;
-      if(this.super.item().amount==0){
-        this.super.clearItem();
-        this.super.stateSet(this.super.customMine);
-        return;
-      }
-      if(Time.time()%60<Time.delta()) this.super.getClosestFurnace();
-      this.super.target=this.super._closestFurnace[0];
-      var tile=this.super.target;
-      if(tile==null||tile instanceof BuildBlock.BuildEntity) return;
-      if(this.super.dst(this.super.target)<this.super.type.range){
-        if(tile.tile.block().acceptStack(this.super.item().item,this.super.item().amount,tile.tile,this.super)>0){
-          Call.transferItemTo(this.super.item().item,Mathf.clamp(this.super.item().amount,0,tile.tile.block().itemCapacity-tile.items.get(this.super.item().item)),this.super.x,this.super.y,tile.tile);
-        }
-        this.super.clearItem();
-        this.super.stateSet(this.super.customMine);
-      }
-      this.super.circle(this.super.type.range/1.8);
-    }
-    this.customDrop.exited=function(){
-
-    }
-    this.customRetreat=new CustomState(this);
-    this.customRetreat.entered=function(){
-      this.super.target=null;
-    }
-    this.customRetreat.update=function(){
-      if(this.super==null) return;
-      if(this.super.health>=this.super.maxHealth()){
-        this.super.stateSet(this.super.customMine);
-      }else if(!this.super.targetHasFlag(BlockFlag.repair)){
-        if(this.super.retarget()){
-          var repairPoint=Geometry.findClosest(this.super.x,this.super.y,Vars.indexer.getAllied(this.super.team,BlockFlag.repair));
-          if(repairPoint!=null){
-            this.super.target=repairPoint;
+          if(e.target instanceof Tile){
+            e.moveTo(e.type.range/1.5);
+            if(e.dst(e.target)<e.type.range&&e.mineTile!=e.target){
+              e.setMineTile(e.target);
+            }
+            if(e.target.block()!=Blocks.air){
+              e.setState(e.customDrop);
+            }
           }else{
-            this.super.stateSet(this.super.customMine);
+            if(e.getSpawner()!=null){
+              e.target=e.getSpawner();
+              e.circle(40);
+            }
           }
         }
-      }else{
-        this.super.circle(40);
+      },
+      exited(){
+        e.setMineTile(null);
       }
-    }
-    this.customRetreat.exited=function(){
+    }),
+    customDrop:new UnitState(){
+      entered(){
+        e.target=null;
+      },
+      update(){
+        if(e==null) return;
+        if(e.item().amount==0){
+          e.clearItem();
+          e.setState(e.customMine);
+          return;
+        }
+        if(Time.time()%60<Time.delta()) e.getClosestFurnace();
+        e.target=e._closestFurnace[0];
+        var tile=e.target;
+        if(tile==null||tile instanceof BuildBlock.BuildEntity) return;
+        if(e.dst(e.target)<e.type.range){
+          if(tile.tile.block().acceptStack(e.item().item,e.item().amount,tile.tile,e)>0){
+            Call.transferItemTo(e.item().item,Mathf.clamp(e.item().amount,0,tile.tile.block().itemCapacity-tile.items.get(e.item().item)),e.x,e.y,tile.tile);
+          }
+          e.clearItem();
+          e.setState(e.customMine);
+        }
+        e.circle(e.type.range/1.8);
+      },
+      exited(){
 
-    }
-  },
-  _closestFurnace:[null,null],
-  getClosestFurnace(){
-    if(furnaces.sizes[this.team]==0) return;
-    var escape=false;
-    var candi=Object.keys(furnaces.entities[this.team]).find(x=>{
-      if(escape) return false;
-      if(!furnaces.isFurnace(Vars.world.tile(furnaces.entities[this.team][x][0].tile.x,furnaces.entities[this.team][x][0].tile.y).block())) {
-        escape=true;
-        furnaces.reset();
+      }
+    },
+    _closestFurnace:[null,null],
+    getClosestFurnace(){
+      if(furnaces.sizes[this.team]==0) return;
+      var escape=false;
+      var candi=Object.keys(furnaces.entities[this.team]).find(x=>{
+        if(escape) return false;
+        if(!furnaces.isFurnace(Vars.world.tile(furnaces.entities[this.team][x][0].tile.x,furnaces.entities[this.team][x][0].tile.y).block())) {
+          escape=true;
+          furnaces.reset();
+          return false;
+        }
+        if(furnaces.entities[this.team][x][0].block==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace")&&(furnaces.entities[this.team][x][0].getToggle()!=0&&furnaces.entities[this.team][x][0].getToggle()!=1)) return false;
+        if(this.dst(furnaces.entities[this.team][x][0].tile)>400&&this._closestFurnace!=furnaces.entities[this.team][x]) return false;
+        if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) return true;
         return false;
-      }
-      if(furnaces.entities[this.team][x][0].block==Vars.content.getByName(ContentType.block,"steam-power-advanced-furnace")&&(furnaces.entities[this.team][x][0].getToggle()!=0&&furnaces.entities[this.team][x][0].getToggle()!=1)) return false;
-      if(this.dst(furnaces.entities[this.team][x][0].tile)>400&&this._closestFurnace!=furnaces.entities[this.team][x]) return false;
-      if(furnaces.entities[this.team][x][1]<Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])||(furnaces.entities[this.team][x][1]==Math.ceil(furnaces.draugs[this.team]/furnaces.sizes[this.team])&&this._closestFurnace==furnaces.entities[this.team][x])) return true;
-      return false;
-    },this);
+      },this);
 
-    if (candi!=null ){
-      furnaces.updateCounts(furnaces.entities[this.team][candi],this);
-      this._closestFurnace=furnaces.entities[this.team][candi];
-    }else {
+      if (candi!=null ){
+        furnaces.updateCounts(furnaces.entities[this.team][candi],this);
+        this._closestFurnace=furnaces.entities[this.team][candi];
+      }else {
+        furnaces.updateCounts([null,null],this);
+        this._closestFurnace=[null,null];
+      }
+    },
+    getClosestCore(){
+      return this._closestFurnace[0];
+    },
+    getStartState(){
+      return this.customMine;
+    },
+    removed(){
       furnaces.updateCounts([null,null],this);
-      this._closestFurnace=[null,null];
+    },
+    update(){
+      this.super$update();
+      if(Vars.net.client()) return;
+      this.updateMining();
+      if(Time.time()%60<Time.delta()&&this.type.seconds!=Time.time()/60) {
+        furnaces.seconds[this.team]=Time.time()/60;
+        furnaces.isCounted[this.team]=false;
+      }
+      if(!furnaces.isCounted[this.team]) furnaces.updateDraugs(this.team);
+    },
+    write(data){
+      this.super$write(data);
+      data.writeInt(this.mineTile==null||!this.state.is(this.customMine)?Pos.invalid:this.mineTile.pos());
+    },
+    read(data){
+      this.super$read(data);
+      this.mineTile=Vars.world.tile(data.readInt());
     }
-  },
-  getClosestCore(){
-    return this._closestFurnace[0];
-  },
-  stateSet(state){
-    this.customStateMachine.set(state);
-  },
-  added(){
-    this.initializer();
-    this.customStateMachine.set(this.customMine);
-    if(!this.loaded){
-      this.health(this.maxHealth());
-    }
-  },
-  getStartState(){
-    return null;
-  },
-  removed(){
-    furnaces.updateCounts([null,null],this);
-  },
-  update(){
-    if(this.isDead()){
-      this.remove();
-      return;
-    }
-    if(Vars.net.client()){
-      this.interpolate();
-      this.status.update(this);
-      return;
-    }else this.updateRotation();
-    if(Time.time()%60<Time.delta()&&!this.type.seconds==Time.time()/60) {
-      this.type.seconds[this.team]=Time.time()/60;
-      this.type.isCounted[this.team]=false;
-    }
-    if(!this.type.isCounted) furnaces.updateDraugs(this.team);
-    this.hitTime-=Time.delta();
-    if(!this.isFlying()&&(Vars.world.tileWorld(this.x,this.y)!=null&&!(Vars.world.tileWorld(this.x,this.y).block() instanceof BuildBlock)&&Vars.world.tileWorld(this.x,this.y).solid())){
-      this.kill();
-    }
-    this.avoidOthers();
-    if(this.spawner!=this.noSpawner&&(Vars.world.tile(this.spawner)==null||!(Vars.world.tile(this.spawner).entity instanceof UnitFactory.UnitFactoryEntity))){
-      this.kill();
-    }
-    this.updateTargeting();
-    this.customStateMachine.update();
-    this.updateVelocityStatus();
-    if(this.target==null) this.behavior();
-    if(!this.isFlying()){
-      this.clampPosition();
-    }
-    this.wobble();
-    this.updateMining();
-  },
-  behavior(){
-    if(this.health<=this.maxHealth()*this.type.retreatPercent&&!this.customStateMachine.is(this.customRetreat)&&Geometry.findClosest(this.x,this.y,Vars.indexer.getAllied(this.team,BlockFlag.repair))!=null){
-      this.stateSet(this.customRetreat);
-    }
-  },
-  write(data){
-    this.super$write(data);
-    data.writeInt(this.mineTile==null||!this.customStateMachine.is(this.customMine)?Pos.invalid:this.mineTile.pos());
-  },
-  read(data){
-    this.super$read(data);
-    this.mineTile=Vars.world.tile(data.readInt());
-  }
-})));
+  });
+  return e;
+}));

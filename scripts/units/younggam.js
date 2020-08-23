@@ -150,7 +150,7 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
   getTmpTarget(){
     return this._tmpTarget;
   },
-  drawWeapons(){ return },
+  drawWeapons(){ return; },
   added(){
     this.super$added();
     weaponYamato.shootSound=sounds["yamato-fire"];
@@ -187,34 +187,35 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
   },
   update(){
     var current=this.get_Timer(5);
-    if(Vars.net.client()&&this._reload!=0) this._reload+=Time.delta();
     this.super$update();
-    var fired=false;
-    if(this._beginReload){
-      if(this._reload==0) {
-        this._tmpTarget=this.target;
-        Call.createBullet(soundBullet,this.team,this.x,this.y,0,1,1);
-      }
-      if(this._reload>=weaponYamato.reload){
-        if(this.target==this._tmpTarget){
-          fired=true;
-          var to=Predict.intercept(this,this.target,yamatocannon.speed);
-          this.type.weapon=weaponYamato;
-          weaponYamato.updateYamato(this,to.x,to.y);
+    if(!Vars.net.clent()){
+      var fired=false;
+      if(this._beginReload){
+        if(this._reload==0) {
+          this._tmpTarget=this.target;
+          Call.createBullet(soundBullet,this.team,this.x,this.y,0,1,1);
         }
-        this._reload=0;
-        this._beginReload=false;
-      }else this._reload+=Time.delta();
-    }
-    if(this._target!=null&&!fired)  if(this.dst(this._target)<laser.range()&&current[0]){
-      var to=Predict.intercept(this,this._target,laser.speed);
-      this.type.weapon=weaponLaser;
-      weaponLaser.updateLaser(this,to.x,to.y,current[1]);
-      this.type.weapon=weaponYamato;
-    }
+        if(this._reload>=weaponYamato.reload){
+          if(this.target==this._tmpTarget){
+            fired=true;
+            var to=Predict.intercept(this,this.target,yamatocannon.speed);
+            this.type.weapon=weaponYamato;
+            weaponYamato.updateYamato(this,to.x,to.y);
+          }
+          this._reload=0;
+          this._beginReload=false;
+        }else this._reload+=Time.delta();
+      }
+      if(this._target!=null&&!fired)  if(this.dst(this._target)<laser.range()&&current[0]){
+        var to=Predict.intercept(this,this._target,laser.speed);
+        this.type.weapon=weaponLaser;
+        weaponLaser.updateLaser(this,to.x,to.y,current[1]);
+        this.type.weapon=weaponYamato;
+      }
+    }else if(this._reload!=0)  this._reload+=Time.delta();
   },
   drawUnder(){
-    var rot=this.rotation
+    var rot=this.rotation;
     var c=Tmp.v1.trns(rot,-33);
     var l=Tmp.v2.trns(rot,-32,5);
     var r=Tmp.v3.trns(rot,-32,-5);

@@ -4,13 +4,14 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
   heatCons:7/60,
   setStats(){
     this.super$setStats();
+    var heatPSec=Core.bundle.get("steam-power-heat-per-sec");
     this.stats.remove(BlockStat.output);
     this.stats.add(BlockStat.output,this.outputLiquid.liquid,this.outputLiquid.amount*60,true);
     this.stats.add(BlockStat.output,Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam"),this.outputLiquid.amount*60,true);
     this.stats.remove(BlockStat.input);
-    this.stats.add(BlockStat.input,String(this.heatCons*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.input,this.heatCons*60.0+heatPSec,"");
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
-    this.stats.add(BlockStat.input,String(this.heatCons*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.input,this.heatCons*60.0+heatPSec,"");
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.remove(BlockStat.productionTime);
   },

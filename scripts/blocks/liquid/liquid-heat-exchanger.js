@@ -8,7 +8,7 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
     this.stats.add(BlockStat.output,this.outputLiquid.liquid,this.outputLiquid.amount*60,true);
     this.stats.remove(BlockStat.input);
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
-    this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.basePowerGeneration,this.heatProduction*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
     this.stats.remove(BlockStat.productionTime);
   },
   setBars(){

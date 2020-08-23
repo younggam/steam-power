@@ -8,10 +8,15 @@ if(this.global.furnaces===undefined) {
       this.entities={};
       this.sizes={};
       this.draugs={};
+      this.isCounted={};
+      this.seconds={};
       for(var i in Team.base()) {
-        this.sizes[Team.get(i)]=0;
-        this.entities[Team.get(i)]={};
-        this.draugs[Team.get(i)]=0;
+        var tmp=Team.get(i)
+        this.sizes[tmp]=0;
+        this.entities[tmp]={};
+        this.draugs[tmp]=0;
+        this.isCounted[tmp]=true;
+        this.seconds[tmp]=0;
       }
     },
     isFurnace(block){
@@ -21,6 +26,7 @@ if(this.global.furnaces===undefined) {
       this.draugs[team]=Vars.unitGroup.count(boolf(unit=>{
         return unit.type.name=="steam-power-draug-a";
       }));
+      this.isCounted[team]=true;
     },
     updateCounts(ent,unit){
       if(ent[0]==unit._closestFurnace[0]) return;

@@ -5,7 +5,7 @@ const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
   heatCapacity:500,
   setStats(){
     this.super$setStats();
-    this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.basePowerGeneration,this.heatProduction*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
     this.stats.add(BlockStat.tiles,this.attribute);
   },
   setBars(){

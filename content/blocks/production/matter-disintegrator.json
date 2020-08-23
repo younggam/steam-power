@@ -1,0 +1,18 @@
+category: crafting
+requirements:[
+  computer/20
+  dense-alloy/100
+  plastanium/40
+  surge-alloy/60
+  uranium/40
+  silicon/40
+  graphite/40
+]
+itemCapacity: 20
+craftTime: 360
+outputItem: quantum-mass/1
+size: 3
+health: 400
+craftEffect: none
+updateEffect: none
+research: metal-smelter

@@ -8,7 +8,7 @@ requirements:[
 ]
 powerUse:2
 health:1000
-reload:16
+reload:24
 range:128
 shootEffect:lightningShoot
 recoil:0

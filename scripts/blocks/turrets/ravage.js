@@ -120,6 +120,59 @@ plasma2.lifetime=160;
 plasma2.splashDamageRadius=30;
 plasma2.splashDamage=600;
 plasma2.hitSound=Sounds.artillery;
+/*const plasma3=extend(FlakBulletType,{
+  vec:new Vec2(),
+  cColors:[Pal.lancerLaser.cpy().mul(1,1,1,0.4),Pal.lancerLaser,Color.white],
+  cScales:[1,0.7,0.4],
+  draw(b){
+    for(var i=0;i<this.cColors.length;i++){
+      Draw.color(this.cColors[i]);
+      Fill.circle(b.x,b.y,this.splashDamageRadius*this.cScales[i]*(0.4+0.6*b.fin()));
+    }
+  },
+  hit(b,hitx,hity){
+    if(b==null) return;
+    x=hitx==null?b.x:hitx;
+    y=hity==null?b.y:hity;
+    Effects.effect(plasmaBoom1,b.x,b.y,b.rot());
+    this.hitSound.at(b,1/Math.pow(2,1));
+    Fire.create(Vars.world.tileWorld(hitx+Mathf.range(5),hity+Mathf.range(5)));
+    Damage.damage(b.getTeam(),x,y,1.6*this.splashDamageRadius*(0.4+0.6*b.fin()),this.splashDamage*b.damageMultiplier()/(0.4+0.6*b.fin()));
+  },
+  despawned(b){
+    if(b==null) return;
+    this.hit(b);
+  },
+  update(b){
+    if(b==null) return;
+    this.vec.trns(b.rot(),this.speed*4);
+    if(Mathf.chance(0.4*Time.delta())) Lightning.createLighting(Lightning.nextSeed(),b.getTeam(),Pal.lancerLaser,8,b.x+this.vec.x,b.y+this.vec.y,Mathf.random(360),Math.floor(0.4*this.splashDamageRadius*(0.3+0.7*b.fin())));
+    try {
+      if(b.timer.get(2,6)){
+        Units.nearbyEnemies(b.getTeam(),this.rect.setSize(this.splashDamageRadius*1.8*(0.4+0.6*b.fin())).setCenter(b.x,b.y),cons((unit)=>{
+          try{
+            if(unit.dst(b)<this.splashDamageRadius*1.8*(0.4+0.6*b.fin())){
+              b.setData(0);
+              Time.run(5,run(()=>{
+                try {this.despawned(b);
+                  b.remove();}
+                catch(e){}
+              }))
+            }
+          } catch(e) {return;}
+          }))
+      }
+    }catch(e) {return;}
+  }
+});
+plasma3.speed=2;
+plasma3.damage=0;
+plasma3.knockback=2;
+plasma3.lifetime=160;
+plasma3.splashDamageRadius=30;
+plasma3.splashDamage=1440;
+plasma3.hitSound=Sounds.artillery;
+plasma3.ammoMultiplier=4;*/
 const ravage=extendContent(ItemTurret,"ravage",{
   vec:new Vec2(),
   powerUse:4.5,
@@ -130,7 +183,7 @@ const ravage=extendContent(ItemTurret,"ravage",{
   init(){
     this.hasPower=true;
     this.consumes.powerCond(this.powerUse,boolf(entity=>entity!=null?entity.target!=null:false));
-    this.ammo(Items.graphite,plasma1,Items.phasefabric,plasma2);
+    this.ammo(Items.graphite,plasma1,Items.phasefabric,plasma2/*,Vars.content.getByName(ContentType.item,"steam-power-quantum-mass"),plasma3*/);
     this.super$init();
     this.soundTimer=this.timers++;
   },
@@ -149,7 +202,7 @@ const ravage=extendContent(ItemTurret,"ravage",{
       var afin=10*fin-Math.floor(10*fin);
       if(entity.timer.get(this.soundTimer,20)) Sounds.message.at(tile,1/Math.pow(2,22/12));
       for(var i=0;i<this.cColors1.length;i++){
-        Draw.color(this.peekAmmo(tile).splashDamage==240?this.cColors1[i]:this.cColors2[i]);
+        Draw.color(this.peekAmmo(tile).splashDamage!=600?this.cColors1[i]:this.cColors2[i]);
         Fill.circle(tile.drawx()+this.vec.x+this.tr2.x,tile.drawy()+this.vec.y+this.tr2.y,this.peekAmmo(tile).splashDamageRadius*this.cScales[i]*(Math.max(fin-0.2,0))*0.5);
       }
       var bfin=(Time.time()%this.reload)/this.reload;

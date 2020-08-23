@@ -6,7 +6,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
   heatProduction:5/12,
   setStats(){
     this.super$setStats();
-    this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.basePowerGeneration,this.heatProduction*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
     this.stats.add(BlockStat.productionTime,2,StatUnit.seconds);
   },
   setBars(){

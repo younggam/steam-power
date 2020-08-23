@@ -109,8 +109,12 @@ const denseAlloy=new Item("dense-alloy",Color.valueOf("8c8c78"));
 denseAlloy.type=ItemType.material;
 denseAlloy.radioactivity=0.1;
 denseAlloy.cost=2;
-/*const quantumMass=new Item("quantum-mass",Color.valueOf("000080"));
-quantumMass.type=ItemType.material;*/
+/*const dimensionArmour=new Item("dimension-armour",Color.valueOf("d0e0ff"));
+dimensionArmour.type=ItemType.material;
+dimensionArmour.cost=2.4;
+const quantumMass=new Item("quantum-mass",Color.valueOf("000080"));
+quantumMass.type=ItemType.material;
+quantumMass.cost=3.2;*/
 //TODO 새 값 추가하기
 const bullet=new Item("bullet",Color.valueOf("c88c50"));
 bullet.explosiveness=0.1;

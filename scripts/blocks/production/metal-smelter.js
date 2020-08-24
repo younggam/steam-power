@@ -30,7 +30,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
     },
     craftTime:90
   },
-  {
+  /*{
     input:{
       items:["steam-power-quantum-mass/1","plastanium/2","graphite/1"],
       power:20
@@ -39,9 +39,9 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
       items:["steam-power-dimension-armour/1"]
     },
     craftTime:150
-  },
+  },*/
 ],
-{/*
+{
   heatCons:[0,0.15,0.2,0.25],
   heatCond:[0,100,360,840],
   heatCapacity:1500,
@@ -78,7 +78,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
       this.stats.add(BlockStat.powerUse,i+1,StatUnit.none);
       this.stats.add(BlockStat.powerUse,this.recs[i].input.power*60,StatUnit.powerSecond);
       this.stats.add(BlockStat.powerDamage,i+1,StatUnit.none);
-      this.stats.add(BlockStat.powerDamage,this.heatCons[i]*60+heatPSec,"");
+      this.stats.add(BlockStat.powerDamage,heatPSec,String(this.heatCons[i]*60));
       this.stats.add(BlockStat.powerRange,i+1,StatUnit.none);
       this.stats.add(BlockStat.powerRange,heatC,String(this.heatCond[i]));
     }
@@ -107,7 +107,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
   drawLight(tile){
     Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(10+tile.entity.getHeat()/20+Mathf.absin(10,0.5))*this.size,Color.scarlet,0.4);
   },
-  checkinput(tile,i){
+  /*checkinput(tile,i){
     const entity=tile.ent();
     //items
     var items=this.recs[i].input.items;
@@ -121,8 +121,8 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
     }
     return this.heatCond[i]>entity.getHeat();
   },*/
-},{/*
-  _heat:25,
+},{
+  /*_heat:25,
   getHeat(){
     return this._heat;
   },

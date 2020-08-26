@@ -1,0 +1,31 @@
+name: Damlon Shipyard
+description: Younggam Cruiser shipyard. Made by Lily.
+loadout:basicNucleus
+startingItems:[
+  copper/1000
+  lead/1000
+  stone/1000
+]
+launchPeriod:10
+conditionWave:30
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  titanium
+  iron
+  thorium
+]
+requirements:[
+  {
+    type:ZoneWave
+    zone:DesertOutpost
+    wave:30
+  }
+  {
+    type:Unlock
+    block:salvo
+  }
+]

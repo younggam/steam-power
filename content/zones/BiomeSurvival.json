@@ -31,6 +31,6 @@ requirements:[
   }
   {
     type:Unlock
-    block:Plastanium-Compressor
+    block:plastanium-Compressor
   }
 ]

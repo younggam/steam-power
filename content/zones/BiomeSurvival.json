@@ -8,7 +8,7 @@ startingItems:[
   glass/2000
 ]
 launchPeriod:8
-conditionWave:16
+conditionWave:24
 resources:[
   stone
   copper
@@ -27,10 +27,10 @@ requirements:[
   }
   {
     type:Unlock
-    block:ray
+    block:salvo
   }
   {
     type:Unlock
-    block:cyclone
+    block:Plastanium-Compressor
   }
 ]

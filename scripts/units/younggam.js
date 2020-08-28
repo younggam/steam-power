@@ -188,7 +188,7 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
   update(){
     var current=this.get_Timer(5);
     this.super$update();
-    if(!Vars.net.clent()){
+    if(!Vars.net.client()){
       var fired=false;
       if(this._beginReload){
         if(this._reload==0) {

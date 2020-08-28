@@ -42,7 +42,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
   },*/
 ],
 {
-  heatCons:[0,0.15,0.2,0.25],
+  /*heatCons:[0,0.15,0.2,0.25],
   heatCond:[0,100,360,840],
   heatCapacity:1500,
   customUpdate(tile){
@@ -107,7 +107,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
   drawLight(tile){
     Vars.renderer.lights.add(tile.drawx(),tile.drawy(),(10+tile.entity.getHeat()/20+Mathf.absin(10,0.5))*this.size,Color.scarlet,0.4);
   },
-  /*checkinput(tile,i){
+  checkinput(tile,i){
     const entity=tile.ent();
     //items
     var items=this.recs[i].input.items;

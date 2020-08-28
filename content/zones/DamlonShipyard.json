@@ -1,14 +1,13 @@
-name: Biome Survival
-description: Made by Lily.
+name: Damlon Shipyard
+description: Younggam Cruiser shipyard. Made by Lily.
 loadout:basicNucleus
 startingItems:[
-  stone/2000
   copper/1000
   lead/1000
-  glass/2000
+  stone/1000
 ]
-launchPeriod:8
-conditionWave:24
+launchPeriod:10
+conditionWave:30
 resources:[
   stone
   copper
@@ -23,14 +22,10 @@ requirements:[
   {
     type:ZoneWave
     zone:DesertOutpost
-    wave: 30
+    wave:30
   }
   {
     type:Unlock
     block:salvo
-  }
-  {
-    type:Unlock
-    block:plastanium-compressor
   }
 ]

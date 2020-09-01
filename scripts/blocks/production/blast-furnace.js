@@ -140,7 +140,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,"blast-furnace",[
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
-    if(typeof entity.items==null) return false;
+    if(typeof entity==null) return false;
     if(entity.items.get(item)>=this.itemCapacity) return false;
     return item==Items.coal||this.inputItemSet.contains(item);
   },

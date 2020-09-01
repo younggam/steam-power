@@ -154,6 +154,7 @@ const blastFurnace=multiLib.extend(GenericCrafter,"blast-furnace",[
   removed(tile){
     this.register(tile.entity,1);
     this.register(tile.entity,0);
+    this.invFrag.hide();
   },
   customUpdate(tile){
     const entity=tile.ent();

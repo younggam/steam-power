@@ -1,12 +1,12 @@
 consumes:{
   liquid:{
     liquid:steam
-    amount: 0.066666666
+    amount: 0.05
     optional:false
     booster:false
   }
 }
-drillTime:234
+drillTime:210
 liquidBoostIntensity:1
 requirements:[
   stone/20

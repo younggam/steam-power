@@ -1,7 +1,7 @@
 category: crafting
 requirements:[
-  iron/40
   circuit/5
+  iron/40
   graphite/30
 ]
 itemCapacity: 15

@@ -5,7 +5,7 @@ const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
   heatCapacity:500,
   setStats(){
     this.super$setStats();
-    this.stats.add(BlockStat.basePowerGeneration,this.heatProduction*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
+    this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatProduction*60));
     this.stats.add(BlockStat.tiles,this.attribute);
   },
   setBars(){
@@ -38,9 +38,7 @@ const geothermalSystem=heatL.heatGiver(Block,TileEntity,"geothermal-system",{
       Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
     }
 
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
-    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   }
 },{});
 
@@ -49,4 +47,3 @@ geothermalSystem.sync=true;
 geothermalSystem.baseExplosive=5;
 geothermalSystem.solid=true;
 geothermalSystem.hasPower=false;
-geothermalSystem.canOverdrive=false;

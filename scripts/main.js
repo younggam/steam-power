@@ -76,8 +76,26 @@ if(this.global.teleporters===undefined){
   for(var i=0;i<8;i++) this.global.teleporters[i]={};
 }
 if(this.global.sounds===undefined) this.global.sounds={};
+var sounds=this.global.sounds
+function loadsound(name){
+  if(Vars.headless) {
+    sounds[name]=new MockSound();
+    return;
+  }
+  var path="sounds/"+name+".ogg";
+  if(Core.assets.contains(path,Sound)) sounds[name]=Core.assets.get(path,Sound);
+  else Core.assets.load(path,Sound).loaded=cons(a=>sounds[name]=a);
+}
+loadsound("yamato-charge");
+loadsound("yamato-fire");
+loadsound("laser-0");
+loadsound("laser-1");
+loadsound("laser-2");
+loadsound("laserMain");
+loadsound("laserNoise");
 if(this.global.funcs===undefined) this.global.funcs={};
 this.global.funcs.floatc2=method => new Floatc2(){get : method};
+this.global.funcs.cons2=method=>new Cons2(){get:method};
 require("override");
 require("initializer");
 require("blocks/distribution/electric-conveyor");
@@ -90,6 +108,7 @@ require("blocks/production/blast-furnace");
 require("steam-power/blocks/production/advanced-furnace");
 require("steam-power/blocks/production/burner");
 require("blocks/production/electric-burner");
+require("blocks/production/total-burner");
 require("blocks/production/steam-generator");
 require("blocks/production/advanced-steam-generator");
 require("blocks/production/heat-regulator");
@@ -98,7 +117,7 @@ require("steam-power/blocks/production/bullet-mill");
 require("steam-power/blocks/production/missile-factory");
 require("steam-power/blocks/production/thermal-centrifuge");
 require("blocks/production/metal-smelter");
-//require("steam-power/blocks/production/matter-disintegrator");
+require("steam-power/blocks/production/matter-disintegrator");
 //
 require("blocks/power/geothermal-system");
 require("blocks/power/turbine");
@@ -114,6 +133,7 @@ require("blocks/turrets/penetrate");
 require("blocks/turrets/ravage");
 require("blocks/turrets/launchpad");
 require("blocks/turrets/breakthrough");
+require("blocks/turrets/guardian");
 //
 require("blocks/walls");
 //

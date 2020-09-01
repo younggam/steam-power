@@ -1,9 +1,8 @@
 category: crafting
 requirements:[
-  circuit/5
   iron/60
-  stone/24
-  copper/36
+  stone/25
+  copper/35
 ]
 itemCapacity: 30
 liquidCapacity: 30

@@ -14,11 +14,11 @@ consumes:{
 }
 requirements:[
   circuit/10
-  lead/40
-  copper/80
-  titanium/80
-  silicon/30
-  metaglass/30
+  lead/30
+  copper/60
+  titanium/60
+  silicon/20
+  metaglass/20
 ]
 category:crafting
 research: separator

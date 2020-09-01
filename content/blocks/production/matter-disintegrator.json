@@ -9,7 +9,7 @@ requirements:[
   graphite/40
 ]
 itemCapacity: 20
-craftTime: 360
+craftTime: 3000
 outputItem: quantum-mass/1
 size: 3
 health: 400

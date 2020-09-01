@@ -120,7 +120,7 @@ plasma2.lifetime=160;
 plasma2.splashDamageRadius=30;
 plasma2.splashDamage=600;
 plasma2.hitSound=Sounds.artillery;
-/*const plasma3=extend(FlakBulletType,{
+const plasma3=extend(FlakBulletType,{
   vec:new Vec2(),
   cColors:[Pal.lancerLaser.cpy().mul(1,1,1,0.4),Pal.lancerLaser,Color.white],
   cScales:[1,0.7,0.4],
@@ -172,7 +172,7 @@ plasma3.lifetime=160;
 plasma3.splashDamageRadius=30;
 plasma3.splashDamage=1440;
 plasma3.hitSound=Sounds.artillery;
-plasma3.ammoMultiplier=4;*/
+plasma3.ammoMultiplier=4;
 const ravage=extendContent(ItemTurret,"ravage",{
   vec:new Vec2(),
   powerUse:4.5,
@@ -183,7 +183,7 @@ const ravage=extendContent(ItemTurret,"ravage",{
   init(){
     this.hasPower=true;
     this.consumes.powerCond(this.powerUse,boolf(entity=>entity!=null?entity.target!=null:false));
-    this.ammo(Items.graphite,plasma1,Items.phasefabric,plasma2/*,Vars.content.getByName(ContentType.item,"steam-power-quantum-mass"),plasma3*/);
+    this.ammo(Items.graphite,plasma1,Items.phasefabric,plasma2,Vars.content.getByName(ContentType.item,"steam-power-quantum-mass"),plasma3);
     this.super$init();
     this.soundTimer=this.timers++;
   },

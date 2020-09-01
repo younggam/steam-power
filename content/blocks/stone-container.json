@@ -5,7 +5,7 @@ itemCapacity: 25
 hasItems:true
 health:60
 requirements:[
-  stone/40
+  stone/30
 ]
 category:effect
 alwaysUnlocked: true

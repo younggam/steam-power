@@ -9,28 +9,34 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
     this.stats.add(BlockStat.output,this.outputLiquid.liquid,this.outputLiquid.amount*60,true);
     this.stats.add(BlockStat.output,Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam"),this.outputLiquid.amount*60,true);
     this.stats.remove(BlockStat.input);
-    this.stats.add(BlockStat.input,this.heatCons*60.0+heatPSec,"");
+    this.stats.add(BlockStat.input,heatPSec,String(this.heatCons*60));
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
-    this.stats.add(BlockStat.input,this.heatCons*60.0+heatPSec,"");
+    this.stats.add(BlockStat.input,heatPSec,String(this.heatCons*60));
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.remove(BlockStat.productionTime);
   },
   setBars(){
     this.super$setBars();
-    this.bars.add("heat",func(entity=>
-      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(entity==null||entity instanceof BuildBlock.BuildEntity?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>entity==null||entity instanceof BuildBlock.BuildEntity?0:entity.getHeat()/this.heatCapacity))
+    this.bars.remove("liquid");
+    var water=Liquids.water;
+    const hpSteam=Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam");
+    this.bars.add("water",func(entity=>
+      new Bar(prov(()=>water.localizedName),prov(()=>water.barColor()),floatp(()=>entity.liquids.get(water)/this.liquidCapacity))
     ));
-    this.bars.add("liquid2",func(entity=>
-      new Bar(prov(()=>entity.liquids.get(Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam"))<=0.001?entity.liquids.get(this.outputLiquid.liquid)<=0.001?Core.bundle.get("bar.liquid"):this.outputLiquid.liquid.localizedName:Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam").localizedName)
-      ,prov(()=>entity!=null?entity.getOutputCurrent().barColor():Color.black)
-      ,floatp(()=>entity!=null?entity.liquids.get(entity.getOutputCurrent())/this.liquidCapacity:0))
+    this.bars.add("heat",func(entity=>
+      new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(typeof  entity["getHeat"]!=="function"?0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>typeof entity["getHeat"]!=="function"?0:entity.getHeat()/this.heatCapacity))
+    ));
+    this.bars.add("liquids",func(entity=>
+      new Bar(prov(()=>typeof entity["getOutputCurrent"]==="function"?entity.getOutputCurrent().localizedName:Core.bundle.get("bar.liquid"))
+      ,prov(()=>typeof entity["getOutputCurrent"]==="function"?entity.getOutputCurrent().barColor():Color.black)
+      ,floatp(()=>typeof entity["getOutputCurrent"]==="function"?entity.liquids.get(entity.getOutputCurrent())/this.liquidCapacity:0))
     ));
   },
   update(tile){
     const entity=tile.ent();
     const liquid=Vars.content.getByName(ContentType.liquid,"steam-power-high-pressure-steam");
-    entity.setOutputCurrent(entity.getHeat()<100?null:entity.getHeat()<374?this.outputLiquid.liquid:liquid);
-    c1=this.consumes.get(ConsumeType.liquid);
+    entity.setOutputCurrent(entity.getHeat()<374?this.outputLiquid.liquid:liquid);
+    var c1=this.consumes.get(ConsumeType.liquid);
     entity.coolDownHeat();
     if(entity.liquids.get(c1.liquid)>=c1.amount&&374>tile.entity.getHeat()&&entity.getHeat()>=100&&entity.liquids.get(this.outputLiquid.liquid)<this.liquidCapacity-0.001){
       var use=Math.min(c1.amount*entity.delta(),this.liquidCapacity-entity.liquids.get(this.outputLiquid.liquid));
@@ -47,9 +53,7 @@ const advancedSteamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.Gener
     }
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
     this.tryDumpLiquid(tile,liquid);
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
-    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   shouldConsume(tile){
     return false;

@@ -1,6 +1,3 @@
-if (typeof(cons2)== "undefined"){
-	const cons2 = method => new Cons2(){get : method};
-}
 const tesla=extendContent(PowerTurret,"tesla",{
   bullet(tile,type,angle){
     Bullet.create(type,tile.entity,tile.getTeam(),tile.drawx(),tile.drawy(),angle);

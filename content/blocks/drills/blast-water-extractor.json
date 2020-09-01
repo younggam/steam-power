@@ -11,7 +11,7 @@ requirements:[
   plastanium/25
 ]
 result:water
-pumpAmount:0.4
+pumpAmount:0.6
 size:3
 liquidCapacity:48
 rotateSpeed:1.5

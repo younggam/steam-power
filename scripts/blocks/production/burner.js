@@ -6,7 +6,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
   heatProduction:5/12,
   setStats(){
     this.super$setStats();
-    this.stats.add(BlockStat.basePowerGeneration,this.heatProduction*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
+    this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatProduction*60));
     this.stats.add(BlockStat.productionTime,2,StatUnit.seconds);
   },
   setBars(){
@@ -34,6 +34,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
     if(entity.getProgress()<=0&&entity.items.total()>0){
       entity.setCurrentItem(entity.items.take());
       entity.modifyProgress(1);
+      entity.addHeat(this.heatProduction*this.getItemEfficiency(entity.getCurrentItem())*entity.delta());
     }else if(entity.getProgress()>0){
       entity.subProgress(this.getProgressIncrease(entity,120));
       entity.addHeat(this.heatProduction*this.getItemEfficiency(entity.getCurrentItem())*entity.delta());
@@ -41,9 +42,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
     }
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
-    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   draw(tile){
     this.super$draw(tile);
@@ -57,7 +56,7 @@ const burner=heatL.heatGiver(Block,TileEntity,"burner",{
     this.heatRegion=Core.atlas.find(this.name+"-heat")
   },
   getItemEfficiency(item){
-    return item!==null?item.flammability:true;
+    return item!==null?item.flammability:0;
   },
 },
 {
@@ -84,4 +83,3 @@ burner.sync=true;
 burner.baseExplosive=5;
 burner.solid=true;
 burner.hasPower=false;
-burner.craftTime=60;

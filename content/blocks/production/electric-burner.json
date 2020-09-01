@@ -1,8 +1,8 @@
 category: crafting
 requirements:[
-  iron/30
-  copper/60
-  lead/30
+  iron/25
+  copper/50
+  lead/25
 ]
 consumes:{
   power:5

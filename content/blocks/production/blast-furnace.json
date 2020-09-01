@@ -1,6 +1,6 @@
 category: crafting
 requirements:[
-  stone/75
+  stone/50
 ]
 itemCapacity: 30
 liquidCapacity: 30

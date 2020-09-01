@@ -29,3 +29,8 @@ ammo:{
     lifetime:45
   }
 }
+requirements:[
+  copper/90
+  graphite/75
+  titanium/50
+]

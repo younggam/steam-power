@@ -1,0 +1,13 @@
+size:4
+category:crafting
+requirements:[
+  semiconductor/10
+  dense-alloy/40
+  copper/75
+  iron/50
+  lead/50
+]
+itemCapacity:20
+liquidCapacity:60
+health:-1
+research: liquid-heat-exchanger

@@ -4,3 +4,7 @@ consumes:{
     amount: 0.066666666
   }
 }
+requirements:[
+  copper/50
+  lead/30
+]

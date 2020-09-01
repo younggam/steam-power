@@ -1,9 +1,8 @@
 category: crafting
 requirements:[
-  steel/60
   computer/5
+  steel/60
   plastanium/60
-
 ]
 itemCapacity:16
 size:3

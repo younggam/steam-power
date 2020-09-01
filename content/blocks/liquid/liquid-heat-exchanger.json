@@ -1,11 +1,12 @@
 category: liquid
 requirements:[
+  semiconductor/5
   plastanium/60
   copper/120
   metaglass/80
 ]
 consumes:{
-  power:1
+  power:2
   liquid:{
     liquid:hot-cryofluid
     amount: 0.3

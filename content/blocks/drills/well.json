@@ -7,7 +7,7 @@ pumpAmount: 0.07
 result: water
 attribute: water
 requirements:[
-  stone/60
+  stone/40
 ]
 category: production
 alwaysUnlocked: true

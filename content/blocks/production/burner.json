@@ -1,7 +1,7 @@
 category: crafting
 requirements:[
-  stone/40
-  copper/20
+  stone/30
+  copper/15
 ]
 itemCapacity: 10
 size: 1

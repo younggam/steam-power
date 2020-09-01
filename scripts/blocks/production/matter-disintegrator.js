@@ -27,6 +27,10 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
   _containerItems:[],
   _containerItemMap:new IntMap(4,1),
   getContainerItems(){return this._containerItems;},
+  load(){
+    this.super$load();
+    this.glowRegion=Core.atlas.find(this.name+"-glow");
+  },
   init(){
     this.super$init();
     this._containerItems=[new ItemStack(getItem("steam-power-semiconductor"),1),new ItemStack(getItem("metaglass"),2),new ItemStack(getItem("steam-power-dense-alloy"),2)];
@@ -48,7 +52,8 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
     this.stats.remove(BlockStat.itemCapacity);
     this.stats.add(BlockStat.itemCapacity,"20/10/5 {0}",StatUnit.items.localized());
     this.stats.add(BlockStat.booster,Core.bundle.get("steam-power-heat-cond"),"500");
-    this.stats.add(BlockStat.boostEffect,"0~200{0}",StatUnit.timesSpeed.localized());
+    this.stats.add(BlockStat.booster,Core.bundle.get("steam-power-heat-per-sec"),"4~24")
+    this.stats.add(BlockStat.boostEffect,"0~2.00{0}",StatUnit.timesSpeed.localized());
   },
   setBars(){
     this.super$setBars();
@@ -138,6 +143,26 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
       this.offloadNear(tile,this.outputItem.item);
       entity.progress=0;
     }
+  },
+  flameColor:Color.valueOf("ffc999a0"),
+  darkColor:Color.valueOf("003040ff"),
+  lightColor:Color.valueOf("40ff80ff"),
+  draw(tile){
+    const entity=tile.ent();
+    var x=tile.drawx(),y=tile.drawy();
+    var doEffect=entity.power.status>0&&entity.getCurrentItem()!=null,scl=Mathf.absin(entity.progress,0.001,1);
+    Draw.rect(this.region,x,y);
+    Draw.color(this.darkColor,this.lightColor,doEffect?scl:0);
+    Draw.rect(this.glowRegion,x,y);
+    if(doEffect){
+      Draw.color(Color.white);
+      Lines.stroke(1.5);
+      Lines.circle(x,y,scl+3);
+      Draw.color(this.flameColor);
+      Lines.stroke(1);
+      Lines.circle(x,y,scl+2.75);
+    }
+    Draw.color();
   },
   buildCommon(entity){
     var cb=Core.bundle;
@@ -270,7 +295,16 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
       this.invFrag.hide();
     }
     return true;
-  }
+  },
+  removed(tile){
+    this.invFrag.hide();
+  },
+  generateIcons(){
+    return[
+      Core.atlas.find(this.name),
+      Core.atlas.find(this.name+"-glow")
+    ];
+  },
 },
 {
   _pause:false,
@@ -280,7 +314,7 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
   _isFragShown:false,
   isFragShown(){  return this._isFragShown;},
   switchFrag(){ this._isFragShown=!this._isFragShown;},
-  _itemQueue:new Queue(20),
+  _itemQueue:null,
   getItemQueue(){  return this._itemQueue;},
   _currentItem:null,
   getCurrentItem(){ return this._currentItem;},
@@ -289,7 +323,11 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
   setValue(a){  this._value=a/100;},
   progressValue(b){
     this._value-=b;
+    if(this._heat>=500) this._heat-=Time.delta()*this.timeScale*this._heat/7500;
     if(this._value<=0) this._currentItem=null;
+  },
+  added(){
+    if(this._itemQueue==null) this._itemQueue=new Queue(20);
   },
   delta(){
     return Time.delta()*(this.timeScale+Math.max(0,this._heat/1250-0.4));
@@ -299,15 +337,17 @@ const matterDisintegrator=heatL.heatUser(GenericCrafter,GenericCrafter.GenericCr
     stream.writeFloat(this._heat);
     stream.writeByte(this._itemQueue.size);
     var que=this._itemQueue.iterator();
-    while(que.hasNext())  stream.writeShort(que.next().id);
+    while(que.hasNext())  stream.writeByte(que.next().id);
+    stream.writeByte(this._currentItem==null?-1:this._currentItem.id);
   },
   read(stream,revision){
     this.super$read(stream,revision);
     this._heat=stream.readFloat();
     var count=stream.readByte();
-    var que=this._itemQueue;
-    que.clear();
-    for(var i=0;i<count;i++) que.addLast(Vars.content.getByID(ContentType.item,stream.readShort()));
+    var que=new Queue(20);
+    for(var i=0;i<count;i++) que.addLast(Vars.content.getByID(ContentType.item,stream.readByte()));
+    this._itemQueue=que;
+    this._currentItem=Vars.content.getByID(ContentType.item,stream.readByte());
   }
 });
 matterDisintegrator.configurable=true;

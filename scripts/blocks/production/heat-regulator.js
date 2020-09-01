@@ -15,8 +15,14 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
       new Bar(prov(()=>Core.bundle.format("bar.heat")+": "+(typeof(entity["getHeat"])!=="function"?0.0:entity.getHeat()).toFixed(1)),prov(()=>Pal.lightFlame),floatp(()=>typeof(entity["getHeat"])!=="function"?0:entity.getHeat()/this.heatCapacity))
     ));
     this.bars.add("heat/sec",func(entity=>
-      new Bar(prov(()=>"-"+(entity.getRegulate()*60).toFixed(1)+Core.bundle.get("steam-power-heat-per-sec")),prov(()=>Pal.lancerLaser),floatp(()=>entity.getRegulate()*2))
+      new Bar(prov(()=>"-"+Core.bundle.format("steam-power-heat-per-sec"),(entity.getRegulate()*60).toFixed(1)),prov(()=>Pal.lancerLaser),floatp(()=>entity.getRegulate()*2))
     ));
+  },
+  setStats(){
+    this.super$setStats();
+    this.stats.remove(BlockStat.powerUse);
+    this.stats.add(BlockStat.powerUse,"0~300{0}",StatUnit.powerSecond.localized());
+    this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),"-0~30");
   },
   buildConfiguration(tile,table){
     const entity=tile.ent();

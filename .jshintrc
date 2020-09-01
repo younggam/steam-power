@@ -43,6 +43,10 @@
     "Styles":true,
     "TextureRegionDrawable":true,
     "ConsumePower":true,
-    "require":true
+    "require":true,
+    "Bullet":true,
+    "Draw":true,
+    "Drawf":true,
+    "Lines":true
   }
 }

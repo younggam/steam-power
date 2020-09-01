@@ -1,18 +1,4 @@
 var sounds=this.global.sounds;
-function loadsound(name){
-  if(Vars.headless) {
-    sounds[name]=new MockSound();
-    return;
-  }
-  var path="sounds/"+name+".ogg";
-  if(Core.assets.contains(path,Sound)) sounds[name]=Core.assets.get(path,Sound);
-  else Core.assets.load(path,Sound).loaded=cons(a=>sounds[name]=a);
-}
-loadsound("yamato-charge");
-loadsound("yamato-fire");
-loadsound("laser-0");
-loadsound("laser-1");
-loadsound("laser-2");
 if (typeof(floatc)==="undefined")  const floatc = method => new Floatc(){get : method};
 const floatc2 = this.global.funcs.floatc2;
 var yamatoHit=newEffect(14,e=>{
@@ -26,7 +12,7 @@ var yamatoHit=newEffect(14,e=>{
     var ang=Mathf.angle(x,y);
     Lines.lineAngle(e.x+x,e.y+y,ang,e.fout()*4+1.5);
   }));
-})
+});
 const soundBullet=new BasicBulletType();
 soundBullet.damage=0;
 soundBullet.lifetime=0;

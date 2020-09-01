@@ -13,7 +13,7 @@ consumes:{
   }
 }
 requirements:[
+  circuit/5
   copper/30
   titanium/25
-  circuit/5
 ]

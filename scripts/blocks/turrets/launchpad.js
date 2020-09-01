@@ -85,7 +85,7 @@ const launchpad=extendContent(ItemTurret,"launchpad",{
     if(entity.getTargetSpot()==null) entity.setTargetSpot(tile);
     entity.timerLaunchInterval();
     entity.heat=Mathf.lerpDelta(entity.heat,0,1/120);
-    entries=entity.getLaunchTimer().length;
+    var entries=entity.getLaunchTimer().length;
     for(var i=0;i<entries;i++){
       entity.getLaunchTimer()[i]-=Time.delta();
     }
@@ -206,4 +206,3 @@ launchpad.entityType=prov(()=>extendContent(ItemTurret.ItemTurretEntity,launchpa
   },
 }));
 launchpad.configurable=true;
-launchpad.heatCons=Color.red;

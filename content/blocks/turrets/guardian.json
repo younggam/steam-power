@@ -1,0 +1,15 @@
+requirements:[
+  computer/20
+  dimension-armour/80
+  quantum-mass/60
+  dense-alloy/100
+  thorium/120
+  uranium/80
+]
+size:4
+category:turret
+research:meltdown
+health:2000
+range:208
+recoil:2
+shootCone:8

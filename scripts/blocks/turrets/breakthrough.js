@@ -1,4 +1,4 @@
-customLaser=extend(BasicBulletType,{
+const customLaser=extend(BasicBulletType,{
   tmpColor:new Color(),
   colors:[Color.valueOf("6464ff55"),Color.valueOf("6464ffaa"),Color.valueOf("5078ff"),Color.white],
   tscales:[1,0.7,0.5,0.2],
@@ -40,6 +40,7 @@ customLaser.drawSize=420;
 customLaser.lifetime=16;
 customLaser.pierce=true;
 customLaser.damage=100;
+customLaser.collidesTiles=false;
 customLaser.speed=0.001;
 const breakthrough=extendContent(LaserTurret,"breakthrough",{
   update(tile){

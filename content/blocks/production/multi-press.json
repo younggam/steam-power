@@ -1,6 +1,6 @@
 requirements:[
-  titanium/80
-  graphite/50
   circuit/10
-  iron/50
+  titanium/80
+  graphite/40
+  iron/40
 ]

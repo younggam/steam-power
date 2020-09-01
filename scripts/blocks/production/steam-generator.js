@@ -7,7 +7,7 @@ const steamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafte
     this.stats.remove(BlockStat.output);
     this.stats.add(BlockStat.output,this.outputLiquid.liquid,this.outputLiquid.amount*60,true);
     this.stats.remove(BlockStat.input);
-    this.stats.add(BlockStat.input,this.heatCons*60.0+Core.bundle.get("steam-power-heat-per-sec"),"");
+    this.stats.add(BlockStat.input,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatCons*60));
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.remove(BlockStat.productionTime);
   },
@@ -32,9 +32,7 @@ const steamGenerator=heatL.heatUser(LiquidConverter,GenericCrafter.GenericCrafte
       entity.liquids.remove(c1.liquid,use);
     }
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
-    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   shouldConsume(tile){
     return false;

@@ -34,8 +34,8 @@ draugA.create(prov(()=>{
         if(entity==null||entity instanceof BuildBlock.BuildEntity) return;
         if(e==null) return;
         try{e.findItem();}
-        catch(e){
-          print(e)
+        catch(err){
+          print(err)
           return;}
         if(e.targetItem!=null&&entity.block.acceptStack(e.targetItem,1,entity.tile,e)==0){
           e.clearItem();

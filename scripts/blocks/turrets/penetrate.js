@@ -1,9 +1,11 @@
-bullet1=extend(BasicBulletType,{
+const bullet1=extend(BasicBulletType,{
   hit(b,x,y){
     this.super$hit(b,x!=null?x:b.x,y!=null?y:b.y);
-    var i=b.getOwner().getPierce();
-    if(i==0){
-      b.remove();
+    var i=b.getData();
+    if(i==null) b.setData(6);
+    else{
+      b.setData(--i);
+      if(i==0)  b.remove();
     }
   },
 });
@@ -16,12 +18,14 @@ bullet1.ammoMultiplier=5;
 bullet1.lifetime=30;
 bullet1.knockback=2.4;
 bullet1.hitEffect=Fx.hitBulletBig;
-bullet2=extend(BasicBulletType,{
+const bullet2=extend(BasicBulletType,{
   hit(b,x,y){
     this.super$hit(b,x!=null?x:b.x,y!=null?y:b.y);
-    var i=b.getOwner().getPierce();
-    if(i==0){
-      b.remove();
+    var i=b.getData();
+    if(i==null) b.setData(6);
+    else{
+      b.setData(--i);
+      if(i==0)  b.remove();
     }
   },
 });
@@ -45,21 +49,5 @@ const penetrate=extendContent(ItemTurret,"penetrate",{
   baseReloadSpeed(tile){
     return tile.isEnemyCheat()?1:tile.entity.power.status;
   },
-  shoot(tile,type){
-    this.super$shoot(tile,type);
-    tile.entity.resetPierce();
-  }
 });
-penetrate.entityType=prov(()=>extendContent(ItemTurret.ItemTurretEntity,penetrate,{
-  getPierce(){
-    if(this._pierce>0){
-      this._pierce--;
-    }
-    return this._pierce
-  },
-  resetPierce(){
-    this._pierce=7;
-  },
-  _pierce:7,
-}));
 penetrate.heatColor=Color.red;

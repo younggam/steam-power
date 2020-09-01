@@ -30,7 +30,7 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
     },
     craftTime:90
   },
-  /*{
+  {
     input:{
       items:["steam-power-quantum-mass/1","plastanium/2","graphite/1"],
       power:20
@@ -39,18 +39,68 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
       items:["steam-power-dimension-armour/1"]
     },
     craftTime:150
-  },*/
+  },
 ],
 {
-  /*heatCons:[0,0.15,0.2,0.25],
+  heatCons:[0,0.15,0.2,0.25],
   heatCond:[0,100,360,840],
   heatCapacity:1500,
-  customUpdate(tile){
+  update(tile){
     const entity=tile.ent();
+    if(!this.invFrag.isShown()&&Vars.control.input.frag.config.isShown()&&Vars.control.input.frag.config.getSelectedTile()==tile){  this.invFrag.showFor(tile);}
+    var recLen=this.recs.length;
+    var current=entity.getToggle();
     entity.coolDownHeat();
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
+    //calls customCons and customProd
+    if(current>=0) {
+      this.customCons(tile,current);
+      if(entity.progress>=1) this.customProd(tile,current);
     }
+    var eItems=entity.items;
+    var eLiquids=entity.liquids;
+    //dump
+    var itemTimer=entity.timer.get(this.timerDump,this.dumpTime);
+    if(this.dumpToggle&&current>-1){
+      var items=this.recs[current].output.items;
+      var liquids=this.recs[current].output.liquids;
+      if(itemTimer){
+        for(var i=0,len=items.length;i<len;i++){
+          if(eItems.has(items[i].item)){
+            this.tryDump(tile,items[i].item);
+            break;
+          }
+        }
+      }
+      for(var i=0,len=liquids.length;i<len;i++){
+        if(eLiquids.get(liquids[i].liquid)>0.001){
+          this.tryDumpLiquid(tile,liquids[i].liquid);
+          break;
+        }
+      }
+    }else{
+      //TODO 반복문 줄이기
+      if(itemTimer&&eItems.total()>0){
+        var itemIter=this.outputItemSet.iterator();
+        while(itemIter.hasNext()){
+          var item=itemIter.next();
+          if(eItems.has(item)){
+            this.tryDump(tile,item);
+            break;
+          }
+        }
+      }
+      if(eLiquids.total()>0.001){
+        var liquidIter=this.outputLiquidSet.iterator();
+        while(liquidIter.hasNext()){
+          var liquid=liquidIter.next();
+          if(eLiquids.get(liquid)>0.001){
+            this.tryDumpLiquid(tile,liquid);
+            break;
+          }
+        }
+      }
+    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   setStats(){
     this.super$setStats();
@@ -120,9 +170,9 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
       if(entity.liquids.get(liquids[j].liquid)<liquids[j].amount) return true;
     }
     return this.heatCond[i]>entity.getHeat();
-  },*/
+  },
 },{
-  /*_heat:25,
+  _heat:25,
   getHeat(){
     return this._heat;
   },
@@ -148,6 +198,6 @@ const metalSmelter=multiLib.extend(GenericSmelter,"metal-smelter",[
     this.super$read(stream,revision);
     this._toggle=stream.readShort();
     this._heat=stream.readFloat();
-  }*/
+  }
 });
 metalSmelter.dumpToggle=true;

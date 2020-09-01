@@ -2,8 +2,8 @@ category: crafting
 requirements:[
   circuit/5
   iron/50
-  plastanium/50
-  copper/80
+  plastanium/30
+  copper/75
 ]
 consumes:{
   liquid:{

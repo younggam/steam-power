@@ -4,7 +4,7 @@ const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
   heatProduction:1/3,
   setStats(){
     this.super$setStats();
-    this.stats.add(BlockStat.basePowerGeneration,String(this.heatProduction*60.0)+" heat/sec","");
+    this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatProduction*60));
   },
   setBars(){
     this.super$setBars();
@@ -28,9 +28,7 @@ const electricBurner=heatL.heatGiver(Block,TileEntity,"electric-burner",{
         Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
       }
     }
-    if(entity.getHeat()>=this.heatCapacity){
-      entity.kill();
-    }
+    if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
   draw(tile){
     this.super$draw(tile);

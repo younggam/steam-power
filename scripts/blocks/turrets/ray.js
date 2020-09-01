@@ -134,9 +134,7 @@ var tscales=[1,0.7,0.5,0.2];
 var lenscales=[-20,-13,-6,1];
 var length=240;
 var circlescales=[10,8,6,4];
-if (typeof(floatc2)== "undefined"){
-	const floatc2 = method => new Floatc2(){get : method};
-}
+const floatc2=this.global.funcs.floatc2;
 const hitLaser1 = newEffect(5,e=>{
   for(var i=1;i<circlescales.length;i++){
     Draw.color(colors[i]);
@@ -156,7 +154,6 @@ ray.shootType = extend(BasicBulletType,{
     if(b==null) return;
     if(b.timer.get(1,5)){
       const target=b.getOwner().target;
-      print(b.getOwner().getDamage())
       if(target!=null){
         var result=Predict.intercept(b.getOwner(),target,this.speed);
         if(result.isZero()) result.set(target.getX(),target.getY());
@@ -195,3 +192,4 @@ ray.shootType.damage=25;
 ray.shootType.pierce=true;
 ray.shootType.speed=0.001;
 ray.shootType.lifetime=16;
+ray.shootTypecollidesTiles=false;

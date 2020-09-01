@@ -154,7 +154,7 @@ const advancedFurnace=multiLib.extend(GenericCrafter,"advanced-furnace",
   //decides which item to accept
   acceptItem(item,tile,source){
     const entity=tile.ent();
-    if(typeof entity.items["get"]!=="function") return false;
+    if(entity.items==null) return false;
     if(entity.items.get(item)>=this.itemCapacity) return false;
     return item==Items.coal||this.inputItemSet.contains(item);
   },

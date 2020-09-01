@@ -6,6 +6,10 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
   explosionDamage:1350,
   explosionRadius:40,
   tr: new Vec2(),
+  init(){
+    this.super$init();
+    this.consumes.get(ConsumeType.liquid).update(false);
+  },
   acceptItem(item,tile,source){
     if(tile.entity.items.total()>=this.itemCapacity) return false;
     return this.consumes.itemFilters.get(item.id);
@@ -41,7 +45,7 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
       this.useContent(tile,this.outputLiquid.liquid);
       entity.liquids.add(this.outputLiquid.liquid,use);
       entity.liquids.remove(c1.liquid,use);
-      entity.addHeat(-this.heatCons*(use/c1.amount)+Time.delta()/20);
+      entity.addHeat(-this.heatCons*(use/c1.amount));
     }
     if(entity.items.total()>0){
       entity.progress+=this.getProgressIncrease(entity,this.craftTime);

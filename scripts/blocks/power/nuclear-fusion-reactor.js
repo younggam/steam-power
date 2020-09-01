@@ -17,6 +17,7 @@ const nuclearFusionReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.Gene
     this.stats.remove(BlockStat.input);
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatProduction*60));
+    this.stats.add(BlockStat.input,Items.blastCompound);
     this.stats.remove(BlockStat.powerUse);
     this.stats.add(BlockStat.powerUse,this.powerCons*60,StatUnit.powerSecond);
   },

@@ -6,10 +6,6 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
   explosionDamage:1350,
   explosionRadius:40,
   tr: new Vec2(),
-  init(){
-    this.super$init();
-    this.consumes.get(ConsumeType.liquid).update(false);
-  },
   acceptItem(item,tile,source){
     if(tile.entity.items.total()>=this.itemCapacity) return false;
     return this.consumes.itemFilters.get(item.id);

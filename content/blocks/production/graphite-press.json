@@ -1,7 +1,7 @@
 consumes:{
   liquid:{
     liquid:steam
-    amount: 0.066666666
+    amount: 0.05
   }
 }
 requirements:[

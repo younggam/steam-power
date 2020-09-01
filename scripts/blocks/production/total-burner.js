@@ -60,7 +60,7 @@ const totalBurner=heatL.heatGiver(Block,TileEntity,"total-burner",{
     const entity=tile.ent();
     table.left();
     var image=new MultiReqImage();
-    this.consumeItems.forEach(i=>image.add(new ReqImage(new ItemImage(i.icon(Cicon.medium),1),boolp(()=>typeof entity["items"]==="object"&&entity.items.has(i)))));
+    this.consumeItems.forEach(i=>image.add(new ReqImage(new ItemImage(i.icon(Cicon.medium),1),boolp(()=>typeof entity["items"]==="object"&&typeof entity.items["get"]!=="function"&&entity.items.has(i)))));
     table.add(image).size(8*4);
     var liquid=this.consLiquid;
     table.add(new ReqImage(new ItemImage(liquid.liquid.icon(Cicon.medium),liquid.amount),boolp(()=>typeof entity["liquids"]==="object"&&entity.liquids.get(liquid.liquid)>liquid.amount))).size(8*4);

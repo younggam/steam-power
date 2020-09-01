@@ -12,10 +12,12 @@ consumes:{
       thorium/1
       uranium/1
     ]
+    update:false
   }
   liquid:{
     liquid:cryofluid
     amount: 0.3
+    update:false
   }
 }
 outputLiquid:{

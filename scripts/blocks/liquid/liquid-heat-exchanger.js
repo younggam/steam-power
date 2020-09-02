@@ -25,10 +25,6 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
       new Bar(prov(()=>this.outputLiquid.liquid.localizedName),prov(()=>this.outputLiquid.liquid.barColor()),floatp(()=>entity.liquids.get(this.outputLiquid.liquid)/this.liquidCapacity))
     ));
   },
-  init(){
-    this.super$init();
-    this.consumes.get(ConsumeType.liquid).update(false);
-  },
   update(tile){
     const entity=tile.ent();
     var c1=this.consumes.get(ConsumeType.liquid);

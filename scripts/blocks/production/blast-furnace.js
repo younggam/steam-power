@@ -83,7 +83,6 @@ const blastFurnace=multiLib.extend(GenericCrafter,"blast-furnace",[
   },
   //for dislpying info
   setStats(){
-    this.itemList[this.itemList.length]=Items.coal;
     this.super$setStats();
     this.stats.remove(BlockStat.powerUse);
     this.stats.remove(BlockStat.productionTime);

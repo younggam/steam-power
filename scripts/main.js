@@ -1,7 +1,7 @@
 importPackage(Packages.arc.graphics.gl);
 importPackage(Packages.arc.audio);
 importPackage(Packages.arc.mock);
-if (this.global.furnaces === undefined)
+/*if (this.global.furnaces === undefined)
 {
     this.global.furnaces = {
         reset()
@@ -92,19 +92,21 @@ if (this.global.furnaces === undefined)
         },
     };
 }
-this.global.furnaces.reset();
-if (this.global.teleporters === undefined)
-{
-    this.global.teleporters = [];
-    for (var i = 0; i < 8; i++) this.global.teleporters[i] = {};
+this.global.furnaces.reset();*/
+this.global.furnaces = {};
+this.global.draugSizes = {};
+this.global.teleporters = {};
+for(var i in Team.base()){
+    var tmp=Team.get(i).toString()
+    this.global.furnaces[tmp]=new ObjectIntMap();
+    this.global.draugSizes[tmp]=0;
+    this.global.teleporters[tmp]=[];
+    for (var j = 0; j < 8; j++) this.global.teleporters[tmp].push(new ObjectSet());
 }
-if (this.global.sounds === undefined) this.global.sounds = {};
+this.global.sounds = {};
 var sounds = this.global.sounds
-
-function loadsound(name)
-{
-    if (Vars.headless)
-    {
+function loadsound(name) {
+    if (Vars.headless) {
         sounds[name] = new MockSound();
         return;
     }
@@ -119,13 +121,11 @@ loadsound("laser-1");
 loadsound("laser-2");
 loadsound("laserMain");
 loadsound("laserNoise");
-if (this.global.funcs === undefined) this.global.funcs = {};
-this.global.funcs.floatc2 = method => new Floatc2()
-{
+this.global.funcs = {};
+this.global.funcs.floatc2 = method => new Floatc2() {
     get: method
 };
-this.global.funcs.cons2 = method => new Cons2()
-{
+this.global.funcs.cons2 = method => new Cons2() {
     get: method
 };
 require("override");

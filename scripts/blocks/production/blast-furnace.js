@@ -122,23 +122,13 @@ const blastFurnace = multiLib.extend(GenericCrafter, "blast-furnace", [{
         if (entity.items.get(item) >= this.itemCapacity) return false;
         return item == Items.coal || this.inputItemSet.contains(item);
     },
-    placed(tile) {
-        this.super$placed(tile);
-        this.register(tile.entity, 1);
-    },
-    register(entity, value) {
-        if (entity != null) furnaces.update(entity, value);
-    },
-    removed(tile) {
-        this.register(tile.entity, 1);
-        this.register(tile.entity, 0);
-        this.invFrag.hide();
-    },
     customUpdate(tile) {
         const entity = tile.ent();
-        if (entity == null) return;
         if (entity.getToggle() == -1) entity.warmup = Mathf.lerp(entity.warmup, 0, 0.02);
-        if (Time.time() % 60 < Time.delta()) this.register(entity, 1);
+        if (entity.isTeamChanged()) {
+            furnaces[tile.getTeam().toString()].put(entity, furnaces[entity.getPreviousTeam().toString()].remove(entity, 0));
+            entity.setPreviousTeam(tile.getTeam());
+        }
     },
     update(tile) {
         const entity = tile.ent();
@@ -219,6 +209,26 @@ const blastFurnace = multiLib.extend(GenericCrafter, "blast-furnace", [{
         this.super$load();
         this.topRegion = Core.atlas.find(this.name + "-top")
     }
-}, {});
+}, {
+    _previousTeam: null,
+    getPreviousTeam() {
+        return this._previousTeam;
+    },
+    setPreviousTeam(t) {
+        this._previousTeam = t;
+    },
+    isTeamChanged() {
+        return this._previousTeam != this.getTeam();
+    },
+    added() {
+        furnaces[this.getTeam().toString()].put(this, 0);
+        this._previousTeam = this.getTeam();
+    },
+    removed() {
+        this.super$removed();
+        if (this.isTeamChanged()) furnaces[this._previousTeam.toString()].remove(this, 0);
+        else furnaces[this.getTeam().toString()].remove(this, 0);
+    },
+});
 blastFurnace.dumpToggle = false;
 blastFurnace.configurable = false;

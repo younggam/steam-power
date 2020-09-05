@@ -132,23 +132,16 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
             if (entity.items.get(item) >= this.itemCapacity) return false;
             return item == Items.coal || this.inputItemSet.contains(item);
         },
-        placed(tile) {
-            this.super$placed(tile);
-            this.register(tile.entity, 1);
-        },
-        register(entity, value) {
-            if (entity != null) furnaces.update(entity, value);
-        },
         removed(tile) {
-            this.register(tile.entity, 1);
-            this.register(tile.entity, 0);
             this.invFrag.hide();
         },
         customUpdate(tile) {
             const entity = tile.ent();
-            if (entity == null) return;
             if (entity.getToggle() == -1) entity.warmup = Mathf.lerp(entity.warmup, 0, 0.02);
-            if (Time.time() % 60 < Time.delta()) this.register(entity, 1);
+            if (entity.isTeamChanged()) {
+                furnaces[tile.getTeam().toString()].put(entity, furnaces[entity.getPreviousTeam().toString()].remove(entity, 0));
+                entity.setPreviousTeam(tile.getTeam());
+            }
         },
         //custom function that checks space for item and liquid
         checkoutput(tile, i) {
@@ -163,8 +156,8 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
         configured(tile, player, value) {
             const entity = tile.ent();
             const old = entity.getToggle();
-            if ((old == 1 || old == 0) && value != 1 && value != 0) furnaces.sizes[tile.getTeam()]--;
-            if ((value == 1 || value == 0) && old != 1 && old != 0) furnaces.sizes[tile.getTeam()]++;
+            if ((old == 1 || old == 0) && value != 1 && value != 0) furnaces[tile.getTeam().toString()].remove(entity, 0);
+            else if ((value == 1 || value == 0) && old != 1 && old != 0) furnaces[tile.getTeam().toString()].put(entity, 0);
             if (old >= 0) entity.saveProgress(old, entity.progress);
             if (value == -1) entity.saveCond(false);
             entity.progress = 0;
@@ -200,5 +193,27 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
             this.super$load();
             this.topRegion = Core.atlas.find(this.name + "-top")
         }
-    }, {});
+    }, {
+        _previousTeam: null,
+        getPreviousTeam() {
+            return this._previousTeam;
+        },
+        setPreviousTeam(t) {
+            this._previousTeam = t;
+        },
+        isTeamChanged() {
+            return this._previousTeam != this.getTeam();
+        },
+        added() {
+            if (this._toggle == 1 || this._toggle == 0) furnaces[this.getTeam()].put(this, 0);
+            this._previousTeam = this.getTeam();
+        },
+        removed() {
+            this.super$removed();
+            if (this._toggle == 1 || this._toggle == 0) {
+                if (this.isTeamChanged()) furnaces[this._previousTeam].remove(this, 0);
+                else furnaces[this.getTeam()].remove(this, 0);
+            }
+        },
+    });
 advancedFurnace.dumpToggle = false;

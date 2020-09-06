@@ -115,7 +115,7 @@ draugA.create(prov(() => {
             var iterator = teamFurnaces.iterator();
             while (iterator.hasNext()) {
                 var tmp = iterator.next();
-                if (this.dst2(tmp.key) > 16000 && tmp.key != this._closestFurnace) continue;
+                if (this.dst2(tmp.key) > 160000 && tmp.key != this._closestFurnace) continue;
                 var draugPerFurnace = Math.ceil(draugSizes[this.team] / teamFurnaces.size)
                 if (tmp.value < draugPerFurnace) {
                     if (this._closestFurnace != null && teamFurnaces.containsKey(this._closestFurnace)) teamFurnaces.getAndIncrement(this._closestFurnace, 0, -1);

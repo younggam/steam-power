@@ -54,27 +54,14 @@ const teleporter = extendContent(Block, "teleporter", {
         const entity = tile.ent();
         var valueTeles = teleporters[tile.getTeam().toString()][value]
         var entries = valueTeles.asArray();
-        if (entity.getEntry() >= entries.size) {
-            entity.resetEntry();
-        }
+        if (entity.getEntry() >= entries.size) entity.resetEntry();
         if (entity.getEntry() == entries.size - 1) {
             var other_ = valueTeles.get(entries.get(entity.getEntry()))
-            if (other_ == entity) {
-                entity.resetEntry();
-            }
+            if (other_ == entity) entity.resetEntry();
         }
         for (var i = entity.getEntry(); i < entries.size; i++) {
             var other = valueTeles.get(entries.get(i))
-            if (other == null) {
-                valueTeles.remove(entries.get(i));
-                continue;
-            } else if (other == entity) {
-                continue;
-            } else if (other.block != this) {
-                valueTeles.remove(entries.get(i));
-                continue;
-            } else if (other.getTeam() != tile.getTeam()) continue;
-            else {
+            if (other != entity) {
                 entity.setEntry(i + 1);
                 return other;
             }

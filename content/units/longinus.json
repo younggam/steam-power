@@ -1,0 +1,12 @@
+speed: 0.05
+flying: true
+health: 18000
+hitsize:35
+range: 80
+mass:48
+rotatespeed:0.03
+baseRotateSpeed:0.04
+shootCone:8
+maxVelocity:0.70
+rotateWeapon:false
+attackLength:180

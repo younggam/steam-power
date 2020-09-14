@@ -1,5 +1,5 @@
 var sounds=this.global.sounds;
-if (typeof(floatc)==="undefined")  const floatc = method => new Floatc(){get : method};
+const floatc = this.global.funcs.floatc;
 const floatc2 = this.global.funcs.floatc2;
 var yamatoHit=newEffect(14,e=>{
   Draw.color(Color.white,Pal.lightOrange,e.fin());
@@ -77,7 +77,7 @@ const weaponLaser=extend(Weapon,{
     var offset=this.convertOffset(current);
     Tmp.v1.trns(shooter.rotation-90,offset[0] ,offset[1] );
     this.shootSound=sounds["laser-"+Mathf.floor(Mathf.random(3))];
-    weaponLaser.shoot(shooter,Tmp.v1.x,Tmp.v1.y,Angles.angle(x+Tmp.v1.x,y+Tmp.v1.y,cx,cy),false);
+    this.shoot(shooter,Tmp.v1.x,Tmp.v1.y,Angles.angle(x+Tmp.v1.x,y+Tmp.v1.y,cx,cy),false);
   },
   convertOffset(i){
     var x=(i%2-0.5)*(i<2?28:12);
@@ -105,7 +105,7 @@ const weaponYamato=extend(Weapon,{
 weaponYamato.reload=180;
 weaponYamato.alternate=false;
 weaponYamato.bullet=yamatocannon;
-weaponYamato.inaccuracy=8;
+weaponYamato.inaccuracy=0;
 const younggam=new UnitType("younggam");
 younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
   _beginReload:false,

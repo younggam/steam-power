@@ -32,7 +32,7 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
                 items: ["steam-power-iron/1"],
                 liquids: ["slag/1"]
             },
-            craftTime: 100
+            craftTime: 50
         },
         {
             input: {
@@ -132,9 +132,6 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
             if (entity.items.get(item) >= this.itemCapacity) return false;
             return item == Items.coal || this.inputItemSet.contains(item);
         },
-        removed(tile) {
-            this.invFrag.hide();
-        },
         customUpdate(tile) {
             const entity = tile.ent();
             if (entity.getToggle() == -1) entity.warmup = Mathf.lerp(entity.warmup, 0, 0.02);
@@ -160,6 +157,22 @@ const advancedFurnace = multiLib.extend(GenericCrafter, "advanced-furnace",
             else if ((value == 1 || value == 0) && old != 1 && old != 0) furnaces[tile.getTeam().toString()].put(entity, 0);
             if (old >= 0) entity.saveProgress(old, entity.progress);
             if (value == -1) entity.saveCond(false);
+            if(this.dumpToggle) {
+                entity.getToOutputItemSet().clear();
+                entity.getToOutputLiquidSet().clear();
+                if(value > -1) {
+                    var oItems = this.recs[value].output.items;
+                    var oLiquids = this.recs[value].output.liquids;
+                    for(var i = 0, len = oItems.length; i < len; i++) {
+                        var item = oItems[i].item;
+                        if(entity.items.has(item)) entity.getToOutputItemSet().add(item);
+                    }
+                    for(var i = 0, len = oLiquids.length; i < len; i++) {
+                        var liquid = oLiquids[i].liquid;
+                        if(entity.liquids.get(liquid) > 0.001) entity.getToOutputLiquidSet().add(liquid);
+                    }
+                }
+            }
             entity.progress = 0;
             entity.setToggle(value);
         },

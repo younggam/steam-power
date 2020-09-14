@@ -1,57 +1,47 @@
-function getItem(name)
-{
+function getItem(name) {
     return Vars.content.getByName(ContentType.item, name);
 }
 Blocks.overdriveProjector.consumes.add(new ConsumeItemFilter(boolf(item => item == Items.phasefabric || item == getItem("steam-power-quantum-mass")))).boost();
 Blocks.mendProjector.consumes.add(new ConsumeItemFilter(boolf(item => item == Items.phasefabric || item == getItem("steam-power-quantum-mass")))).boost();
 Blocks.forceProjector.consumes.add(new ConsumeItemFilter(boolf(item => item == Items.phasefabric || item == getItem("steam-power-quantum-mass")))).boost();
 const heatL = require("heatWrapper");
-const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.GenericCrafterEntity, "matter-disintegrator",
-{
+const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.GenericCrafterEntity, "matter-disintegrator", {
     heatCapacity: 3000,
     itemValues: [],
     tmpImage: null,
     pauseImg: null,
     playImg: null,
     cancelImg: null,
-    invFrag: extend(BlockInventoryFragment,
-    {
+    invFrag: extend(BlockInventoryFragment, {
         visible: false,
-        isShown()
-        {
+        isShown() {
             return this.visible;
         },
-        showFor(t)
-        {
+        showFor(t) {
             this.visible = true;
             this.super$showFor(t);
         },
-        hide()
-        {
+        hide() {
             this.visible = false;
             this.super$hide();
         }
     }),
     _containerItems: [],
     _containerItemMap: new IntMap(4, 1),
-    getContainerItems()
-    {
+    getContainerItems() {
         return this._containerItems;
     },
-    load()
-    {
+    load() {
         this.super$load();
         this.glowRegion = Core.atlas.find(this.name + "-glow");
     },
-    init()
-    {
+    init() {
         this.super$init();
         this._containerItems = [new ItemStack(getItem("steam-power-semiconductor"), 1), new ItemStack(getItem("metaglass"), 2), new ItemStack(getItem("steam-power-dense-alloy"), 2)];
         this._containerItems.forEach(item => this._containerItemMap.put(item.item.id, item));
         var regExpA = /-ore|-dense/i;
         var regExpB = /-alloy|-alloy/i;
-        Vars.content.items().each(cons(item =>
-        {
+        Vars.content.items().each(cons(item => {
             var value = 0;
             value += Math.pow(Math.max(item.hardness + 2, 2), 0.75);
             value += Math.pow(Math.max(item.cost, 0), 0.5);
@@ -61,8 +51,7 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
             this.itemValues[item.id] = Math.max(value * 10, 1);
         }));
     },
-    setStats()
-    {
+    setStats() {
         this.super$setStats();
         this.stats.remove(BlockStat.itemCapacity);
         this.stats.add(BlockStat.itemCapacity, "20/10/5 {0}", StatUnit.items.localized());
@@ -70,16 +59,14 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         this.stats.add(BlockStat.booster, Core.bundle.get("steam-power-heat-per-sec"), "4~24")
         this.stats.add(BlockStat.boostEffect, "0~2.00{0}", StatUnit.timesSpeed.localized());
     },
-    setBars()
-    {
+    setBars() {
         this.super$setBars();
         this.bars.add("heat", func(entity =>
             new Bar(prov(() => Core.bundle.format("bar.heat") + ": " + (typeof(entity["getHeat"]) !== "function" ? 0.0 : entity.getHeat()).toFixed(1)), prov(() => Pal.lightFlame), floatp(() => typeof(entity["getHeat"]) !== "function" ? 0 : entity.getHeat() / this.heatCapacity))
         ));
         this.bars.remove("items");
     },
-    acceptItem(item, tile, source)
-    {
+    acceptItem(item, tile, source) {
         if (item == this.outputItem.item) return false;
         const items = tile.ent().items;
         var cap = this.getMaximumAccepted(tile, item);
@@ -88,8 +75,7 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         this._containerItems.forEach(item => exclude += items.get(item.item));
         return items.total() - exclude - items.get(this.outputItem.item) < cap;
     },
-    acceptStack(item, amount, tile, source)
-    {
+    acceptStack(item, amount, tile, source) {
         if (item == this.outputItem.item) return false;
         const items = tile.ent().items;
         if (source != null && source.getTeam() != tile.getTeam()) return 0;
@@ -99,41 +85,34 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         this._containerItems.forEach(item => exclude += items.get(item.item));
         return Math.min(cap + exclude - items.total() + items.get(this.outputItem.item), amount);
     },
-    getMaximumAccepted(tile, item)
-    {
+    getMaximumAccepted(tile, item) {
         var containerItem = this._containerItemMap.get(item.id);
         return containerItem != null ? 5 * containerItem.amount : 20;
     },
-    handleStack(item, amount, tile, source)
-    {
+    handleStack(item, amount, tile, source) {
         const entity = tile.ent();
         const que = entity.getItemQueue();
         entity.items.add(item, amount);
         if (this._containerItemMap.get(item.id) != null || item == this.outputItem.item) return;
         for (; amount > 0; amount--) que.addLast(item);
     },
-    handleItem(item, tile, source)
-    {
+    handleItem(item, tile, source) {
         const entity = tile.ent();
         const que = entity.getItemQueue();
         entity.items.add(item, 1);
         if (this._containerItemMap.get(item.id) != null || item == this.outputItem.item) return;
         que.addLast(item);
     },
-    removeStack(tile, item, amount)
-    {
+    removeStack(tile, item, amount) {
         const entity = tile.ent();
         if (entity == null || entity.items == null) return 0;
         amount = Math.min(amount, entity.items.get(item));
-        if (this._containerItemMap.get(item.id) == null && item != this.outputItem.item)
-        {
+        if (this._containerItemMap.get(item.id) == null && item != this.outputItem.item) {
             const que = entity.getItemQueue().iterator();
             var tmp, i = amount;
-            while (que.hasNext() && i > 0)
-            {
+            while (que.hasNext() && i > 0) {
                 tmp = que.next();
-                if (tmp == item)
-                {
+                if (tmp == item) {
                     que.remove();
                     i--;
                 }
@@ -142,24 +121,19 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         entity.items.remove(item, amount);
         return amount;
     },
-    update(tile)
-    {
+    update(tile) {
         const entity = tile.ent();
-        if (entity.isFragShown() && !this.invFrag.isShown() && entity.items.total() > 0)
-        {
+        if (entity.isFragShown() && !this.invFrag.isShown() && entity.items.total() > 0) {
             this.invFrag.showFor(tile);
         }
         if (entity.timer.get(this.timerDump, this.dumpTime)) this.tryDump(tile, this.outputItem.item);
         entity.coolDownHeat();
         if (entity.isPaused() || entity.power.status <= 0) return;
-        if (entity.progress < 1)
-        {
+        if (entity.progress < 1) {
             var prog = this.getProgressIncrease(entity, this.craftTime);
-            if (entity.getCurrentItem() == null)
-            {
+            if (entity.getCurrentItem() == null) {
                 const que = entity.getItemQueue();
-                if (!que.isEmpty())
-                {
+                if (!que.isEmpty()) {
                     var tmp = que.removeFirst();
                     entity.items.remove(tmp, 1);
                     entity.setCurrentItem(tmp);
@@ -167,15 +141,11 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
                     entity.progressValue(prog);
                     entity.progress += prog;
                 }
-            }
-            else
-            {
+            } else {
                 entity.progressValue(prog);
                 entity.progress += prog;
             }
-        }
-        else if (entity.progress >= 1 && entity.items.has(this._containerItems) && entity.items.get(this.outputItem.item) < 10)
-        {
+        } else if (entity.progress >= 1 && entity.items.has(this._containerItems) && entity.items.get(this.outputItem.item) < 10) {
             this.offloadNear(tile, this.outputItem.item);
             entity.progress = 0;
         }
@@ -183,8 +153,7 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
     flameColor: Color.valueOf("ffc999a0"),
     darkColor: Color.valueOf("003040ff"),
     lightColor: Color.valueOf("40ff80ff"),
-    draw(tile)
-    {
+    draw(tile) {
         const entity = tile.ent();
         var x = tile.drawx(),
             y = tile.drawy();
@@ -193,8 +162,7 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         Draw.rect(this.region, x, y);
         Draw.color(this.darkColor, this.lightColor, doEffect ? scl : 0);
         Draw.rect(this.glowRegion, x, y);
-        if (doEffect)
-        {
+        if (doEffect) {
             Draw.color(Color.white);
             Lines.stroke(1.5);
             Lines.circle(x, y, scl + 3);
@@ -204,13 +172,11 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         }
         Draw.color();
     },
-    buildCommon(entity)
-    {
+    buildCommon(entity) {
         var cb = Core.bundle;
         var display2 = cb.get(this.name + "-display-2");
         var display3 = cb.get(this.name + "-display-3");
-        if (this.dialog0 == null)
-        {
+        if (this.dialog0 == null) {
             this.dialog0 = new FloatingDialog(cb.get(this.name + "-dialog-0"));
             this.dialog0.addCloseButton();
             this.dialog0.marginTop(10);
@@ -218,21 +184,17 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
             this.playImg = new Image(Icon.play);
             this.cancelImg = new Image(Icon.cancel, Pal.remove);
         }
-        if (this.dialog1 == null)
-        {
+        if (this.dialog1 == null) {
             this.dialog1 = new FloatingDialog("");
             this.dialog1.addCloseButton();
             var valueTable = this.dialog1.cont;
             valueTable.clear();
             valueTable.add(cb.get(this.name + "-dialog-1")).row();
             valueTable.addImage().height(4).pad(6).color(Pal.gray).growX().width(300).row();
-            valueTable.table(cons(t =>
-            {
+            valueTable.table(cons(t => {
                 var a = 0;
-                for (var i = 0; i < this.itemValues.length; i++)
-                {
-                    if (this._containerItemMap.get(i) != null || i == this.outputItem.id)
-                    {
+                for (var i = 0; i < this.itemValues.length; i++) {
+                    if (this._containerItemMap.get(i) != null || i == this.outputItem.id) {
                         continue;
                     }
                     t.addImage(Vars.content.items().get(i).icon(Cicon.medium)).padTop(16);
@@ -243,57 +205,44 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
             }));
         }
         this.dialog0.setUserObject(entity);
-        this.dialog0.update(run(() =>
-        {
-            if (this.dialog0.getUserObject().isDead())
-            {
+        this.dialog0.update(run(() => {
+            if (this.dialog0.getUserObject().isDead()) {
                 this.dialog0.hide();
                 this.dialog1.hide();
             }
         }));
         var cont = this.dialog0.cont;
         cont.clear();
-        cont.table(cons(t =>
-        {
+        cont.table(cons(t => {
             t.add(cb.get(this.name + "-title-0"));
             t.addImage(Icon.warning).color(Pal.remove).visible(boolp(() => entity.isContainerValid())).padLeft(8);
         })).row();
         cont.addImage().height(4).pad(6).color(Pal.gray).growX().width(300).row();
-        cont.table(cons(t =>
-        {
+        cont.table(cons(t => {
             var items = entity.items;
-            for (var i = 0; i < 3; i++)
-            {
+            for (var i = 0; i < 3; i++) {
                 var itemStack = this._containerItems[i];
                 t.addImage(itemStack.item.icon(Cicon.medium)).size(48).padBottom(8).padTop(8);
-                (function(i, item, amount)
-                {
+                (function(i, item, amount) {
                     t.add(items.get(item) + "/").padLeft(8).update(cons(e => e.setText(items.get(item) + "/")));
-                    t.add(String(amount)).padLeft(4).padRight(16).update(cons(e =>
-                    {
+                    t.add(String(amount)).padLeft(4).padRight(16).update(cons(e => {
                         if (items.get(item) < amount) e.setColor(Pal.remove);
                     }));
                 })(i, itemStack.item, itemStack.amount);
             }
         })).row();
-        cont.table(cons(t =>
-        {
+        cont.table(cons(t => {
             t.add(cb.get(this.name + "-title-1")).padTop(16);
-            t.addButton(cons(b =>
-            {
+            t.addButton(cons(b => {
                 this.tmpImage = b.add(entity.isPaused() ? this.playImg : this.pauseImg);
-            }), run(() =>
-            {
+            }), run(() => {
                 entity.tile.configure(0);
                 this.tmpImage.setElement(entity.isPaused() ? this.playImg : this.pauseImg);
             })).size(48).padLeft(8);
-            t.addImageButton(Icon.info, run(() =>
-            {
-                Vars.ui.showOkText(cb.get(this.name + "-display-0"), cb.get(this.name + "-display-1"), run(() =>
-                {}));
+            t.addImageButton(Icon.info, run(() => {
+                Vars.ui.showOkText(cb.get(this.name + "-display-0"), cb.get(this.name + "-display-1"), run(() => {}));
             })).size(48).padLeft(8);
-            t.addImageButton(Icon.book, run(() =>
-            {
+            t.addImageButton(Icon.book, run(() => {
                 this.dialog1.show();
             })).size(48).padLeft(8);
         })).width(300).row();
@@ -301,40 +250,32 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         cont.add(func(e => new Bar(prov(() => (e.progress * 100).toFixed(1) + "/100 %"), prov(() => Color.valueOf("000040")), floatp(() => e.progress))).get(entity)).width(300).height(72).row();
         cont.add(cb.get(this.name + "-title-2")).padTop(16).row();
         cont.addImage().height(4).pad(6).color(Pal.gray).growX().width(300).row();
-        cont.table(cons(tt =>
-        {
+        cont.table(cons(tt => {
             tt.add(new Label("")).update(cons(e => e.setText(display2 + " x" + (entity.power.status * entity.timeScale + Math.max(0, entity.getHeat() / 1250 - 0.4)).toFixed(2)))).padRight(8);
-            tt.table(Tex.inventory).update(cons(t =>
-            {
+            tt.table(Tex.inventory).update(cons(t => {
                 t.clear();
                 var cur = entity.getCurrentItem(),
                     status = entity.power.status;
                 t.addImage(Icon.power).color(status <= 0 ? Pal.remove : status > 0.99 ? Pal.accent : Pal.lightOrange).padRight(4);
-                if (cur != null)
-                {
+                if (cur != null) {
                     t.addImage(cur.icon(Cicon.medium));
                     var dots = "",
                         time = Time.time() % 60 / 15;
                     for (var i = 1; i < time; i++) dots += ".";
                     t.add(display3 + dots).padLeft(8);
-                }
-                else t.add(this.cancelImg);
+                } else t.add(this.cancelImg);
             }));
         })).row();
-        cont.table().update(cons(t =>
-        {
+        cont.table().update(cons(t => {
             t.clear();
             var que = entity.getItemQueue().iterator(),
                 i = 0,
                 tmp, tmpAmount = 0,
                 last;
-            while (que.hasNext())
-            {
+            while (que.hasNext()) {
                 var tmp = que.next();
-                if (last != tmp)
-                {
-                    if (i != 0)
-                    {
+                if (last != tmp) {
+                    if (i != 0) {
                         t.add(String(tmpAmount));
                         if (i % 4 == 0) t.row();
                         else t.addImage(Icon.left).padRight(8).padLeft(8);
@@ -343,26 +284,20 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
                     last = tmp;
                     tmpAmount = 1;
                     i++;
-                }
-                else tmpAmount++;
+                } else tmpAmount++;
             }
             if (i != 0) t.add(String(tmpAmount));
         }));
         this.dialog0.show();
     },
-    buildConfiguration(tile, table)
-    {
+    buildConfiguration(tile, table) {
         const entity = tile.ent();
         this.invFrag.build(table.getParent());
-        if (entity.isFragShown())
-        {
+        if (entity.isFragShown()) {
             this.invFrag.hide();
             Vars.control.input.frag.config.hideConfig();
-        }
-        else
-        {
-            table.addImageButton(Icon.info, run(() =>
-            {
+        } else {
+            table.addImageButton(Icon.info, run(() => {
                 this.buildCommon(entity);
                 this.invFrag.hide();
                 Vars.control.input.frag.config.hideConfig();
@@ -371,91 +306,71 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         }
         entity.switchFrag();
     },
-    configured(tile, player, value)
-    {
+    configured(tile, player, value) {
         tile.entity.pause();
     },
-    onConfigureTileTapped(tile, other)
-    {
-        if (tile != other)
-        {
+    onConfigureTileTapped(tile, other) {
+        if (tile != other) {
             tile.entity.switchFrag();
             this.invFrag.hide();
         }
         return true;
     },
-    removed(tile)
-    {
+    removed(tile) {
         this.invFrag.hide();
     },
-    generateIcons()
-    {
+    generateIcons() {
         return [
             Core.atlas.find(this.name),
             Core.atlas.find(this.name + "-glow")
         ];
     },
-},
-{
+}, {
     _pause: false,
-    isPaused()
-    {
+    isPaused() {
         return this._pause;
     },
-    pause()
-    {
+    pause() {
         this._pause = !this._pause;
     },
-    isContainerValid()
-    {
+    isContainerValid() {
         return !this.items.has(this.block.getContainerItems());
     },
     _isFragShown: false,
-    isFragShown()
-    {
+    isFragShown() {
         return this._isFragShown;
     },
-    switchFrag()
-    {
+    switchFrag() {
         this._isFragShown = !this._isFragShown;
     },
     _itemQueue: null,
-    getItemQueue()
-    {
+    getItemQueue() {
         return this._itemQueue;
     },
     _currentItem: null,
-    getCurrentItem()
-    {
+    getCurrentItem() {
         return this._currentItem;
     },
-    setCurrentItem(a)
-    {
+    setCurrentItem(a) {
         this._currentItem = a;
     },
     _value: 0,
-    setValue(a)
-    {
+    setValue(a) {
         this._value = a / 100;
     },
-    progressValue(b)
-    {
+    progressValue(b) {
         this._value -= b;
         if (this._heat >= 500) this._heat -= Time.delta() * this.timeScale * this._heat / 7500;
         if (this._value <= 0) this._currentItem = null;
     },
-    added()
-    {
+    added() {
         if (this._itemQueue == null) this._itemQueue = new Queue(20);
     },
-    delta()
-    {
+    delta() {
         return Time.delta() * (this.timeScale + Math.max(0, this._heat / 1250 - 0.4));
     },
-    write(stream)
-    {
+    write(stream) {
         this.super$write(stream);
-        print("writing");
         stream.writeBoolean(this._pause);
         stream.writeFloat(this._heat);
         stream.writeByte(this._itemQueue.size);
@@ -463,10 +378,8 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
         while (que.hasNext()) stream.writeByte(que.next().id);
         stream.writeByte(this._currentItem == null ? -1 : this._currentItem.id);
     },
-    read(stream, revision)
-    {
+    read(stream, revision) {
         this.super$read(stream, revision);
-        print("reading");
         this._pause = stream.readBoolean();
         this._heat = stream.readFloat();
         var count = stream.readByte();
@@ -477,8 +390,7 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
     }
 });
 matterDisintegrator.configurable = true;
-matterDisintegrator.consumes.powerCond(60, boolf(e =>
-{
+matterDisintegrator.consumes.powerCond(60, boolf(e => {
     if (typeof e["getCurrentItem"] === "function") return e.getCurrentItem() != null && !e.isPaused() && e.isContainerValid();
     return false;
 }));

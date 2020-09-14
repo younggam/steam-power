@@ -1,0 +1,28 @@
+type:UnitFactory
+name: Dimension Shipyard
+description:Produces Longinus.
+unitType:longinus
+size:8
+produceTime:1
+maxSpawn:1
+consumes:{
+  power:14
+  items:{
+    items:[
+      computer/5
+      dimension-armour/10
+      dense-alloy/30
+      thorium/45
+      silicon/45
+    ]
+  }
+}
+category:units
+requirements:[
+  computer/20
+  quantum-mass/40
+  silicon/160
+  dense-alloy/100
+  graphite/80
+  lead/40
+]

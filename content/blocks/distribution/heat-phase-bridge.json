@@ -8,6 +8,7 @@ requirements:[
   plastanium/8
 ]
 group:none
+research:phase-conveyor
 category:distribution
 consumes:{
   power:0.3

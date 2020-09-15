@@ -1,0 +1,9 @@
+buildCostMultiplier:6
+health:60
+requirements:[
+    iron/12
+    copper/12
+    graphite/8
+    glass/8
+]
+research:junction

@@ -17,6 +17,7 @@ consumes:{
   }
 }
 category:units
+research:revenant-factory
 requirements:[
   computer/10
   titanium/40

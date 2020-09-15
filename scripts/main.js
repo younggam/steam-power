@@ -41,7 +41,7 @@ this.global.funcs.cons2 = method => new Cons2() {
 };
 require("override");
 require("initializer");
-//require("blocks/distribution/item-liquid-junction");
+require("blocks/distribution/item-liquid-junction");
 require("blocks/distribution/electric-conveyor");
 require("blocks/distribution/hyperloop-conveyor");
 require("blocks/distribution/heat-bridge");

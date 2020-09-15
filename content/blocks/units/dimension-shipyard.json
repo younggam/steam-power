@@ -18,6 +18,7 @@ consumes:{
   }
 }
 category:units
+research:revenant-factory
 requirements:[
   computer/20
   quantum-mass/40

@@ -7,7 +7,7 @@ startingItems:[
   stone/1000
 ]
 launchPeriod:10
-conditionWave:30
+conditionWave:25
 resources:[
   stone
   copper

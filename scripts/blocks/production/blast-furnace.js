@@ -58,7 +58,6 @@ const blastFurnace = multiLib.extend(GenericCrafter, "blast-furnace", [{
         this.super$setBars();
         //initialize
         this.bars.remove("liquid");
-        this.bars.remove("power")
         //display every Liquids that can contain
         var i = 0;
         if(!this.liquidSet.isEmpty()) {
@@ -72,7 +71,6 @@ const blastFurnace = multiLib.extend(GenericCrafter, "blast-furnace", [{
     //for dislpying info
     setStats() {
         this.super$setStats();
-        this.stats.remove(BlockStat.powerUse);
         this.stats.remove(BlockStat.productionTime);
         this.stats.add(BlockStat.booster, new ItemListValue(ItemStack(Items.coal, 1)))
         this.stats.add(BlockStat.boostEffect, 2.5, StatUnit.timesSpeed);

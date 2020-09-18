@@ -7,7 +7,7 @@ startingItems:[
   glass/300
 ]
 launchPeriod:10
-conditionWave:20
+conditionWave:15
 resources:[
   stone
   copper

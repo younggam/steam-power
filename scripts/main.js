@@ -63,6 +63,7 @@ require("steam-power/blocks/production/thermal-centrifuge");
 require("blocks/production/metal-smelter");
 require("steam-power/blocks/production/matter-disintegrator");
 //
+require("blocks/power/wind-mill");
 require("blocks/power/geothermal-system");
 require("blocks/power/turbine");
 require("blocks/power/nuclear-reactor");

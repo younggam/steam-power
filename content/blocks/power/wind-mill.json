@@ -1,0 +1,12 @@
+category:power
+hasItems: false
+hasLiquids:false
+requirements:[
+  iron/30
+  copper/15
+  lead/30
+]
+powerProduction: 0.2
+health:40
+size:2
+research:combustion-generator

@@ -197,8 +197,13 @@ launchpad.entityType=prov(()=>extendContent(ItemTurret.ItemTurretEntity,launchpa
   _launchInterval:0,
   write(stream){
     this.super$write(stream);
-    stream.writeShort(this._targetSpot.x);
-    stream.writeShort(this._targetSpot.y);
+    if(this._targetSpot==null){
+        stream.writeShort(this.x);
+        stream.writeShort(this.y);
+    }else{
+        stream.writeShort(this._targetSpot.x);
+        stream.writeShort(this._targetSpot.y);
+    }
   },
   read(stream,revision){
     this.super$read(stream,revision);

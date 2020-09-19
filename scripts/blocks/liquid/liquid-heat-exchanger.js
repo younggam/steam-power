@@ -48,6 +48,9 @@ const liquidHeatExchanger=heatL.heatGiver(GenericCrafter,GenericCrafter.GenericC
     this.tryDumpLiquid(tile,this.outputLiquid.liquid);
     if(entity.getHeat()>=this.heatCapacity) entity.kill();
   },
+  shouldConsume(tile){
+      return false;
+  },
   draw(tile){
     this.super$draw(tile);
     var mod=tile.entity.liquids

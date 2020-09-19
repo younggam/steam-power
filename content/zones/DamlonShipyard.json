@@ -1,6 +1,6 @@
 name: Damlon Shipyard
 description: Younggam Cruiser shipyard. Made by Lily.
-loadout:basicNucleus
+loadout:damlon
 startingItems:[
   copper/1000
   lead/1000

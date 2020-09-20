@@ -84,7 +84,7 @@ const plasma2=extend(FlakBulletType,{
     y=hity==null?b.y:hity;
     Effects.effect(plasmaBoom2,b.x,b.y,b.rot());
     this.hitSound.at(b,1/Math.pow(2,1));
-    Fire.create(Vars.world.tileWorld(hitx+Mathf.range(5),hity+Mathf.range(5)));
+    Fire.create(Vars.world.tileWorld(x+Mathf.range(5),y+Mathf.range(5)));
     Damage.damage(b.getTeam(),x,y,1.6*this.splashDamageRadius*(0.4+0.6*b.fin()),this.splashDamage*b.damageMultiplier()/(0.4+0.6*b.fin()));
   },
   despawned(b){

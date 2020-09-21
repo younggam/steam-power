@@ -41,6 +41,10 @@ const hyperloopConveyor = extendContent(ArmoredConveyor, "hyperloop-conveyor", {
             var other = iter.next();
             if(other != null && other.entity != null && other.entity.power != null && other.block().name == "steam-power-electric-conveyor" || other.block().name == "steam-power-hyperloop-conveyor") out.add(other);
         }
+        for(var i = 0, len = tile.entity.power.links.size; i < len; i++) {
+            var link = Vars.world.tile(tile.entity.power.links.get(i));
+            if(link != null && link.entity != null && link.entity.power != null) out.add(link);
+        }
         return out;
     }
 });

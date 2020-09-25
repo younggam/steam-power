@@ -41,12 +41,7 @@ draugA.create(prov(() => {
                 var entity = e._closestFurnace;
                 if (entity == null || entity instanceof BuildBlock.BuildEntity) return;
                 if (e == null) return;
-                try {
-                    e.findItem();
-                } catch (err) {
-                    print(err)
-                    return;
-                }
+                e.findItem();
                 if (e.targetItem != null && entity.block.acceptStack(e.targetItem, 1, entity.tile, e) == 0) {
                     e.clearItem();
                     return;
@@ -113,20 +108,21 @@ draugA.create(prov(() => {
                 return;
             }
             var iterator = teamFurnaces.iterator();
-            while (iterator.hasNext()) {
-                var tmp = iterator.next();
-                if (this.dst2(tmp.key) > 160000 && tmp.key != this._closestFurnace) continue;
-                var draugPerFurnace = Math.ceil(draugSizes[this.team] / teamFurnaces.size)
-                if (tmp.value < draugPerFurnace) {
-                    if (this._closestFurnace != null && teamFurnaces.containsKey(this._closestFurnace)) teamFurnaces.getAndIncrement(this._closestFurnace, 0, -1);
-                    teamFurnaces.getAndIncrement(tmp.key, 0, 1);
-                    this._closestFurnace = tmp.key;
-                    return;
+            var draugPerFurnace = Math.ceil(draugSizes[this.team] / teamFurnaces.size);
+            var current =this._closestFurnace!=null?teamFurnaces.get(this._closestFurnace,draugPerFurnace+1):draugPerFurnace+1;
+            if(current>=draugPerFurnace){
+                while (iterator.hasNext()) {
+                    var tmp = iterator.next();
+                    if(tmp.key==this._closestFurnace) continue;
+                    else if(this.dst2(tmp.key) > 160000) continue;
+                    if(current>tmp.value+1){
+                        if (this._closestFurnace != null && teamFurnaces.containsKey(this._closestFurnace)) teamFurnaces.getAndIncrement(this._closestFurnace, 0, -1);
+                        teamFurnaces.getAndIncrement(tmp.key, 0, 1);
+                        this._closestFurnace = tmp.key;
+                        return;
+                    }
                 }
-                if (tmp.value == draugPerFurnace && this._closestFurnace == tmp.key) return;
             }
-            if (this._closestFurnace != null && teamFurnaces.containsKey(this._closestFurnace)) teamFurnaces.getAndIncrement(this._closestFurnace, 0, -1);
-            this._closestFurnace = null;
         },
         getClosestCore() {
             return this._closestFurnace;
@@ -136,7 +132,6 @@ draugA.create(prov(() => {
         },
         update() {
             this.super$update();
-            if (Vars.net.client()) return;
             this.updateMining();
         },
         write(data) {

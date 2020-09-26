@@ -19,6 +19,9 @@ const nuclearReactor=heatL.heatRecator(LiquidConverter,GenericCrafter.GenericCra
     this.stats.remove(BlockStat.output);
     this.stats.add(BlockStat.output,this.outputLiquid.liquid,this.outputLiquid.amount*60,true);
     this.stats.remove(BlockStat.input);
+    var inputItems=this.consumes.get(ConsumeType.item).items;
+    this.stats.add(BlockStat.input,inputItems[0])
+    this.stats.add(BlockStat.input,inputItems[1]);
     this.stats.add(BlockStat.input,this.consumes.get(ConsumeType.liquid).liquid,this.consumes.get(ConsumeType.liquid).amount*60,true);
     this.stats.add(BlockStat.basePowerGeneration,Core.bundle.get("steam-power-heat-per-sec"),String(this.heatProduction*60));
   },

@@ -159,7 +159,7 @@ longinus.create(prov(() => new JavaAdapter(HoverUnit, {
             } else this.isCharging = false;
         }
     },
-    writeSave(data) {
+    /*writeSave(data) {
         this.super$writeSave(data, false);
         data.writeByte(this.type.id);
         data.writeInt(this.spawner);
@@ -170,7 +170,7 @@ longinus.create(prov(() => new JavaAdapter(HoverUnit, {
         this.super$readSave(data, version);
         this.charging = data.readInt();
         this.missileSequence = data.readInt();
-    },
+    },*/
     write(data) {
         this.super$write(data);
         data.writeInt(Math.floor(this.charging));

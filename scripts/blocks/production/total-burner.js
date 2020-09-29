@@ -74,7 +74,7 @@ const totalBurner=heatL.heatGiver(Block,TileEntity,"total-burner",{
     this.super$init();
   },
   acceptItem(item,tile,source){
-    return tile.entity.items.get(item)<this.itemCapacity&&this.consumeItems.includes(item);
+    return tile.entity.items.get(item)<this.itemCapacity&&this.consumeItems.find(i=>i==item)!==undefined;
   },
   acceptLiquid(tile,source,liquid,amount){
     return tile.entity.liquids.get(liquid)+amount<=this.liquidCapacity&&liquid==this.consLiquid.liquid;

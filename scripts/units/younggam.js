@@ -30,7 +30,7 @@ const yamatocannon=extend(ArtilleryBulletType,{
     var t=this["target"+b.id];
     if(b==null||t==null) return;
     var range=typeof t["getType"]==="function"?t.getType().hitsize:typeof t["mech"]==="object"?t.mech.hitsize:t instanceof TileEntity?t.block.size*4:16;
-    if((Vars.net.client()?false:t.isDead())||b.dst2(t)<(range*range+4)){
+    if((Vars.net.client()||!typeof t["isDead"]!=="function"?false:t.isDead())||b.dst2(t)<(range*range+4)){
       delete this["target"+b.id];
       b.time(this.lifetime);
     }else{
@@ -113,7 +113,6 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
     this._beginReload=true;
   },
   _reload:0,
-  last:0,
   _timer:new Interval(1),
   _timerIndex:0,
   get_Timer(reload){
@@ -228,7 +227,6 @@ younggam.create(prov(()=>new JavaAdapter(HoverUnit,{
   },
   read(data){
     this.super$read(data);
-    this.last=this._reload;
     this._reload=data.readFloat();
     this._tmpTarget=new Vec2(data.readInt(),data.readInt());
   }

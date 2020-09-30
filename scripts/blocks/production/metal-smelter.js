@@ -41,12 +41,19 @@ const metalSmelter = multiLib.extend(GenericSmelter, "metal-smelter", [{
     heatCapacity: 1500,
     update(tile) {
         const entity = tile.ent();
-        if(!this.invFrag.isShown() && Vars.control.input.frag.config.isShown() && Vars.control.input.frag.config.getSelectedTile() == tile) {
-            this.invFrag.showFor(tile);
+        if(entity.timer.get(1, 60)) {
+            var i = 0;
+            entity.items.forEach(new ItemModule.ItemConsumer() {
+                accept: (item, amount) => {
+                    i++;
+                }
+            });
+            entity.setItemHas(i);
         }
         var recLen = this.recs.length;
         var current = entity.getToggle();
-        entity.coolDownHeat();
+        //to not rewrite whole update
+        if(typeof this["customUpdate"] === "function") this.customUpdate(tile);
         //calls customCons and customProd
         if(current >= 0) {
             this.customCons(tile, current);
@@ -55,30 +62,19 @@ const metalSmelter = multiLib.extend(GenericSmelter, "metal-smelter", [{
         var eItems = entity.items;
         var eLiquids = entity.liquids;
         //dump
-        var itemTimer = entity.timer.get(this.timerDump, this.dumpTime);
-        if(current > -1) {
-            var que = entity.getToOutputItemSet().orderedItems(),
-                len = que.size,
-                itemEntry = entity.getDumpItemEntry();
-            if(entity.timer.get(this.dumpTime) && len > 0) {
-                for(var i = 0; i < len; i++) {
-                    var candidate = que.get((i + itemEntry) % len);
-                    if(this.tryDump(tile, candidate)) {
-                        if(!eItems.has(candidate)) entity.getToOutputItemSet().remove(candidate);
-                        break;
-                    }
-                }
-                if(i != len) entity.setDumpItemEntry((i + itemEntry) % len);
-            }
-            var que = entity.getToOutputLiquidSet().orderedItems(),
-                len = que.size;
-            if(len > 0) {
-                for(var i = 0; i < len; i++) {
-                    var liquid = que.get(i);
-                    this.tryDumpLiquid(tile, liquid);
-                    if(eLiquids.get(liquid) <= 0.001) entity.getToOutputLiquidSet().remove(liquid);
+        if(this.dumpToggle && current == -1) return;
+        var que = entity.getToOutputItemSet().orderedItems(),
+            len = que.size,
+            itemEntry = entity.getDumpItemEntry();
+        if(entity.timer.get(this.dumpTime) && len > 0) {
+            for(var i = 0; i < len; i++) {
+                var candidate = que.get((i + itemEntry) % len);
+                if(this.tryDump(tile, candidate)) {
+                    if(!eItems.has(candidate)) entity.getToOutputItemSet().remove(candidate);
+                    break;
                 }
             }
+            if(i != len) entity.setDumpItemEntry((i + itemEntry) % len);
         }
         if(entity.getHeat() >= this.heatCapacity) entity.kill();
     },

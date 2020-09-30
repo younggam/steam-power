@@ -4,8 +4,8 @@ health: 18000
 hitsize:35
 range: 80
 mass:48
-rotatespeed:0.03
-baseRotateSpeed:0.04
+rotatespeed:0.1
+baseRotateSpeed:0.01
 shootCone:8
 maxVelocity:0.70
 rotateWeapon:false

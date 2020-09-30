@@ -2,6 +2,6 @@ name:steam-power
 displayName:Steam Power
 description:"[orange]Realistic power generation. \n\n[cyan]Developer : [green]younggam\n[yellow]Thanks to : sirius, 우파루파, Lily, sk7725\n\n[red]Need younggam/multi-lib2"
 author: younggam
-version: 2.1.4
+version: 2.1.5
 minGameVersion: 104
 dependencies:["multi-lib2"]

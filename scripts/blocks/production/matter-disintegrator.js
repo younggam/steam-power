@@ -121,9 +121,6 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
     },
     update(tile) {
         const entity = tile.ent();
-        if(entity.isFragShown() && !this.invFrag.isShown() && entity.items.total() > 0) {
-            this.invFrag.showFor(tile);
-        }
         if(entity.timer.get(this.timerDump, this.dumpTime)) this.tryDump(tile, this.outputItem.item);
         entity.coolDownHeat();
         if(entity.isPaused() || entity.power.status <= 0) return;
@@ -154,6 +151,10 @@ const matterDisintegrator = heatL.heatUser(GenericCrafter, GenericCrafter.Generi
     flameColor: Color.valueOf("ffc999a0"),
     darkColor: Color.valueOf("003040ff"),
     lightColor: Color.valueOf("40ff80ff"),
+    updateTableAlign(tile, table) {
+        this.super$updateTableAlign(tile,table);
+        if(!this.invFrag.isShown() && Vars.control.input.frag.config.getSelectedTile() == tile && tile.entity.items.total() > 0) this.invFrag.showFor(tile);
+    },
     draw(tile) {
         const entity = tile.ent();
         var x = tile.drawx(),

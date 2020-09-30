@@ -10,7 +10,8 @@ const longinusSpear = new JavaAdapter(BulletType, {
     },
     init(b) {
         if(b == null) return;
-        Damage.collideLine(b, b.getTeam(), this.hitEffect, b.x, b.y, b.rot(), this.length, true);
+        Damage.collideLine(b, b.getTeam(), this.hitEffect, b.x + 3 * Mathf.sinDeg(b.rot()), b.y + 3 * Mathf.cosDeg(b.rot()), b.rot(), this.length, true);
+        Damage.collideLine(b, b.getTeam(), this.hitEffect, b.x - 3 * Mathf.sinDeg(b.rot()), b.y - 3 * Mathf.cosDeg(b.rot()), b.rot(), this.length, true);
     },
     draw(b) {
         var f = Mathf.curve(b.fin(), 0, 0.2);
@@ -36,11 +37,11 @@ longinusSpear.drawSize = 440;
 longinusSpear.keepVelocity = false;
 const longinusWeapon = extend(Weapon, {
     update(shooter, pointerX, pointerY) {
-        if(shooter.isCharged()) {
-            shooter.resetCharging();
-            Tmp.v1.trns(shooter.rotation, 16);
-            this.shoot(shooter, Tmp.v1.x, Tmp.v1.y, shooter.rotation, true);
-        }
+        shooter.beginReload();
+    },
+    updateLaser(shooter, pointerX, pointerY) {
+        Tmp.v1.trns(shooter.rotation, 16);
+        this.shoot(shooter, Tmp.v1.x, Tmp.v1.y, shooter.rotation, true);
     }
 });
 longinusWeapon.bullet = longinusSpear;
@@ -60,7 +61,7 @@ const longinusMissile = new JavaAdapter(MissileBulletType, {
 longinusMissile.bulletWidth = 8;
 longinusMissile.bulletHeight = 8;
 longinusMissile.bulletShrink = 0;
-longinusMissile.drag = -0.02;
+longinusMissile.drag = -0.04;
 longinusMissile.splashDamageRadius = 30;
 longinusMissile.splashDamage = 7;
 longinusMissile.lifetime = 120;
@@ -79,19 +80,21 @@ longinusInterceptor.alternate = false;
 longinusInterceptor.shootSound = Sounds.missile;
 const longinus = new UnitType("longinus");
 longinus.create(prov(() => new JavaAdapter(HoverUnit, {
-    charging: 0,
-    isCharging: false,
-    lastCharged: 0,
     missileSequence: 0,
-    left: false,
-    fired: false,
-    resetCharging() {
-        this.charging = 0;
+    _beginReload: false,
+    last: 0,
+    beginReload() {
+        this._beginReload = true;
     },
-    isCharged() {
-        this.charging += Time.delta();
-        this.isCharging = true;
-        return this.charging >= 240;
+    _reload: 0,
+    _target: null,
+    fired: false,
+    isCharging: false,
+    get_Target() {
+        return this._target;
+    },
+    getTarget() {
+        return this.target;
     },
     drawWeapons() {},
     draw() {
@@ -105,13 +108,13 @@ longinus.create(prov(() => new JavaAdapter(HoverUnit, {
         Draw.color(Color.gray);
         Lines.stroke(1);
         Lines.circle(cx, cy, 5 + absin);
-        if(this.charging > 0) {
-            var fin = this.charging / 240;
+        if(this._reload > 0) {
+            var fin = this._reload / 240;
             var efout = 1 - fin * 10 % 1;
             var ex = this.x + Tmp.v1.x,
                 ey = this.y + Tmp.v1.y;
             Draw.color(Color.white);
-            if(this.lastCharged < this.charging) Angles.randLenVectors(this.id + Math.floor(fin * 10), 4, efout * (16 + 8 * fin), floatc2((x, y) => Fill.circle(ex + x, ey + y, 1 * efout + fin)));
+            if(this.last < this._reload) Angles.randLenVectors(this.id + Math.floor(fin * 10), 4, efout * (16 + 8 * fin), floatc2((x, y) => Fill.circle(ex + x, ey + y, 1 * efout + fin)));
             for(var i = 0; i < 3; i++) {
                 Draw.color(colors[i]);
                 Fill.circle(ex, ey, fin * (7 + absin - i));
@@ -122,29 +125,50 @@ longinus.create(prov(() => new JavaAdapter(HoverUnit, {
     getWeapon() {
         if(!Vars.net.client()) return this.type.weapon;
         var range = Time.delta() + 0.1;
-        if((this.charging >= 240 - range || this.charging <= range) && this.isCharging && !this.fired) {
+        //print(this._reload + ': ' + String(this._reload >= 240 - range || this._reload <= range) + " | " + String(this.fired) + " | " + String(this.last < this._reload));
+        if((this._reload >= 240 - range || this._reload <= range) && this.isCharging && !this.fired) {
             this.timer.get(1, 0);
             this.fired = true;
             return longinusWeapon;
-        }
-        else return longinusInterceptor;
+        } else return longinusInterceptor;
     },
     targetClosest() {
-        if(this.target == null ? true : this.dst2(this.target) >= 240 * 240 && !this._beginReload) this.super$targetClosest();
+        this.super$targetClosest();
+        var newTarget = Units.closestTarget(this.team, this.x, this.y, Math.max(longinusMissile.range(), this.type.range));
+        if(newTarget != null) this._target = newTarget;
+    },
+    updateTargeting() {
+        this.super$updateTargeting();
+        var t = this._target;
+        if(t == null) return;
+        if(t instanceof Unit ? (t.isDead() || t.getTeam() == this.team) : t instanceof TileEntity ? t.tile.entity == null : true) this._target = null;
     },
     update() {
-        this.lastCharged = this.charging;
+        this.last = this._reload;
         this.super$update();
         if(!Vars.net.client()) {
-            if(this.target != null && this.dst2(this.target) < 240 * 240 && (this.timer.get(2, 64) || (this.missileSequence % 4 != 0 && this.timer.get(3, 6)))) {
-                this.type.weapon = longinusInterceptor;
-                longinusInterceptor.updateMissile(this, this.missileSequence);
-                this.type.weapon = longinusWeapon;
-                this.missileSequence++;
-                if(this.missileSequence > 7) this.missileSequence = 0;
+            var fired = false;
+            if(this._beginReload) {
+                if(this._reload >= longinusWeapon.reload) {
+                    if(this.target != null && this.dst2(this.target) < 240 * 240) {
+                        fired = true;
+                        var to = Predict.intercept(this, this.target, longinusSpear.speed);
+                        this.type.weapon = longinusWeapon;
+                        longinusWeapon.updateLaser(this, to.x, to.y);
+                        this._reload = 0;
+                        this._beginReload = false;
+                    } else this._reload -= Time.delta() * 0.5;
+                } else if(this.target == null) this._reload -= Time.delta();
+                else this._reload += Time.delta();
             }
-            if(!this.isCharging) this.charging = Math.max(this.charging - 4 * Time.delta(), 0);
-            this.isCharging = false;
+            if(this._target != null && !fired)
+                if(this.dst2(this._target) < 288 * 288 && (this.timer.get(2, 64) || (this.missileSequence % 4 != 0 && this.timer.get(3, 6)))) {
+                    this.type.weapon = longinusInterceptor;
+                    longinusInterceptor.updateMissile(this, this.missileSequence);
+                    this.type.weapon = longinusWeapon;
+                    this.missileSequence++;
+                    if(this.missileSequence > 7) this.missileSequence = 0;
+                }
         } else {
             if(this.fired && this.timer.get(1, 120)) this.fired = false;
             this.updateTargeting();
@@ -154,34 +178,28 @@ longinus.create(prov(() => new JavaAdapter(HoverUnit, {
                 if(this.target == null) this.targetClosestEnemyFlag(BlockFlag.producer);
                 if(this.target == null) this.targetClosestEnemyFlag(BlockFlag.turret);
             }
-            if(this.target != null && this.dst2(this.target) < 240 * 250 && Angles.near(this.angleTo(this.target), this.rotation, this.type.shootCone)) {
-                if(this.isCharged()) this.charging = 0;
-            } else this.isCharging = false;
+            if(this._reload > 0) {
+                if(this._reload >= longinusWeapon.reload) {
+                    if(this.target == null || this.dst2(this.target) > 240 * 240) this._reload -= Time.delta() * 0.5;
+                    else this.isCharging = true;
+                } else if(this.target == null) this._reload -= Time.delta();
+                else {
+                    this._reload += Time.delta();
+                    this.isCharging = true;
+                }
+            }
         }
     },
-    /*writeSave(data) {
-        this.super$writeSave(data, false);
-        data.writeByte(this.type.id);
-        data.writeInt(this.spawner);
-        data.writeInt(Math.floor(this.charging));
-        data.writeInt(this.missileSequence);
-    },
-    readSave(data, version) {
-        this.super$readSave(data, version);
-        this.charging = data.readInt();
-        this.missileSequence = data.readInt();
-    },*/
     write(data) {
         this.super$write(data);
-        data.writeInt(Math.floor(this.charging));
+        data.writeFloat(this._reload);
         data.writeInt(this.missileSequence);
-        data.writeBoolean(this.isCharging);
     },
     read(data) {
         this.super$read(data);
-        this.charging = data.readInt();
+        this.last = this._reload;
+        this._reload = data.readFloat();
         this.missileSequence = data.readInt();
-        this.isCharging = data.readBoolean();
     }
 })));
 longinus.weapon = longinusWeapon;

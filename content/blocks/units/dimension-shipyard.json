@@ -3,8 +3,8 @@ name: Dimension Shipyard
 description:Produces Longinus.
 unitType:longinus
 size:8
-produceTime:4400
-maxSpawn:2
+produceTime:1
+maxSpawn:1
 consumes:{
   power:14
   items:{

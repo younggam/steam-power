@@ -81,7 +81,6 @@ const totalBurner=heatL.heatGiver(Block,TileEntity,"total-burner",{
   },
   update(tile){
     const entity=tile.ent();
-    if(!this.invFrag.isShown()&&Vars.control.input.frag.config.isShown()&&Vars.control.input.frag.config.getSelectedTile()==tile){  this.invFrag.showFor(tile);}
     entity.coolDownHeat();
     if(entity.getHeat()>25) this.giveHeat(tile);
     var delta=entity.delta();
@@ -127,6 +126,10 @@ const totalBurner=heatL.heatGiver(Block,TileEntity,"total-burner",{
     this.tryDumpLiquid(tile,o.liquid);
     if(doEffect&&Mathf.chance(Time.delta()/40)) Effects.effect(Fx.pulverizeSmall,entity.x+Mathf.range(this.size*4),entity.y+Mathf.range(this.size*4));
     if(entity.getHeat()>=this.heatCapacity) entity.kill();
+  },
+  updateTableAlign(tile, table) {
+      this.super$updateTableAlign(tile,table);
+      if(!this.invFrag.isShown() && Vars.control.input.frag.config.getSelectedTile() == tile && tile.entity.items.total() > 0) this.invFrag.showFor(tile);
   },
   draw(tile){
     this.super$draw(tile);

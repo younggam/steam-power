@@ -1,5 +1,17 @@
 ammo:{
   copper-ore:standardCopper
+  copper:{
+    type: BasicBulletType
+    speed:4
+    damage:13
+    bulletSprite:bullet
+    bulletWidth:10
+    bulletHeight:13
+    shootEffect:shootBig
+    smokeEffect:shootBigSmoke
+    ammoMultiplier:5
+    lifetime:55
+  }
   graphite:standardDense
   pyratite:standardIncendiary
   silicon:standardHoming

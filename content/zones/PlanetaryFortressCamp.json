@@ -1,0 +1,31 @@
+name: Planetary Fortress Campaign
+description: Planetary Fortress Siege. Hardest map! essential to play with multiple players. Every +10wave is BIG Wave. Made by Lily.
+loadout:asd
+startingItems:[
+  copper/500
+  lead/250
+  stone/250
+  iron/125
+  glass/125
+]
+resources:[
+  stone
+  copper
+  lead
+  coal
+  sand
+  titanium
+  iron
+  thorium
+]
+requirements:[
+  {
+    type:ZoneWave
+    zone:DamlonShipyard
+    wave:1
+  }
+  {
+    type:Unlock
+    block:geothermal-system
+  }
+]

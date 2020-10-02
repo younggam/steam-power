@@ -1,6 +1,11 @@
 name: Planetary Fortress Campaign
 description: Planetary Fortress Siege. Hardest map! essential to play with multiple players. Every +10wave is BIG Wave. Made by Lily.
 loadout:asd
+configureObjective:{
+    type:ZoneWave
+    zone:PlanetaryFortressCamp
+    wave:50
+}
 startingItems:[
   copper/500
   lead/250

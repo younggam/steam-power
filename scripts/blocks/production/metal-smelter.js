@@ -78,6 +78,9 @@ const metalSmelter = multiLib.extend(GenericSmelter, "metal-smelter", [{
         }
         if(entity.getHeat() >= this.heatCapacity) entity.kill();
     },
+    customUpdate(tile){
+        tile.entity.coolDownHeat();
+    },
     setStats() {
         this.super$setStats();
         this.heatPSec = Core.bundle.get("steam-power-heat-per-sec");

@@ -1,7 +1,7 @@
 new Wall("iron-wall");
 new Wall("iron-wall-large");
 const radiationExposure=new StatusEffect("radiation-exposure");
-radiationExposure.speedMultiplier=0.8;
+radiationExposure.speedMultiplier=0.9;
 radiationExposure.damage=0.1;
 const uraniumWall=extendContent(Wall,"uranium-wall",{});
 uraniumWall.entityType=prov(()=>extend(TileEntity,{
@@ -57,7 +57,7 @@ denseAlloyWall.entityType=prov(()=>extend(TileEntity,{
 }));
 const denseAlloyWallLarge=extendContent(Wall,"dense-alloy-wall-large",{
   handleDamage(tile,amount){
-    return tile.entity.isBulletHit()?amount:Math.max(amount*0.75-1000/Vars.state.rules.blockHealthMultiplier,0)
+    return tile.entity.isBulletHit()?amount:Math.max(amount*0.75-40/Vars.state.rules.blockHealthMultiplier,0)
   },
   handleBulletHit(entity,bullet){
     entity.onBulletHit()

@@ -8,7 +8,7 @@ requirements:[
 ammo:{
   metaglass:{
    type:flakGlass
-   ammoMultiplier:2
+   ammoMultiplier:3
   }
   blast-compound:flakExplosive
   plastanium:flakPlastic

@@ -2,10 +2,14 @@ requirements:[
   circuit/5
   copper/175
   titanium/125
+  iron/125
   plastanium/80
 ]
 ammo:{
-  metaglass:flakGlass
+  metaglass:{
+   type:flakGlass
+   ammoMultiplier:2
+  }
   blast-compound:flakExplosive
   plastanium:flakPlastic
   surge-alloy:flakSurge

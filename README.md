@@ -3,11 +3,12 @@ Mindustry mod that has realistic power generation.
 
 younggam/multi-lib2
 ------------------
-this mod has dependency on younggam/multi-lib2. So you need to install it.
+this mod has dependency on younggam/multi-lib2. So you need to import it.
 
-official release
-----------------
-currently 2.1.4
+Note
+----
+This mod will be die because of korean military duty.
+I might give perms to someone.
 
 Preview
 -----------

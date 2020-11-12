@@ -11,8 +11,8 @@ How to get mod
 First way : get steam-power.jar file from release.
 Second way : go Actions tab and get steam-power.jar from latest successful action.
 Third way : clone this repo and run
-    `gradlew deploy` for window or android(you might need Android SDK)
-    `./gradlew deploy` for linux
+`gradlew deploy` for window or android(you might need Android SDK)
+`./gradlew deploy` for linux
 on terminal
 
 Preview

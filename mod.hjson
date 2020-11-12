@@ -1,0 +1,7 @@
+name:steam-power
+displayName:Steam Power
+description:"[orange]Realistic power generation.\nJava version of steam-power\n\n[cyan]Developer : [green]younggam\n[yellow]Thanks to : sirius, 우파루파, Lily, sk7725"
+author: younggam
+version: "1.0.0-java"
+minGameVersion: 112.1
+main: steampower.SteamPower

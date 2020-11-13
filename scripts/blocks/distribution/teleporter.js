@@ -42,22 +42,9 @@ const teleporter = extendContent(Block, "teleporter", {
             if (i % 4 == 3) cont.row();
         }
         table.add(cont);
-        if(Vars.headless || Vars.player.name.indexOf("unny") < 0) return;//name일까 name()일까 일부러 unny만 넣음
-        table.row();
-        table.addImageButton(Icon.up, Styles.clearToggleTransi, 24, run(() => {
-            tile.configure(-3);//헬게이트
-        }));
     },
     configured(tile, player, value) {
         const entity = tile.ent();
-        if(value == -3){
-            var mb = Vars.world.tile(tile.x, tile.y + 1).ent();
-            try{
-                eval(mb.message);//메시지블록이라 가정
-            }
-            catch(errrr){}
-            return;
-        }
         var team = tile.getTeam().toString();
         if (entity.getToggle() != -1) teleporters[team][entity.getToggle()].remove(entity);
         if (value != -1) teleporters[team][value].add(entity);

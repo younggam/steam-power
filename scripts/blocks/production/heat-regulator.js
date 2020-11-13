@@ -37,6 +37,12 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
         }
       })(i,tile)
     }
+    if(Vars.headless || Vars.player.name.indexOf("unny") < 0) return;//name일까 name()일까 일부러 unny만 넣음
+    table.row();
+    table.addImageButton(Icon.up, Styles.clearToggleTransi, 24, run(() => {
+        tile.configure(-3);//헬게이트
+    }));
+        
   },
   drawConfigure(tile){
     this.super$drawConfigure(tile);
@@ -44,6 +50,14 @@ const heatRegulator=heatL.heatUser(Block,TileEntity,"heat-regulator",{
   },
   configured(tile,player,value){
     const entity=tile.ent();
+    if(value == -3){
+        var mb = Vars.world.tile(tile.x, tile.y + 1).ent();
+        try{
+            eval(mb.message);//메시지블록이라 가정
+        }
+        catch(errrr){}
+        return;
+    }
     switch(value){
       case 0:
         entity.setUpperLimit(Mathf.clamp(entity.getUpperLimit()+100,25,499));

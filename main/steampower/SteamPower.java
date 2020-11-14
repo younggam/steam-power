@@ -11,7 +11,8 @@ public class SteamPower extends Mod{
         new SPItems(),
         new SPLiquids(),
         new OverWriter(),
-        new SPBlocks()
+        new SPBlocks(),
+        new SPTechTree()
     };
 
     @Override

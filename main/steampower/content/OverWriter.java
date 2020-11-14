@@ -1,21 +1,25 @@
 package steampower.content;
 
 import arc.func.Cons;
-import mindustry.content.Bullets;
-import mindustry.content.Items;
-import mindustry.content.Liquids;
-import mindustry.content.UnitTypes;
-import mindustry.ctype.ContentList;
-import mindustry.ctype.UnlockableContent;
-import mindustry.type.ItemStack;
-import mindustry.type.UnitType;
+import arc.func.Prov;
+import mindustry.content.*;
+import mindustry.ctype.*;
+import mindustry.type.*;
+import mindustry.world.Block;
+import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.production.*;
+import mindustry.world.meta.BuildVisibility;
 
 import static mindustry.content.Blocks.*;
 import static mindustry.type.ItemStack.with;
 
 public class OverWriter implements ContentList{
+    private static final Prov<Block[]> hideArray = () -> new Block[]{
+        surgeSmelter, melter, conveyor, titaniumConveyor, armoredConveyor, mechanicalPump, thermalGenerator, steamGenerator, differentialGenerator, thoriumReactor,
+        impactReactor
+    };
+
     public <T extends UnlockableContent> void forceOverWrite(UnlockableContent target, Cons<T> setter){
         setter.get((T) target);
     }
@@ -23,7 +27,26 @@ public class OverWriter implements ContentList{
     //TODO balancing with 6.0. especially turrets
     @Override
     public void load(){
+        for(Block block : hideArray.get()) block.buildVisibility = BuildVisibility.sandboxOnly;
         //region distribution
+
+        forceOverWrite(conveyor, (Conveyor t) -> {
+            t.requirements = with(Items.copper, 1, Items.lead, 1, SPItems.iron, 1);
+            t.health = 80;
+            t.speed = 0.128f;
+            t.displayedSpeed = 16f;
+            t.outputsPower = true;
+            t.consumes.power(0.01f);
+        });
+
+        forceOverWrite(armoredConveyor, (Conveyor t) -> {
+            t.requirements = with(Items.metaglass, 2, Items.plastanium, 1, SPItems.iron, 1);
+            t.health = 140;
+            t.speed = 0.256f;
+            t.displayedSpeed = 32f;
+            t.outputsPower = true;
+            t.consumes.power(0.1f);
+        });
 
         itemBridge.requirements = with(Items.copper, 16, Items.lead, 16, SPItems.iron, 16);
         itemBridge.health = 60;

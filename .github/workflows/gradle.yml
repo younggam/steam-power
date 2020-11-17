@@ -22,7 +22,7 @@ jobs:
             java-version: 14
         - name: Build mod jar
           run: |
-            chmod +x gradlew
+            chmod +x ./gradlew
             ./gradlew jar
         - name: Upload built jar file
           uses: actions/upload-artifact@v2
